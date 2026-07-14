@@ -1,0 +1,30 @@
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="/" class="site-logo" aria-label="RAG-MAROC2 — Accueil">
+      <span class="site-logo__mark" aria-hidden="true">MA</span>
+      <span class="site-logo__text">
+        <span class="site-logo__name">RAG-MAROC2</span>
+        <span class="site-logo__tag">Corpus juridique &amp; administratif</span>
+      </span>
+    </a>
+    <nav class="site-nav" aria-label="Navigation principale">
+      <a href="/" class="site-nav__link{% if request.url.path == '/' %} site-nav__link--active{% endif %}">Accueil</a>
+      <a href="/fonctionnalites" class="site-nav__link{% if request.url.path == '/fonctionnalites' %} site-nav__link--active{% endif %}">Fonctionnalités</a>
+      <a href="/faq" class="site-nav__link{% if request.url.path == '/faq' %} site-nav__link--active{% endif %}">FAQ</a>
+      <a href="/about" class="site-nav__link{% if request.url.path == '/about' %} site-nav__link--active{% endif %}">À propos</a>
+      <a href="/contact" class="site-nav__link{% if request.url.path == '/contact' %} site-nav__link--active{% endif %}">Contact</a>
+    </nav>
+    <div class="site-header__actions">
+      {% if current_user %}
+      <span class="site-user-chip muted tiny">@{{ current_user.username }}</span>
+      <a class="btn btn-ghost btn-sm" href="/chat">Assistant</a>
+      <a class="btn btn-primary btn-sm" href="/logout">Déconnexion</a>
+      {% else %}
+      <a class="btn btn-ghost btn-sm{% if request.url.path == '/login' %} is-active{% endif %}" href="/login" {% if request.url.path == '/login' %}aria-current="page"{% endif %}>Connexion</a>
+      {% if allow_register %}
+      <a class="btn btn-primary btn-sm{% if request.url.path == '/register' %} is-active{% endif %}" href="/register" {% if request.url.path == '/register' %}aria-current="page"{% endif %}>Inscription</a>
+      {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</header>

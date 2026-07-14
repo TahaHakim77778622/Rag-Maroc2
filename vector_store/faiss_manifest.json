@@ -1,0 +1,10 @@
+{
+  "index_type": "IndexFlatIP",
+  "metric": "inner_product (vecteurs L2-normalisés ≈ cosinus)",
+  "dimension": 384,
+  "ntotal": 18760,
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "embeddings_file": "embeddings.npy",
+  "metadata_file": "metadata.jsonl",
+  "index_file": "faiss.index"
+}

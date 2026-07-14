@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1017">
+  <meta name="description" content="Assistant RAG sur corpus juridique et administratif marocain.">
+  <title>{% block title %}RAG-MAROC2{% endblock %}</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⭐</text></svg>">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = saved || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (_e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/static/app.css?v=9">
+  <link rel="stylesheet" href="/static/css/public-ui.css?v=1">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  {% block body %}{% endblock %}
+  <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Basculer le thème">🌓</button>
+  <script src="/static/theme.js?v=1" defer></script>
+</body>
+</html>

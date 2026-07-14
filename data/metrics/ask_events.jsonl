@@ -1,0 +1,190 @@
+{"ts": 1779060958.971364, "user_id": 1, "question_len": 29, "latency_sec": 50.73, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779060969.8821518, "user_id": 1, "question_len": 27, "latency_sec": 10.15, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779061025.5843682, "user_id": 1, "question_len": 30, "latency_sec": 55.338, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1779061026.118331, "user_id": 1, "question_len": 16, "latency_sec": 0.0, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1779197038.063793, "user_id": 1, "question_len": 65, "latency_sec": 34.722, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779197117.0210319, "user_id": 1, "question_len": 42, "latency_sec": 42.484, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779197385.5240881, "user_id": 1, "question_len": 58, "latency_sec": 71.515, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779197538.472376, "user_id": 1, "question_len": 33, "latency_sec": 34.085, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779198158.490549, "user_id": 1, "question_len": 58, "latency_sec": 54.195, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779199878.172908, "user_id": 1, "question_len": 29, "latency_sec": 54.103, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779199949.9098282, "user_id": 1, "question_len": 58, "latency_sec": 47.128, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779200124.3686788, "user_id": 1, "question_len": 58, "latency_sec": 46.269, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779200229.387131, "user_id": 1, "question_len": 58, "latency_sec": 74.913, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779200322.755085, "user_id": 1, "question_len": 58, "latency_sec": 38.773, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779201367.459178, "user_id": 1, "question_len": 73, "latency_sec": 44.793, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779201623.4987211, "user_id": 1, "question_len": 51, "latency_sec": 37.951, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779201965.477041, "user_id": 1, "question_len": 51, "latency_sec": 69.545, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779202451.670797, "user_id": 1, "question_len": 7, "latency_sec": 18.849, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1779202496.212369, "user_id": 1, "question_len": 50, "latency_sec": 31.535, "n_sources": 3, "web_fallback": true, "llm_error": false}
+{"ts": 1779202634.1002471, "user_id": 1, "question_len": 49, "latency_sec": 57.498, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779202959.662658, "user_id": 1, "question_len": 49, "latency_sec": 43.766, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779203132.8315809, "user_id": 1, "question_len": 49, "latency_sec": 85.035, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779203559.865557, "user_id": 1, "question_len": 58, "latency_sec": 83.786, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779203965.850433, "user_id": 1, "question_len": 49, "latency_sec": 67.089, "n_sources": 0, "web_fallback": true, "llm_error": false}
+{"ts": 1779206074.835006, "user_id": 1, "question_len": 49, "latency_sec": 129.165, "n_sources": 5, "web_fallback": true, "llm_error": false}
+{"ts": 1779206227.207267, "user_id": 1, "question_len": 49, "latency_sec": 107.259, "n_sources": 2, "web_fallback": true, "llm_error": false}
+{"ts": 1779207039.335885, "user_id": 1, "question_len": 28, "latency_sec": 55.269, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779208590.225257, "user_id": 1, "question_len": 34, "latency_sec": 92.547, "n_sources": 5, "web_fallback": true, "llm_error": false}
+{"ts": 1779208703.891239, "user_id": 1, "question_len": 39, "latency_sec": 43.574, "n_sources": 5, "web_fallback": true, "llm_error": false}
+{"ts": 1779209358.7680159, "user_id": 1, "question_len": 60, "latency_sec": 6.617, "n_sources": 0, "web_fallback": true, "llm_error": false}
+{"ts": 1779209442.687135, "user_id": 1, "question_len": 105, "latency_sec": 50.233, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779209659.462158, "user_id": 1, "question_len": 80, "latency_sec": 44.028, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779209878.113357, "user_id": 1, "question_len": 7, "latency_sec": 0.001, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1779210031.6673942, "user_id": 1, "question_len": 33, "latency_sec": 127.084, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779210783.514765, "user_id": 1, "question_len": 78, "latency_sec": 27.001, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779210868.105006, "user_id": 1, "question_len": 46, "latency_sec": 25.969, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779288574.5827231, "user_id": 1, "question_len": 58, "latency_sec": 57.764, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779288677.87839, "user_id": 1, "question_len": 27, "latency_sec": 36.565, "n_sources": 5, "web_fallback": true, "llm_error": false}
+{"ts": 1779288814.4780679, "user_id": 1, "question_len": 35, "latency_sec": 33.026, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779289455.172108, "user_id": 1, "question_len": 74, "latency_sec": 578.058, "n_sources": 5, "web_fallback": true, "llm_error": false}
+{"ts": 1779289489.71773, "user_id": 1, "question_len": 35, "latency_sec": 5.39, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779289535.98886, "user_id": 1, "question_len": 20, "latency_sec": 5.16, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779358298.580513, "user_id": 1, "question_len": 53, "latency_sec": 7.37, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779358554.2038012, "user_id": 1, "question_len": 57, "latency_sec": 17.223, "n_sources": 5, "web_fallback": true, "llm_error": false}
+{"ts": 1779358904.15249, "user_id": 1, "question_len": 35, "latency_sec": 283.888, "n_sources": 5, "web_fallback": true, "llm_error": false}
+{"ts": 1779361695.656728, "user_id": 1, "question_len": 35, "latency_sec": 8.262, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779361905.095308, "user_id": 1, "question_len": 63, "latency_sec": 7.438, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779363742.465491, "user_id": 1, "question_len": 63, "latency_sec": 82.358, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779363813.688649, "user_id": 1, "question_len": 63, "latency_sec": 15.71, "n_sources": 5, "web_fallback": true, "llm_error": false}
+{"ts": 1779369509.218283, "user_id": 1, "question_len": 63, "latency_sec": 14.832, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779369597.3001459, "user_id": 1, "question_len": 74, "latency_sec": 24.823, "n_sources": 3, "web_fallback": true, "llm_error": false}
+{"ts": 1779369685.4125829, "user_id": 1, "question_len": 40, "latency_sec": 12.367, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779370375.361771, "user_id": 1, "question_len": 74, "latency_sec": 158.42, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779370431.7597141, "user_id": 1, "question_len": 51, "latency_sec": 26.097, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1779370533.66022, "user_id": 1, "question_len": 51, "latency_sec": 5.789, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779376886.333588, "user_id": 1, "question_len": 56, "latency_sec": 0.74, "n_sources": 0, "web_fallback": true, "llm_error": false}
+{"ts": 1779376897.782729, "user_id": 1, "question_len": 39, "latency_sec": 0.766, "n_sources": 0, "web_fallback": true, "llm_error": false}
+{"ts": 1779378237.550542, "user_id": 1, "question_len": 58, "latency_sec": 30.435, "n_sources": 5, "web_fallback": true, "llm_error": false}
+{"ts": 1779394434.080566, "user_id": 1, "question_len": 58, "latency_sec": 52.618, "n_sources": 4, "web_fallback": true, "llm_error": false}
+{"ts": 1779400157.324126, "user_id": 1, "question_len": 58, "latency_sec": 259.893, "n_sources": 4, "web_fallback": true, "llm_error": false}
+{"ts": 1779400323.610781, "user_id": 1, "question_len": 58, "latency_sec": 20.459, "n_sources": 4, "web_fallback": true, "llm_error": false}
+{"ts": 1779400625.837662, "user_id": 1, "question_len": 58, "latency_sec": 20.302, "n_sources": 4, "web_fallback": true, "llm_error": false}
+{"ts": 1779409743.649899, "user_id": 1, "question_len": 58, "latency_sec": 19.508, "n_sources": 2, "web_fallback": false, "llm_error": false}
+{"ts": 1779409791.229593, "user_id": 1, "question_len": 43, "latency_sec": 9.979, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779409850.540307, "user_id": 1, "question_len": 50, "latency_sec": 11.954, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779409918.855558, "user_id": 1, "question_len": 47, "latency_sec": 24.943, "n_sources": 3, "web_fallback": true, "llm_error": false}
+{"ts": 1779409979.6452491, "user_id": 1, "question_len": 34, "latency_sec": 5.587, "n_sources": 1, "web_fallback": false, "llm_error": false}
+{"ts": 1779410025.3080719, "user_id": 1, "question_len": 48, "latency_sec": 12.265, "n_sources": 2, "web_fallback": true, "llm_error": false}
+{"ts": 1779410129.776242, "user_id": 1, "question_len": 41, "latency_sec": 75.956, "n_sources": 3, "web_fallback": true, "llm_error": false}
+{"ts": 1779411096.195919, "user_id": 1, "question_len": 49, "latency_sec": 21.726, "n_sources": 3, "web_fallback": true, "llm_error": false}
+{"ts": 1779411195.2128232, "user_id": 1, "question_len": 41, "latency_sec": 83.671, "n_sources": 3, "web_fallback": true, "llm_error": false}
+{"ts": 1779411618.2661939, "user_id": 1, "question_len": 47, "latency_sec": 28.251, "n_sources": 4, "web_fallback": true, "llm_error": false}
+{"ts": 1779413011.0345972, "user_id": 1, "question_len": 49, "latency_sec": 24.391, "n_sources": 2, "web_fallback": false, "llm_error": false}
+{"ts": 1779413066.587541, "user_id": 1, "question_len": 41, "latency_sec": 16.947, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779413105.7463622, "user_id": 1, "question_len": 48, "latency_sec": 17.418, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779413132.231362, "user_id": 1, "question_len": 56, "latency_sec": 6.534, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1779413165.066905, "user_id": 1, "question_len": 32, "latency_sec": 19.266, "n_sources": 5, "web_fallback": true, "llm_error": false}
+{"ts": 1779413189.851826, "user_id": 1, "question_len": 49, "latency_sec": 9.714, "n_sources": 2, "web_fallback": false, "llm_error": false}
+{"ts": 1779414561.455404, "user_id": 1, "question_len": 49, "latency_sec": 24.89, "n_sources": 1, "web_fallback": false, "llm_error": false}
+{"ts": 1779414642.6239638, "user_id": 1, "question_len": 41, "latency_sec": 27.734, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779414946.8306189, "user_id": 1, "question_len": 41, "latency_sec": 12.168, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779415210.856204, "user_id": 1, "question_len": 41, "latency_sec": 15.063, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779415236.441059, "user_id": 1, "question_len": 49, "latency_sec": 6.558, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1779415523.034724, "user_id": 1, "question_len": 64, "latency_sec": 69.391, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1779415582.1400268, "user_id": 1, "question_len": 76, "latency_sec": 2.164, "n_sources": 0, "web_fallback": true, "llm_error": false}
+{"ts": 1779416263.405704, "user_id": 1, "question_len": 64, "latency_sec": 15.57, "n_sources": 5, "web_fallback": true, "llm_error": false}
+{"ts": 1779419955.644141, "user_id": 1, "question_len": 47, "latency_sec": 77.659, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1779419997.3154628, "user_id": 1, "question_len": 41, "latency_sec": 16.939, "n_sources": 5, "web_fallback": true, "llm_error": false}
+{"ts": 1779420276.665358, "user_id": 1, "question_len": 32, "latency_sec": 253.746, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779445692.3889248, "user_id": 1, "question_len": 7, "latency_sec": 9.292, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1779445723.4848619, "user_id": 1, "question_len": 56, "latency_sec": 6.677, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779445771.506742, "user_id": 1, "question_len": 51, "latency_sec": 8.368, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779445838.790567, "user_id": 1, "question_len": 30, "latency_sec": 31.574, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779445864.390218, "user_id": 1, "question_len": 30, "latency_sec": 9.107, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779445932.6953542, "user_id": 1, "question_len": 55, "latency_sec": 9.517, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1779446022.36115, "user_id": 1, "question_len": 53, "latency_sec": 21.267, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779446312.4613361, "user_id": 1, "question_len": 64, "latency_sec": 182.273, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779446485.8644621, "user_id": 1, "question_len": 36, "latency_sec": 141.52, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779446671.4455402, "user_id": 1, "question_len": 44, "latency_sec": 141.538, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1779446800.103752, "user_id": 1, "question_len": 37, "latency_sec": 95.728, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1779446916.6386309, "user_id": 1, "question_len": 45, "latency_sec": 55.922, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779448119.711458, "user_id": 1, "question_len": 30, "latency_sec": 9.203, "n_sources": 2, "web_fallback": false, "llm_error": false}
+{"ts": 1779466828.541596, "user_id": 1, "question": "comment obtenir la CNIE ?", "question_len": 25, "latency_sec": 13.862, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779466832.452851, "user_id": 1, "question": "renouvellement passeport", "question_len": 24, "latency_sec": 3.546, "n_sources": 1, "web_fallback": false, "llm_error": false}
+{"ts": 1779466836.211833, "user_id": 1, "question": "<script>alert('xss')</script>", "question_len": 29, "latency_sec": 3.291, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779466860.5296462, "user_id": 1, "question": "comment obtenir la CNIE au Maroc ?", "question_len": 34, "latency_sec": 9.631, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779466866.0665002, "user_id": 1, "question": "renouvellement passeport marocain", "question_len": 33, "latency_sec": 5.229, "n_sources": 1, "web_fallback": false, "llm_error": false}
+{"ts": 1779466871.874305, "user_id": 1, "question": "heures supplémentaires code du travail", "question_len": 38, "latency_sec": 5.5, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1779466877.050955, "user_id": 1, "question": "comment commander acte de naissance Watiqa", "question_len": 42, "latency_sec": 4.85, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779466883.877344, "user_id": 1, "question": "autorisation de construire Maroc procédure", "question_len": 42, "latency_sec": 6.5, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779466888.917686, "user_id": 1, "question": "CNIE première demande", "question_len": 21, "latency_sec": 4.732, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779466893.063564, "user_id": 1, "question": "pièces requises passeport", "question_len": 25, "latency_sec": 3.828, "n_sources": 1, "web_fallback": false, "llm_error": false}
+{"ts": 1779466901.262628, "user_id": 1, "question": "CNIE", "question_len": 4, "latency_sec": 7.876, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779466906.374441, "user_id": 1, "question": "et pour le renouvellement ?", "question_len": 27, "latency_sec": 4.789, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779466910.3140721, "user_id": 1, "question": "SMIG salaire minimum Maroc", "question_len": 26, "latency_sec": 3.623, "n_sources": 2, "web_fallback": false, "llm_error": false}
+{"ts": 1779466914.363704, "user_id": 1, "question": "recette de couscous marocain", "question_len": 28, "latency_sec": 3.721, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779466920.0988412, "user_id": 1, "question": "quel est le montant exact SMIG 2025", "question_len": 35, "latency_sec": 4.248, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779466926.7671502, "user_id": 1, "question": "CNIE renouvellement", "question_len": 19, "latency_sec": 6.318, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779466931.7500968, "user_id": 1, "question": "xyzabcdef123 question inexistante", "question_len": 33, "latency_sec": 4.514, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779466962.918646, "user_id": 1, "question": "comment obtenir la CNIE ?", "question_len": 25, "latency_sec": 9.924, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779466966.912847, "user_id": 1, "question": "renouvellement passeport", "question_len": 24, "latency_sec": 3.644, "n_sources": 1, "web_fallback": false, "llm_error": false}
+{"ts": 1779466974.262982, "user_id": 1, "question": "<script>alert('xss')</script>", "question_len": 29, "latency_sec": 3.061, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779479979.2813818, "user_id": 1, "question": "comment obtenir la CNIE ?", "question_len": 25, "latency_sec": 16.127, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779479984.516902, "user_id": 1, "question": "renouvellement passeport", "question_len": 24, "latency_sec": 4.741, "n_sources": 1, "web_fallback": false, "llm_error": false}
+{"ts": 1779480055.984771, "user_id": 1, "question": "comment obtenir la CNIE au Maroc ?", "question_len": 34, "latency_sec": 70.986, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779480143.6088471, "user_id": 1, "question": "autorisation de construire Maroc procédure", "question_len": 42, "latency_sec": 87.145, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779480269.497235, "user_id": 1, "question": "comment obtenir la CNIE ?", "question_len": 25, "latency_sec": 125.231, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779483082.7422998, "user_id": 1, "question": "comment obtenir la CNIE au Maroc ?", "question_len": 34, "latency_sec": 3.759, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779483083.686888, "user_id": 1, "question": "autorisation de construire Maroc procédure", "question_len": 42, "latency_sec": 0.276, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779483087.036453, "user_id": 1, "question": "comment obtenir la CNIE ?", "question_len": 25, "latency_sec": 2.737, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779483089.978435, "user_id": 1, "question": "CNIE", "question_len": 4, "latency_sec": 1.864, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779483462.036858, "user_id": 3, "question": "bonjour", "question_len": 7, "latency_sec": 0.0, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1779483482.8884008, "user_id": 3, "question": "est ce que tu peux me donner les ingrédients du coucous ?", "question_len": 57, "latency_sec": 3.792, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779483548.3290071, "user_id": 3, "question": "est ce que tu peux me donner comment construire un repas italien ?", "question_len": 66, "latency_sec": 6.761, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779483619.589893, "user_id": 3, "question": "dis moi c quoi machine learning ?", "question_len": 33, "latency_sec": 36.179, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779483673.115774, "user_id": 3, "question": "est ce que Messi va jouer en la coupe du monde ?", "question_len": 48, "latency_sec": 9.194, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779484239.283085, "user_id": 3, "question": "est ce que tu peux me donner les ingrédients du coucous ?", "question_len": 57, "latency_sec": 0.002, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1779485085.95207, "user_id": 3, "question": "est ce que Messi va jouer en la coupe du monde ?", "question_len": 48, "latency_sec": 0.005, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1779485524.743989, "user_id": 3, "question": "comment obtenir la CNIE pour la première fois au Maroc ?", "question_len": 56, "latency_sec": 16.246, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779485555.108323, "user_id": 3, "question": "quelles pièces pour renouveler la carte nationale ?", "question_len": 51, "latency_sec": 8.985, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779485616.051633, "user_id": 3, "question": "j'ai perdu ma CNIE que faire ?", "question_len": 30, "latency_sec": 9.688, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779485644.853471, "user_id": 3, "question": "quelle est délai de délivrance de la CNIE ?", "question_len": 43, "latency_sec": 7.167, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779485687.542621, "user_id": 3, "question": "quelles pièces pour demander un passeport biométrique ?", "question_len": 55, "latency_sec": 8.096, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779485762.304321, "user_id": 3, "question": "copie intégrale acte de naissance en ligne Maroc", "question_len": 48, "latency_sec": 4.288, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779485810.428906, "user_id": 3, "question": "heures supplémentaires majoration taux Maroc", "question_len": 44, "latency_sec": 9.003, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1779486513.6725912, "user_id": 3, "question": "salaire minimum agricole SMAG montant exact", "question_len": 43, "latency_sec": 128.911, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779486709.043371, "user_id": 3, "question": "quel est le taux TVA au Maroc actuellement ?", "question_len": 44, "latency_sec": 3.713, "n_sources": 1, "web_fallback": false, "llm_error": false}
+{"ts": 1779486746.033277, "user_id": 3, "question": "combien coûte le timbre fiscal passeport Maroc 2025 ?", "question_len": 53, "latency_sec": 0.77, "n_sources": 0, "web_fallback": true, "llm_error": false}
+{"ts": 1779486755.1143098, "user_id": 3, "question": "combien coûte le timbre fiscal passeport Maroc 2025 ?", "question_len": 53, "latency_sec": 0.825, "n_sources": 0, "web_fallback": true, "llm_error": false}
+{"ts": 1779487222.551831, "user_id": 3, "question": "combien coûte le timbre fiscal passeport Maroc 2025 ?", "question_len": 53, "latency_sec": 8.245, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1779487432.2152991, "user_id": 3, "question": "combien coûte le timbre fiscal passeport Maroc 2025 ?", "question_len": 53, "latency_sec": 5.892, "n_sources": 1, "web_fallback": true, "llm_error": false}
+{"ts": 1779487513.09316, "user_id": 3, "question": "quel est le taux de la CNSS en 2025 ?", "question_len": 37, "latency_sec": 7.641, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779493400.278144, "user_id": 3, "question": "quelles pièces pour demander un passeport biométrique ?", "question_len": 55, "latency_sec": 79.383, "n_sources": 2, "web_fallback": false, "llm_error": false}
+{"ts": 1779493505.11902, "user_id": 3, "question": "renouvellement passeport marocain procédure", "question_len": 43, "latency_sec": 12.143, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1779493654.4902909, "user_id": 3, "question": "4. passeport pour mineur sans CNIE pièces requises", "question_len": 50, "latency_sec": 93.362, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779493727.349361, "user_id": 3, "question": "comment obtenir la CNIE pour la première fois au Maroc ?", "question_len": 56, "latency_sec": 8.638, "n_sources": 1, "web_fallback": false, "llm_error": false}
+{"ts": 1779493769.124924, "user_id": 3, "question": "j'ai perdu ma CNIE que faire ?", "question_len": 30, "latency_sec": 7.992, "n_sources": 2, "web_fallback": false, "llm_error": false}
+{"ts": 1779493827.700865, "user_id": 3, "question": "1comment commander un acte de naissance sur Watiqa ?", "question_len": 52, "latency_sec": 6.665, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779493928.8703501, "user_id": 3, "question": "délai réception acte de naissance Watiqa", "question_len": 40, "latency_sec": 68.759, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1779493961.744241, "user_id": 3, "question": "copie intégrale acte de naissance en ligne Maroc", "question_len": 48, "latency_sec": 6.786, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779493998.9667609, "user_id": 3, "question": "heures supplémentaires majoration taux Maroc", "question_len": 44, "latency_sec": 5.548, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1779494276.30731, "user_id": 3, "question": "congé annuel payé nombre de jours Maroc", "question_len": 39, "latency_sec": 247.667, "n_sources": 2, "web_fallback": false, "llm_error": false}
+{"ts": 1779494333.43717, "user_id": 3, "question": "arrêté ministre enseignement supérieur master", "question_len": 45, "latency_sec": 6.831, "n_sources": 1, "web_fallback": false, "llm_error": false}
+{"ts": 1779494377.1755269, "user_id": 3, "question": "normes pédagogiques cycle de master Maroc", "question_len": 41, "latency_sec": 7.79, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1779494421.7094882, "user_id": 3, "question": "conditions inscription doctorat Maroc", "question_len": 37, "latency_sec": 11.025, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779494483.3028119, "user_id": 3, "question": "dahir portant loi sur l'urbanisme Maroc", "question_len": 39, "latency_sec": 10.54, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779494538.3843148, "user_id": 3, "question": "contrat CDD conditions renouvellement", "question_len": 37, "latency_sec": 10.929, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779494584.924771, "user_id": 3, "question": "quel est le taux de la CNSS en 2025 ?", "question_len": 37, "latency_sec": 7.19, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779495624.762344, "user_id": 3, "question": "Combien coûte le timbre fiscal passeport Maroc 2025 ?", "question_len": 53, "latency_sec": 7.85, "n_sources": 1, "web_fallback": true, "llm_error": false}
+{"ts": 1779495672.8729558, "user_id": 3, "question": "Quel est le montant exact du SMIG en 2025 au Maroc ?", "question_len": 52, "latency_sec": 9.547, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779495715.114578, "user_id": 3, "question": "Quel salaire minimum légal Maroc 2026 ?", "question_len": 39, "latency_sec": 7.618, "n_sources": 2, "web_fallback": false, "llm_error": false}
+{"ts": 1779495797.3473222, "user_id": 3, "question": "Frais passeport biométrique 2025 e-timbre", "question_len": 41, "latency_sec": 13.758, "n_sources": 4, "web_fallback": true, "llm_error": false}
+{"ts": 1779495884.981576, "user_id": 3, "question": "Montant du timbre fiscal CNIE 2025", "question_len": 34, "latency_sec": 4.549, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779495931.296157, "user_id": 3, "question": "Quel est le taux de TVA en vigueur au Maroc ?", "question_len": 45, "latency_sec": 10.444, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779495965.711211, "user_id": 3, "question": "Quel est le montant de l’indemnité journalière CNSS aujourd’hui ?", "question_len": 65, "latency_sec": 9.155, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779521878.880291, "user_id": 3, "question": "comment obtenir la CNIE pour la première fois au Maroc ?", "question_len": 56, "latency_sec": 16.951, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779521934.055153, "user_id": 3, "question": "comment commander un acte de naissance sur Watiqa ?", "question_len": 51, "latency_sec": 12.445, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779524910.601572, "user_id": 3, "question": "Frais passeport biométrique 2025 e-timbre", "question_len": 41, "latency_sec": 13.192, "n_sources": 4, "web_fallback": true, "llm_error": false}
+{"ts": 1779524945.3011808, "user_id": 3, "question": "Frais passeport biométrique 2025 e-timbre", "question_len": 41, "latency_sec": 18.319, "n_sources": 4, "web_fallback": true, "llm_error": false}
+{"ts": 1779525114.515002, "user_id": 3, "question": "copie intégrale acte de naissance en ligne Maroc", "question_len": 48, "latency_sec": 9.543, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1779525158.7591748, "user_id": 3, "question": "est quoi les mentions marginale ?", "question_len": 33, "latency_sec": 14.512, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1781295875.0638149, "user_id": 1, "question": "comment otenir CNIE", "question_len": 19, "latency_sec": 7.216, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1781295949.422348, "user_id": 1, "question": "comment commander un acte de naissance sur Watiqa ?", "question_len": 51, "latency_sec": 5.909, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1781296041.9794629, "user_id": 1, "question": "quelles pièces pour demander un passeport biométrique ?", "question_len": 55, "latency_sec": 6.999, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1781366272.648968, "user_id": 4, "question": "bonjour", "question_len": 7, "latency_sec": 0.001, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1781366306.6986701, "user_id": 4, "question": "quelles pièces pour demander un passeport biométrique ?", "question_len": 55, "latency_sec": 12.371, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1781366378.991144, "user_id": 4, "question": "j'ai perdu ma CNIE que faire ?", "question_len": 30, "latency_sec": 6.307, "n_sources": 2, "web_fallback": false, "llm_error": false}
+{"ts": 1781378427.2512178, "user_id": 5, "question": "bonjour", "question_len": 7, "latency_sec": 0.0, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1781378481.959429, "user_id": 5, "question": "j'ai perdu ma CNIE que faire ?", "question_len": 30, "latency_sec": 23.24, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1782470353.418889, "user_id": 1, "question": "comment commander un acte de naissance sur Watiqa ?", "question_len": 51, "latency_sec": 13.601, "n_sources": 5, "web_fallback": false, "llm_error": false}

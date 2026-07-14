@@ -1,0 +1,61 @@
+{% extends "layout_public.html" %}
+{% block title %}Fonctionnalités — RAG-MAROC2{% endblock %}
+{% block breadcrumbs %}
+{% with bc_last='Fonctionnalités' %}
+{% include "partials/breadcrumb.html" %}
+{% endwith %}
+{% endblock %}
+{% block public_content %}
+<section class="section section--tight">
+  <div class="section__inner prose prose--wide">
+    <p class="eyebrow">Fonctionnalités</p>
+    <h1 class="page-title">Fonctionnalités détaillées</h1>
+    <p class="lede muted">
+      Vue d’ensemble des capacités actuelles du dépôt — utile pour cadrage produit ou fiche projet.
+    </p>
+
+    <div class="feature-list">
+      <div class="feature-row">
+        <h2>Interface chat professionnelle</h2>
+        <p class="muted">Zone de messages, libellés « Vous / Assistant », panneau Sources avec score et lien externe, paramètre <em>k</em>, nouvelle conversation.</p>
+      </div>
+      <div class="feature-row">
+        <h2>Authentification multi-canal</h2>
+        <p class="muted">Sessions cookie pour l’UI web ; JWT Bearer pour Streamlit, scripts ou intégrations mobiles.</p>
+      </div>
+      <div class="feature-row">
+        <h2>Pipeline RAG configurable</h2>
+        <p class="muted">Expansion de requête (acronymes), pool FAISS élargi, reclassement lexical, prompts orientés listes et citations.</p>
+      </div>
+      <div class="feature-row">
+        <h2>Site vitrine &amp; conformité</h2>
+        <p class="muted">Pages Accueil, À propos, FAQ, Confidentialité ; <code>robots.txt</code> pour limiter l’indexation de l’API.</p>
+      </div>
+      <div class="feature-row">
+        <h2>Observabilité minimale</h2>
+        <p class="muted">Endpoint <code>/health</code>, logs côté serveur sur les appels <code>/api/ask</code> (nombre de passages renvoyés).</p>
+      </div>
+      <div class="feature-row">
+        <h2>Déploiement local robuste</h2>
+        <p class="muted">Script uvicorn recommandé avec <code>--http h11 --loop asyncio</code> pour réduire les soucis natifs sur macOS (torch / FAISS).</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="callout callout--info">
+        <strong>Pour les équipes métier</strong>
+        <p class="small muted" style="margin:0.35rem 0 0;">Priorisez des jeux de questions réalistes et mesurez le taux de réponses sourcées correctes avant d’élargir l’audience.</p>
+      </div>
+      <div class="callout callout--neutral">
+        <strong>Pour les développeurs</strong>
+        <p class="small muted" style="margin:0.35rem 0 0;">Tout passe par FastAPI : ajoutez middleware, rate-limit, ou reverse-proxy (TLS) sans changer le cœur RAG.</p>
+      </div>
+    </div>
+
+    <p>
+      <a class="btn btn-primary" href="/faq">Questions fréquentes</a>
+      <a class="btn btn-ghost" href="/">Accueil</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

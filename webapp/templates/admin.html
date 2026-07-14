@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Administration — RAG-MAROC2{% endblock %}
+{% block body_class %}page-app{% endblock %}
+{% block body %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-mark sm">MA</span>
+      <div>
+        <strong>RAG-MAROC2</strong>
+        <span class="tagline">Administration</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/chat" class="nav-item">← Assistant</a>
+      <span class="nav-item active">Admin</span>
+    </nav>
+  </aside>
+  <main class="main">
+    <header class="main-header">
+      <h2>Panneau administrateur</h2>
+      <p class="lede muted">Corpus, index FAISS et KPI de production.</p>
+    </header>
+
+    <section class="card">
+      <h3>Corpus</h3>
+      {% if corpus_inventory %}
+      <ul class="admin-stats">
+        <li>Chunks JSONL : <strong>{{ corpus_inventory.total_chunks }}</strong></li>
+        <li>Documents : <strong>{{ corpus_inventory.unique_doc_id }}</strong></li>
+        <li>FAISS ntotal : <strong>{{ corpus_inventory.faiss.ntotal }}</strong>
+          {% if not corpus_inventory.faiss.matches_corpus_count %}
+          <span class="tag-warn"> — désynchronisé : <code>python scripts/rebuild_corpus_and_index.py</code></span>
+          {% endif %}
+        </li>
+      </ul>
+      <pre class="admin-pre">{{ corpus_inventory.by_source_org | tojson(indent=2) }}</pre>
+      {% else %}
+      <p class="muted">Lancez <code>python scripts/inventory_final_chunks.py</code>.</p>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <h3>KPI</h3>
+      {% if metrics_summary %}
+      <ul class="admin-stats">
+        <li>Requêtes : {{ metrics_summary.total_asks }}</li>
+        <li>Réponses sourcées : {{ metrics_summary.sourced_rate_pct }} %</li>
+        <li>Fallback web : {{ metrics_summary.fallback_rate_pct }} %</li>
+        <li>Latence p50 : {{ metrics_summary.latency_p50_sec }} s — p95 : {{ metrics_summary.latency_p95_sec }} s</li>
+        <li>Feedbacks négatifs : {{ metrics_summary.negative_feedback_count }}</li>
+      </ul>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <h3>Regénérer l’index</h3>
+      <pre class="admin-pre">python scripts/rebuild_corpus_and_index.py</pre>
+    </section>
+  </main>
+</div>
+{% include "partials/global_footer.html" %}
+{% endblock %}

@@ -1,0 +1,79 @@
+# RAG-MAROC2 — dépendances pipeline (depuis la racine du projet)
+#
+# Si PyPI est lent ou coupe la connexion, augmenter le délai et les essais :
+#   pip install --default-timeout=120 --retries 5 -r requirements.txt
+#
+# macOS (Anaconda) — éviter l’erreur « CMake configuration failed » sur faiss/pyarrow :
+#   ./scripts/install_deps_mac.sh
+# ou :
+#   conda install -c pytorch faiss-cpu
+#   conda install -c conda-forge pyarrow
+#   pip install -r requirements-pip.txt
+#
+# Avec conda (souvent plus fiable pour torch / faiss sur Mac) :
+#   conda install -c pytorch -c conda-forge sentence-transformers faiss-cpu numpy
+#   pip install streamlit
+
+# Étape embeddings
+# sentence-transformers 5.x exige PyTorch >= 2.4. Avec torch 2.2 (conda / vieux wheels),
+# utiliser ST 3.x + transformers 4.x (évite NameError nn / accelerate).
+sentence-transformers>=3.0.0,<4.0.0
+transformers>=4.37.0,<5.0.0
+numpy>=1.24.0,<2.0.0
+
+# Étape FAISS
+# Sur macOS, `pip install faiss-cpu` compile souvent depuis les sources → il faut SWIG.
+# Recommandé (évite la compilation) :
+#   conda install -c pytorch faiss-cpu
+# Alternative si tu restes en pip uniquement :
+#   brew install swig cmake
+#   python -m pip install faiss-cpu
+faiss-cpu>=1.7.4
+
+# Interface optionnelle
+streamlit>=1.28.0
+
+# Plateforme web (login + chat API)
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.6
+jinja2>=3.1.0
+itsdangerous>=2.2.0
+# passlib + bcrypt 5.x casse (__about__). On utilise uniquement le paquet bcrypt.
+bcrypt>=4.0.1,<5
+psycopg[binary]>=3.1.0
+PyJWT>=2.8.0
+httpx>=0.26.0
+
+# LLM — OpenAI-compatible (OpenAI, Groq, Mistral, …)
+openai>=1.12.0
+# LLM — Cohere (Chat v2)
+cohere>=5.14.0
+python-dotenv>=1.0.0
+beautifulsoup4>=4.12.0
+requests>=2.31.0
+# Recherche web fallback (ddgs remplace duckduckgo-search ; l’un des deux suffit)
+ddgs>=9.0.0
+duckduckgo-search>=6.0.0
+PyMuPDF>=1.24.0
+
+# Tests (plan IEEE 44 cas)
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+httpx>=0.26.0
+
+# Évaluation RAGAS (scripts/evaluate_ragas.py — métriques manuelles, sans import ragas)
+ragas>=0.4.0,<0.5
+datasets>=2.14.0
+langchain-cohere>=0.3.0
+langchain-community>=0.3.0
+
+# --- Dépendances peu ou pas importées directement dans app/ et webapp/ (audit 2026-05) ---
+# pytest-asyncio : aucun test asyncio dans tests/ ; gardé pour extensions futures.
+# ragas, datasets, langchain-cohere, langchain-community : non importés dans le code projet
+#   (evaluate_ragas.py utilise requests uniquement) ; utiles si vous passez à l’éval RAGAS officielle.
+# duckduckgo-search : doublon optionnel de ddgs ; web_fallback tente ddgs puis duckduckgo_search.
+# transformers : pin de compatibilité sentence-transformers (import indirect).
+# psycopg[binary] : optionnel (SQLite par défaut dans webapp/db.py).
+# PyMuPDF : utilisé par scripts/collect_admin_docs.py, pas par app/ ni webapp/.
+# streamlit : utilisé par app/streamlit_app.py et scripts/run_streamlit.sh uniquement.

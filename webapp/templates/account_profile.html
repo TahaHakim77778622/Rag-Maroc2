@@ -1,0 +1,59 @@
+{% extends "layout_public.html" %}
+{% block body_class %}page-public page-account{% endblock %}
+{% block title %}Mon profil — RAG-MAROC2{% endblock %}
+{% block public_content %}
+<link rel="stylesheet" href="/static/css/account-ui.css?v=2">
+<div class="account-page">
+  <div class="account-page__stars" aria-hidden="true"></div>
+  <div class="account-page__center account-page__center--narrow">
+    <div class="account-card account-card--profile">
+      <div class="account-avatar-lg" aria-hidden="true">{{ initials }}</div>
+
+      <h1 class="account-card__title">Mon profil</h1>
+      <p class="account-profile-display">
+        <strong>{{ user.full_name or user.username }}</strong><br>
+        <span class="muted">@{{ user.username }}</span>
+      </p>
+
+      {% if success %}
+      <div class="account-alert account-alert--success" role="status">
+        ✅ Profil mis à jour
+      </div>
+      {% endif %}
+      {% if error %}
+      <div class="account-alert account-alert--error" role="alert">
+        ⚠️ {{ error }}
+      </div>
+      {% endif %}
+
+      <form class="stack account-form" method="post" action="/account/profile" autocomplete="on">
+        <label>
+          <span>Nom affiché</span>
+          <input
+            name="full_name"
+            type="text"
+            autocomplete="name"
+            value="{{ user.full_name or '' }}"
+            placeholder="Prénom Nom"
+            maxlength="120"
+          >
+        </label>
+        <button type="submit" class="btn-account-submit">Sauvegarder</button>
+      </form>
+
+      <dl class="account-meta">
+        <dt>Identifiant</dt>
+        <dd>@{{ user.username }}</dd>
+        {% if user.created_at %}
+        <dt>Compte créé le</dt>
+        <dd>{{ user.created_at }}</dd>
+        {% endif %}
+      </dl>
+
+      <p class="account-card__back">
+        <a href="/chat">← Retour à l’assistant</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

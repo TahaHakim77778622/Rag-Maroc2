@@ -1,0 +1,57 @@
+{% extends "admin_layout.html" %}
+{% block admin_title %}Logs & Monitoring{% endblock %}
+{% block admin_content %}
+<header class="admin-page-header">
+  <div class="admin-page-header__text">
+    <h1>Logs & Monitoring</h1>
+    <p class="admin-lede">Requêtes RAG enregistrées (JSONL)</p>
+  </div>
+  <a href="/admin/logs/export.csv" class="admin-btn admin-btn--primary">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Export CSV
+  </a>
+</header>
+
+<div class="admin-toolbar">
+  <div class="admin-segmented" role="tablist" aria-label="Filtrer par source">
+    <a href="/admin/logs?source=all" class="admin-segmented__item{% if source_filter == 'all' %} is-on{% endif %}">Tous</a>
+    <a href="/admin/logs?source=corpus" class="admin-segmented__item{% if source_filter == 'corpus' %} is-on{% endif %}">Corpus</a>
+    <a href="/admin/logs?source=web" class="admin-segmented__item{% if source_filter == 'web' %} is-on{% endif %}">Web fallback</a>
+  </div>
+</div>
+
+<div class="admin-card admin-card--table">
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Question</th>
+          <th>Source</th>
+          <th class="admin-table__num">Sources</th>
+          <th class="admin-table__num">Durée</th>
+          <th>Utilisateur</th>
+          <th>Heure</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ev in events %}
+        <tr>
+          <td class="admin-table__truncate" title="{{ ev.question }}">{{ ev.question }}</td>
+          <td>
+            <span class="admin-badge admin-badge--{% if ev.source == 'web' %}web{% else %}corpus{% endif %}">
+              {{ 'Web' if ev.source == 'web' else 'Corpus' }}
+            </span>
+          </td>
+          <td class="admin-table__num">{{ ev.score }}</td>
+          <td class="admin-table__num"><span class="admin-mono">{{ ev.latency_sec }}s</span></td>
+          <td><span class="admin-table__user">{{ ev.username }}</span></td>
+          <td><span class="admin-table__date">{{ ev.created_at | fmt_datetime }}</span></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="admin-table__empty">Aucun événement enregistré</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

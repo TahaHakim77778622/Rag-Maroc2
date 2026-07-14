@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block body_class %}page-public{% endblock %}
+{% block body %}
+{% include "partials/site_nav.html" %}
+<main class="public-main" id="main-content">
+  {% block breadcrumbs %}{% endblock %}
+  {% block public_content %}{% endblock %}
+</main>
+{% include "partials/site_footer.html" %}
+{% include "partials/global_footer.html" %}
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "layout_public.html" %}
+{% block title %}Documentation — RAG-MAROC2{% endblock %}
+{% block breadcrumbs %}
+{% with bc_last='Documentation' %}
+{% include "partials/breadcrumb.html" %}
+{% endwith %}
+{% endblock %}
+{% block public_content %}
+<section class="section section--tight section--docs">
+  <div class="section__inner prose prose--wide">
+    <h1 class="page-title">Documentation</h1>
+    <p class="lede">
+      Guide d’utilisation de la plateforme web, du chat et des endpoints REST. Adaptez les URL si vous n’êtes pas en <code>127.0.0.1:8000</code>.
+    </p>
+
+    <div class="callout callout--info">
+      <strong>Corpus actuellement indexé</strong>
+      {% if corpus_stats and corpus_stats.ntotal %}
+      <p class="small muted" style="margin:0.35rem 0 0;">
+        <strong>{{ corpus_stats.ntotal_display }}</strong> passages · vecteurs en <strong>{{ corpus_stats.dimension }}</strong> dimensions ·
+        <span class="tiny">{{ corpus_stats.embedding_model }}</span>
+      </p>
+      {% else %}
+      <p class="small muted" style="margin:0.35rem 0 0;">Manifeste FAISS introuvable ou vide — lancez <code>python scripts/build_faiss.py</code> après les embeddings.</p>
+      {% endif %}
+    </div>
+
+    <h2>Parcours utilisateur (navigateur)</h2>
+    <ol>
+      <li>Accueil public puis <strong>Connexion</strong> (ou inscription si activée).</li>
+      <li>Accès à l’<strong>Assistant</strong> : conversation, paramètre <em>k</em> (nombre de passages), panneau Sources à droite.</li>
+      <li><strong>Nouvelle conversation</strong> : réinitialise l’historique côté navigateur (les messages déjà envoyés ne sont plus renvoyés au serveur).</li>
+    </ol>
+
+    <h2>API REST</h2>
+    <p class="muted small">Toutes les routes ci-dessous attendent du JSON pour <code>POST</code> sauf mention contraire.</p>
+
+    <h3><code>POST /api/auth/login</code></h3>
+    <p>Obtenir un JWT (clients hors navigateur : Streamlit, scripts, mobile).</p>
+    <pre class="code-block"><code>curl -s -X POST http://127.0.0.1:8000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"demo","password":"demo123"}'</code></pre>
+
+    <h3><code>GET /api/me</code></h3>
+    <p>Profil utilisateur — en-tête <code>Authorization: Bearer &lt;token&gt;</code>.</p>
+
+    <h3><code>POST /api/ask</code></h3>
+    <p>Interroge le pipeline RAG. Corps JSON : <code>question</code>, <code>top_k</code> (1–20), <code>history</code> (liste optionnelle de <code>{"role":"user|assistant","content":"..."}</code>).</p>
+    <pre class="code-block"><code>curl -s -X POST http://127.0.0.1:8000/api/ask \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"question":"Quels documents pour le passeport ?","top_k":5,"history":[]}'</code></pre>
+
+    <h3><code>GET /health</code></h3>
+    <p>Sonde l’API (<code>{"status":"ok"}</code>) — utile pour load balancer ou monitoring.</p>
+
+    <h2>Reconstruction de l’index</h2>
+    <p>Après modification de <code>data/processed/final_chunks.jsonl</code> :</p>
+    <pre class="code-block"><code>python scripts/build_embeddings.py
+python scripts/build_faiss.py</code></pre>
+    <p class="muted small">Puis redémarrer uvicorn pour recharger le pipeline en mémoire.</p>
+
+    <p><a class="btn btn-primary" href="/faq">Lire la FAQ</a> <a class="btn btn-ghost" href="/">Accueil</a></p>
+  </div>
+</section>
+{% endblock %}

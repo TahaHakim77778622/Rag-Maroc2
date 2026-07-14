@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.git/
+.gitignore
+*.log
+.env.example
+tests/__pycache__/
+metrics/
+node_modules/

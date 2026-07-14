@@ -1,0 +1,158 @@
+{% extends "layout_public.html" %}
+{% block title %}Accueil — RAG-MAROC2{% endblock %}
+{% block public_content %}
+<section class="hero">
+  <div class="hero__inner">
+    <p class="eyebrow hero__eyebrow">Plateforme RAG · Maroc</p>
+    <h1 class="hero__title">Un assistant documentaire professionnel sur votre corpus</h1>
+    <p class="hero__lede">
+      Indexez vos textes (BO, pages admin, guides), interrogez-les en langage naturel et obtenez des réponses
+      structurées avec <strong>citations</strong> et panneau <strong>Sources</strong> — idéal pour prototypes, veille ou démonstrations clients.
+    </p>
+    <div class="hero__cta">
+      {% if current_user %}
+      <a class="btn btn-primary" href="/chat">Ouvrir l’assistant</a>
+      <a class="btn btn-ghost" href="/faq">Questions fréquentes</a>
+      {% else %}
+      <a class="btn btn-primary" href="/login">Se connecter</a>
+      {% if allow_register %}
+      <a class="btn btn-ghost" href="/register">Créer un compte</a>
+      {% endif %}
+      <a class="btn btn-ghost" href="/faq">Questions fréquentes</a>
+      {% endif %}
+    </div>
+    <div class="stats-bar" role="region" aria-label="Indicateurs métier">
+      <div class="stat-card">
+        <span class="stat-card__value">25 000+</span>
+        <span class="stat-card__label">Textes juridiques indexés</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card__value">100%</span>
+        <span class="stat-card__label">Sources officielles .ma</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card__value">&lt; 3s</span>
+        <span class="stat-card__label">Temps de réponse moyen</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--domains">
+  <div class="section__inner">
+    <h2 class="section__title">Domaines couverts</h2>
+    <p class="section__lede muted">Un corpus orienté droit et administration marocaine, structuré par grands domaines.</p>
+    <div class="domains-grid">
+      <article class="domain-card">
+        <span class="domain-card__icon" aria-hidden="true">⚖️</span>
+        <h3 class="domain-card__title">Droit du travail</h3>
+        <p class="domain-card__desc">Code du travail, SMIG, licenciement</p>
+      </article>
+      <article class="domain-card">
+        <span class="domain-card__icon" aria-hidden="true">🏗️</span>
+        <h3 class="domain-card__title">Urbanisme</h3>
+        <p class="domain-card__desc">Permis construire, Rokhas, lotissement</p>
+      </article>
+      <article class="domain-card">
+        <span class="domain-card__icon" aria-hidden="true">📋</span>
+        <h3 class="domain-card__title">État civil</h3>
+        <p class="domain-card__desc">Watiqa, actes de naissance, CNIE</p>
+      </article>
+      <article class="domain-card">
+        <span class="domain-card__icon" aria-hidden="true">🛂</span>
+        <h3 class="domain-card__title">Passeport</h3>
+        <p class="domain-card__desc">Biométrique, consulat, renouvellement</p>
+      </article>
+      <article class="domain-card">
+        <span class="domain-card__icon" aria-hidden="true">🎓</span>
+        <h3 class="domain-card__title">Éducation</h3>
+        <p class="domain-card__desc">Master, doctorat, normes pédagogiques</p>
+      </article>
+      <article class="domain-card">
+        <span class="domain-card__icon" aria-hidden="true">📰</span>
+        <h3 class="domain-card__title">Bulletin Officiel</h3>
+        <p class="domain-card__desc">Dahirs, décrets, arrêtés SGG</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section__inner">
+    <h2 class="section__title">Fonctionnalités clés</h2>
+    <p class="section__lede muted">
+      Une chaîne complète du document brut à la réponse utilisateur, avec séparation claire entre site vitrine et espace connecté.
+    </p>
+    <div class="feature-grid feature-grid--4">
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">◎</div>
+        <h3>Retrieval hybride</h3>
+        <p class="muted small">Pool FAISS élargi puis reclassement lexical pour limiter les faux positifs (ex. simple mention d’un acronyme).</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">✦</div>
+        <h3>Prompting contrôlé</h3>
+        <p class="muted small">Consignes pour citer les extraits, structurer les listes de pièces quand le corpus le permet, et signaler les lacunes.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">↺</div>
+        <h3>Conversation</h3>
+        <p class="muted small">Historique envoyé à l’API pour les suites (« et pour le renouvellement ? ») avec ancrage lexical renforcé.</p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-card__icon" aria-hidden="true">⚑</div>
+        <h3>API &amp; clients</h3>
+        <p class="muted small">REST JSON pour intégrations (ex. Streamlit), JWT ou session cookie selon le canal.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="section__inner">
+    <h2 class="section__title">Comment ça marche</h2>
+    <ol class="steps">
+      <li class="steps__item">
+        <span class="steps__num">1</span>
+        <div>
+          <strong>Préparer le corpus</strong>
+          <p class="muted small">Chunks JSONL + métadonnées (titre, URL, type de source) pour traçabilité dans l’UI.</p>
+        </div>
+      </li>
+      <li class="steps__item">
+        <span class="steps__num">2</span>
+        <div>
+          <strong>Indexer</strong>
+          <p class="muted small">Embeddings multilingues puis index FAISS (cosinus / produit scalaire selon normalisation).</p>
+        </div>
+      </li>
+      <li class="steps__item">
+        <span class="steps__num">3</span>
+        <div>
+          <strong>Interroger</strong>
+          <p class="muted small">L’utilisateur pose une question ; le backend assemble contexte + sources et appelle le LLM configuré.</p>
+        </div>
+      </li>
+    </ol>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="/fonctionnalites">Toutes les fonctionnalités</a>
+      <a class="btn btn-ghost" href="/faq">Questions fréquentes</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section__inner">
+    <h2 class="section__title">Intégrations</h2>
+    <p class="section__lede muted">Branchez votre outil métier ou votre prototype sur la même API que l’interface web.</p>
+    <ul class="chip-row" aria-label="Technologies">
+      <li class="chip">FastAPI</li>
+      <li class="chip">FAISS</li>
+      <li class="chip">Sentence Transformers</li>
+      <li class="chip">SQLite</li>
+      <li class="chip">JWT</li>
+      <li class="chip">Streamlit</li>
+    </ul>
+  </div>
+</section>
+{% endblock %}

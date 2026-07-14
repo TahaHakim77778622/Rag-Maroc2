@@ -1,0 +1,44 @@
+{% extends "layout_public.html" %}
+{% block title %}FAQ — RAG-MAROC2{% endblock %}
+{% block breadcrumbs %}
+{% with bc_last='FAQ' %}
+{% include "partials/breadcrumb.html" %}
+{% endwith %}
+{% endblock %}
+{% block public_content %}
+<section class="section section--tight">
+  <div class="section__inner prose prose--wide">
+    <h1 class="page-title">Questions fréquentes</h1>
+    <p class="lede muted">Réponses courtes sur le fonctionnement du démo RAG-MAROC2.</p>
+
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Pourquoi l’assistant dit qu’il manque des informations ?</summary>
+        <p>Le modèle ne doit pas inventer : s’il ne trouve pas la procédure ou la liste des pièces dans les extraits récupérés, il l’indique. Enrichissez le corpus ou améliorez le retrieval (requête plus précise, plus de passages <em>k</em>).</p>
+      </details>
+      <details class="faq-item">
+        <summary>Les réponses ont-elles valeur juridique ?</summary>
+        <p>Non. Il s’agit d’un outil d’aide à la lecture de textes indexés, pas d’un avis d’avocat ni d’une décision administrative.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Où sont stockées mes données de compte ?</summary>
+        <p>Les comptes de démonstration sont en SQLite locale (<code>data/webapp_users.db</code>). En production, sécurisez le fichier, les sauvegardes et la variable <code>WEBAPP_SECRET_KEY</code>.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Puis-je utiliser l’API sans le navigateur ?</summary>
+        <p>Oui : authentifiez-vous via <code>POST /api/auth/login</code>, récupérez le JWT, puis appelez <code>POST /api/ask</code> avec l’en-tête <code>Authorization: Bearer …</code>. Consultez les endpoints exposés par l’API FastAPI (<code>/health</code>, <code>/api/ask</code>).</p>
+      </details>
+      <details class="faq-item">
+        <summary>Comment activer l’inscription publique ?</summary>
+        <p>Dans <code>.env</code>, définissez <code>WEBAPP_ALLOW_REGISTER=1</code> puis redémarrez le serveur. Sinon seul le flux « invitation » ou compte démo reste pertinent.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Le premier message est lent — est-ce normal ?</summary>
+        <p>Oui : le premier appel peut charger le modèle d’embedding, l’index FAISS et le client LLM. Les appels suivants sont en général plus rapides.</p>
+      </details>
+    </div>
+
+    <p><a class="btn btn-primary" href="/contact">Contact</a> <a class="btn btn-ghost" href="/fonctionnalites">Fonctionnalités</a></p>
+  </div>
+</section>
+{% endblock %}

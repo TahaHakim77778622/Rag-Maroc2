@@ -1,0 +1,114 @@
+{% extends "admin_layout.html" %}
+{% from "partials/admin_macros.html" import user_cell, user_actions %}
+{% block admin_title %}Utilisateurs{% endblock %}
+{% block admin_content %}
+<header class="admin-page-header">
+  <div class="admin-page-header__text">
+    <h1>Utilisateurs</h1>
+    <p class="admin-lede">{{ total_users | fmt_number }} compte{{ 's' if total_users != 1 else '' }} enregistré{{ 's' if total_users != 1 else '' }}</p>
+  </div>
+  <button type="button" class="admin-btn admin-btn--primary" id="btn-add-user">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Nouvel utilisateur
+  </button>
+</header>
+
+{% if created_msg %}
+<div class="admin-alert admin-alert--ok" role="status">
+  <span class="admin-alert__icon">✓</span>
+  Utilisateur créé avec succès.
+</div>
+{% endif %}
+{% if request.query_params.get('error') %}
+<div class="admin-alert admin-alert--err" role="alert">
+  <span class="admin-alert__icon">!</span>
+  {{ request.query_params.get('error') }}
+</div>
+{% endif %}
+
+<div class="admin-toolbar">
+  <form class="admin-search" method="get" action="/admin/users">
+    <svg class="admin-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="search" name="q" value="{{ search_q }}" placeholder="Rechercher par nom ou identifiant…" autocomplete="off">
+    {% if search_q %}
+    <a href="/admin/users" class="admin-btn admin-btn--ghost admin-btn--sm">Effacer</a>
+    {% endif %}
+  </form>
+</div>
+
+<div class="admin-card admin-card--table">
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Utilisateur</th>
+          <th>Inscription</th>
+          <th>Dernière connexion</th>
+          <th class="admin-table__num">Questions</th>
+          <th>Statut</th>
+          <th class="admin-table__actions-col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in users %}
+        <tr>
+          <td>{{ user_cell(u) }}</td>
+          <td><span class="admin-table__date">{{ u.created_at | fmt_date }}</span></td>
+          <td><span class="admin-table__date">{{ u.last_login_at | fmt_relative }}</span></td>
+          <td class="admin-table__num">{{ u.conv_count or 0 | fmt_number }}</td>
+          <td>
+            {% if u.is_active %}
+            <span class="admin-badge admin-badge--active"><span class="admin-badge__dot"></span>Actif</span>
+            {% else %}
+            <span class="admin-badge admin-badge--inactive"><span class="admin-badge__dot"></span>Inactif</span>
+            {% endif %}
+          </td>
+          <td class="admin-table__actions-col">{{ user_actions(u) }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="admin-table__empty">Aucun utilisateur trouvé</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if total_pages > 1 %}
+  <footer class="admin-card__footer">
+    <nav class="admin-pagination" aria-label="Pagination">
+      {% if page > 1 %}
+      <a href="/admin/users?page={{ page - 1 }}{% if search_q %}&q={{ search_q | urlencode }}{% endif %}" class="admin-btn admin-btn--ghost admin-btn--sm">Précédent</a>
+      {% endif %}
+      <span class="admin-pagination__info">Page {{ page }} sur {{ total_pages }}</span>
+      {% if page < total_pages %}
+      <a href="/admin/users?page={{ page + 1 }}{% if search_q %}&q={{ search_q | urlencode }}{% endif %}" class="admin-btn admin-btn--ghost admin-btn--sm">Suivant</a>
+      {% endif %}
+    </nav>
+  </footer>
+  {% endif %}
+</div>
+
+<div id="add-user-modal" class="admin-modal" hidden aria-hidden="true" role="dialog">
+  <div class="admin-modal__backdrop" data-close-add-user></div>
+  <div class="admin-modal__panel admin-modal__panel--wide">
+    <h3 class="admin-modal__title">Créer un utilisateur</h3>
+    <p class="admin-modal__text">Le compte sera actif immédiatement après création.</p>
+    <form method="post" action="/admin/users/create" class="admin-form-stack">
+      <label>
+        <span>Identifiant</span>
+        <input name="username" required minlength="3" maxlength="32" pattern="[a-zA-Z0-9_]+" placeholder="ex. jean_dupont" autocomplete="username">
+      </label>
+      <label>
+        <span>Mot de passe</span>
+        <input name="password" type="password" required minlength="8" autocomplete="new-password">
+      </label>
+      <label>
+        <span>Nom affiché <em class="muted">(optionnel)</em></span>
+        <input name="full_name" type="text" maxlength="120" placeholder="Prénom Nom">
+      </label>
+      <div class="admin-modal__actions">
+        <button type="button" class="admin-btn admin-btn--ghost" data-close-add-user>Annuler</button>
+        <button type="submit" class="admin-btn admin-btn--primary">Créer le compte</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

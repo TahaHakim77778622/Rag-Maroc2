@@ -1,0 +1,72 @@
+{% extends "admin_layout.html" %}
+{% block admin_title %}Corpus{% endblock %}
+{% block admin_content %}
+<header class="admin-page-header">
+  <div class="admin-page-header__text">
+    <h1>Gestion corpus</h1>
+    <p class="admin-lede">Index vectoriel FAISS et répartition documentaire</p>
+  </div>
+  <form method="post" action="/admin/corpus/rebuild" id="rebuild-form">
+    <button type="submit" class="admin-btn admin-btn--primary" id="btn-rebuild">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Rebuilder l'index
+    </button>
+  </form>
+</header>
+
+{% if request.query_params.get('rebuild') %}
+<div class="admin-alert admin-alert--ok" role="status">
+  <span class="admin-alert__icon">✓</span>
+  Rebuild lancé — suivi en direct ci-dessous.
+</div>
+{% endif %}
+
+<div class="admin-stats-grid admin-stats-grid--2">
+  <div class="admin-stat-card">
+    <div class="admin-stat-card__icon-wrap admin-stat-card__icon-wrap--teal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+    </div>
+    <div class="admin-stat-card__body">
+      <div class="admin-stat-card__value">{% if corpus_stats %}{{ corpus_stats.ntotal_display }}{% else %}18 760{% endif %}</div>
+      <div class="admin-stat-card__label">Chunks indexés (FAISS)</div>
+    </div>
+  </div>
+  <div class="admin-stat-card">
+    <div class="admin-stat-card__icon-wrap admin-stat-card__icon-wrap--blue">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </div>
+    <div class="admin-stat-card__body">
+      <div class="admin-stat-card__value admin-stat-card__value--sm">{{ faiss_updated }}</div>
+      <div class="admin-stat-card__label">Dernière mise à jour</div>
+    </div>
+  </div>
+</div>
+
+<section class="admin-card">
+  <div class="admin-card__head">
+    <h2>Répartition par domaine</h2>
+  </div>
+  <div class="admin-domain-bars">
+    {% for d in domains %}
+    <div class="admin-domain-row">
+      <span class="admin-domain-row__label">{{ d.label }}</span>
+      <div class="admin-domain-row__track">
+        <div class="admin-domain-row__fill" style="width: {{ d.pct if d.pct > 2 else 2 }}%"></div>
+      </div>
+      <span class="admin-domain-row__meta">{{ d.count | fmt_number }} · {{ d.pct }}%</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% if corpus_stats and corpus_stats.embedding_model %}
+  <p class="admin-card__foot muted">Modèle d'embedding : {{ corpus_stats.embedding_model }}</p>
+  {% endif %}
+</section>
+
+<section class="admin-card">
+  <div class="admin-card__head">
+    <h2>Journal du rebuild</h2>
+    <p>Mise à jour automatique toutes les 3 secondes</p>
+  </div>
+  <pre class="admin-log-view" id="rebuild-log">{{ rebuild_log or 'Aucun log — lancez un rebuild pour commencer.' }}</pre>
+</section>
+{% endblock %}

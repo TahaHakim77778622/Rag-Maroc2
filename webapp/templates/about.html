@@ -1,0 +1,57 @@
+{% extends "layout_public.html" %}
+{% block title %}À propos — RAG-MAROC2{% endblock %}
+{% block breadcrumbs %}
+{% with bc_last='À propos' %}
+{% include "partials/breadcrumb.html" %}
+{% endwith %}
+{% endblock %}
+{% block public_content %}
+<section class="section section--tight">
+  <div class="section__inner prose prose--wide">
+    <p class="eyebrow">À propos</p>
+    <h1 class="page-title">RAG-MAROC2</h1>
+    <p class="lede">
+      Application de <strong>retrieval-augmented generation (RAG)</strong> orientée corpus juridique et administratif marocain.
+      Elle sert de <strong>démonstrateur technique</strong> : ingestion de chunks, embeddings, index FAISS, orchestration FastAPI, interface web premium et clients API.
+    </p>
+
+    <div class="callout callout--neutral">
+      <strong>Positionnement</strong>
+      <p class="small muted" style="margin:0.35rem 0 0;">
+        Le produit met l’accent sur la <strong>traçabilité</strong> (sources affichées) et la <strong>prudence</strong> du modèle (pas d’invention hors corpus),
+        plutôt que sur un volume maximal de texte généré.
+      </p>
+    </div>
+
+    <h2>Ce que fait l’assistant</h2>
+    <ul>
+      <li>Interroge un index vectoriel construit à partir de votre fichier de chunks.</li>
+      <li>Combine recherche sémantique et reclassement lexical pour des questions courtes ou des suites de conversation.</li>
+      <li>Retourne une réponse en français avec citations <code>[n]</code> lorsque les extraits le permettent.</li>
+      <li>Affiche un panneau <strong>Sources</strong> (titre, libellé, extrait, lien si disponible).</li>
+    </ul>
+
+    <h2>Ce que l’assistant ne remplace pas</h2>
+    <p>
+      Aucune réponse générée ne vaut <strong>conseil juridique</strong>, <strong>acte administratif</strong> ou <strong>position officielle</strong> d’une autorité.
+      Vérifiez toujours auprès des textes et services compétents.
+    </p>
+
+    <h2>Feuille de route possible</h2>
+    <ul class="muted small">
+      <li>Tableau de bord admin (gestion des utilisateurs, quotas).</li>
+      <li>Upload sécurisé de corpus et job d’indexation asynchrone.</li>
+      <li>Évaluation automatique (jeux de questions / scores de fidélité).</li>
+      <li>Streaming des réponses (SSE) pour une UX plus fluide.</li>
+    </ul>
+
+    <p class="muted small">
+      Stack indicative : Python, FastAPI, Jinja2, SQLite (comptes), FAISS, sentence-transformers, clients LLM (Cohere / OpenAI selon configuration).
+    </p>
+    <p>
+      <a class="btn btn-primary" href="{% if current_user %}/chat{% else %}/login{% endif %}">{% if current_user %}Accéder au chat{% else %}Se connecter{% endif %}</a>
+      <a class="btn btn-ghost" href="/faq">FAQ</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

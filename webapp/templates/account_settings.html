@@ -1,0 +1,55 @@
+{% extends "layout_public.html" %}
+{% block body_class %}page-public page-account{% endblock %}
+{% block title %}Paramètres du compte — RAG-MAROC2{% endblock %}
+{% block public_content %}
+<link rel="stylesheet" href="/static/css/account-ui.css?v=2">
+<div class="account-page">
+  <div class="account-page__stars" aria-hidden="true"></div>
+  <div class="account-page__center account-page__center--narrow">
+    <div class="account-card">
+      <h1 class="account-card__title account-card__title--icon">⚙️ Paramètres du compte</h1>
+
+      <section class="account-settings-section">
+        <h2 class="account-settings-section__title">Préférences</h2>
+        <div class="account-toggle-row">
+          <div>
+            <span class="account-toggle-label">Thème sombre</span>
+            <span class="account-toggle-hint muted small">Toujours activé pour l’instant</span>
+          </div>
+          <label class="account-toggle">
+            <input type="checkbox" checked disabled>
+            <span class="account-toggle__slider"></span>
+          </label>
+        </div>
+        <div class="account-toggle-row">
+          <div>
+            <span class="account-toggle-label">Notifications</span>
+            <span class="account-toggle-hint muted small">Bientôt disponible</span>
+          </div>
+          <label class="account-toggle">
+            <input type="checkbox" disabled>
+            <span class="account-toggle__slider"></span>
+          </label>
+        </div>
+      </section>
+
+      <section class="account-settings-section account-settings-section--danger">
+        <h2 class="account-settings-section__title">Danger</h2>
+        <button
+          type="button"
+          class="btn-account-danger"
+          disabled
+          title="Contactez l’administrateur"
+        >
+          Supprimer mon compte
+        </button>
+        <p class="muted small account-danger-hint">Contactez l’administrateur pour supprimer un compte.</p>
+      </section>
+
+      <p class="account-card__back">
+        <a href="/chat">← Retour à l’assistant</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

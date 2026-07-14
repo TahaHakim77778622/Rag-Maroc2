@@ -1,0 +1,109 @@
+{% extends "admin_layout.html" %}
+{% from "partials/admin_macros.html" import user_cell %}
+{% block admin_title %}Utilisateur — {{ target.username }}{% endblock %}
+{% block admin_content %}
+<header class="admin-page-header admin-page-header--detail">
+  <a href="/admin/users" class="admin-back">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    Utilisateurs
+  </a>
+  <div class="admin-profile-header">
+    <span class="admin-avatar admin-avatar--lg" data-username="{{ target.username }}">{{ target.initials }}</span>
+    <div>
+      <h1>{{ target.full_name or target.username }}</h1>
+      <p class="admin-lede">@{{ target.username }}</p>
+      {% if target.is_active %}
+      <span class="admin-badge admin-badge--active"><span class="admin-badge__dot"></span>Actif</span>
+      {% else %}
+      <span class="admin-badge admin-badge--inactive"><span class="admin-badge__dot"></span>Inactif</span>
+      {% endif %}
+      {% if target.is_admin %}<span class="admin-badge admin-badge--admin">Administrateur</span>{% endif %}
+    </div>
+  </div>
+</header>
+
+{% if reset_pw %}
+<div class="admin-alert admin-alert--ok" role="status">
+  <span class="admin-alert__icon">✓</span>
+  Nouveau mot de passe : <code class="admin-code">{{ reset_pw }}</code>
+  <span class="admin-alert__hint">— transmettez-le de façon sécurisée, puis demandez un changement.</span>
+</div>
+{% endif %}
+
+<div class="admin-detail-grid">
+  <section class="admin-card">
+    <div class="admin-card__head">
+      <h2>Informations</h2>
+    </div>
+    <dl class="admin-dl admin-dl--grid">
+      <dt>Nom affiché</dt><dd>{{ target.full_name or '—' }}</dd>
+      <dt>Identifiant</dt><dd>@{{ target.username }}</dd>
+      <dt>Inscription</dt><dd>{{ target.created_at | fmt_datetime }}</dd>
+      <dt>Dernière connexion</dt><dd>{{ target.last_login_at | fmt_relative }}</dd>
+      <dt>Questions posées</dt><dd>{{ target.question_count or 0 | fmt_number }}</dd>
+    </dl>
+    <div class="admin-action-bar">
+      {% if target.is_active %}
+      <form method="post" action="/admin/users/{{ target.id }}/disable" data-confirm="Désactiver ce compte ?">
+        <button type="submit" class="admin-btn admin-btn--ghost">Désactiver</button>
+      </form>
+      {% else %}
+      <form method="post" action="/admin/users/{{ target.id }}/enable">
+        <button type="submit" class="admin-btn admin-btn--primary">Réactiver</button>
+      </form>
+      {% endif %}
+      <form method="post" action="/admin/users/{{ target.id }}/reset-password">
+        <button type="submit" class="admin-btn admin-btn--ghost">Réinitialiser le mot de passe</button>
+      </form>
+      {% if not target.is_admin %}
+      <form method="post" action="/admin/users/{{ target.id }}/delete" data-confirm="Supprimer définitivement ce compte ?">
+        <button type="submit" class="admin-btn admin-btn--danger-solid">Supprimer le compte</button>
+      </form>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="admin-card">
+    <div class="admin-card__head">
+      <h2>Domaines consultés</h2>
+      <p>Estimation par mots-clés dans les questions</p>
+    </div>
+    {% if domains %}
+    <ul class="admin-domain-list">
+      {% for d in domains %}
+      <li>
+        <span>{{ d.domain }}</span>
+        <span class="admin-domain-list__count">{{ d.count | fmt_number }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="admin-empty-hint">Pas encore assez de données.</p>
+    {% endif %}
+  </section>
+</div>
+
+<section class="admin-card admin-card--table">
+  <div class="admin-card__head">
+    <h2>Historique des questions</h2>
+    <p>20 dernières entrées</p>
+  </div>
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr><th>Question</th><th>Date</th></tr>
+      </thead>
+      <tbody>
+        {% for c in conversations %}
+        <tr>
+          <td class="admin-table__truncate" title="{{ c.content }}">{{ c.content }}</td>
+          <td><span class="admin-table__date">{{ c.created_at | fmt_datetime }}</span></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="2" class="admin-table__empty">Aucune conversation</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

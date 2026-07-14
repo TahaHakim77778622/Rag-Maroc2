@@ -1,0 +1,102 @@
+{% extends "admin_layout.html" %}
+{% block admin_title %}Dashboard{% endblock %}
+{% block admin_content %}
+<header class="admin-page-header">
+  <div class="admin-page-header__text">
+    <h1>Dashboard</h1>
+    <p class="admin-lede">Vue d'ensemble de la plateforme</p>
+  </div>
+</header>
+
+<div class="admin-stats-grid">
+  <div class="admin-stat-card">
+    <div class="admin-stat-card__icon-wrap admin-stat-card__icon-wrap--blue">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+    </div>
+    <div class="admin-stat-card__body">
+      <div class="admin-stat-card__value">{{ stats.total_users | fmt_number }}</div>
+      <div class="admin-stat-card__label">Utilisateurs</div>
+    </div>
+  </div>
+  <div class="admin-stat-card">
+    <div class="admin-stat-card__icon-wrap admin-stat-card__icon-wrap--teal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </div>
+    <div class="admin-stat-card__body">
+      <div class="admin-stat-card__value">{{ stats.conversations_today | fmt_number }}</div>
+      <div class="admin-stat-card__label">Messages aujourd'hui</div>
+    </div>
+  </div>
+  <div class="admin-stat-card">
+    <div class="admin-stat-card__icon-wrap admin-stat-card__icon-wrap--purple">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    </div>
+    <div class="admin-stat-card__body">
+      <div class="admin-stat-card__value">{{ stats.total_questions | fmt_number }}</div>
+      <div class="admin-stat-card__label">Questions totales</div>
+    </div>
+  </div>
+  <div class="admin-stat-card">
+    <div class="admin-stat-card__icon-wrap admin-stat-card__icon-wrap--orange">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    </div>
+    <div class="admin-stat-card__body">
+      <div class="admin-stat-card__value">{{ stats.avg_latency }}<span class="admin-stat-card__unit">s</span></div>
+      <div class="admin-stat-card__label">Latence moyenne</div>
+    </div>
+  </div>
+</div>
+
+<section class="admin-card">
+  <div class="admin-card__head">
+    <h2>Activité sur 7 jours</h2>
+    <p>Messages utilisateur par jour</p>
+  </div>
+  <div class="admin-bars" role="img" aria-label="Graphique activité 7 jours">
+    {% for d in activity %}
+    <div class="admin-bars__col">
+      <div class="admin-bars__bar-wrap">
+        <div class="admin-bars__bar" style="height: {{ d.pct if d.pct > 4 else 4 }}%"></div>
+      </div>
+      <span class="admin-bars__count">{{ d.count }}</span>
+      <span class="admin-bars__label">{{ d.label }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="admin-card admin-card--table">
+  <div class="admin-card__head">
+    <h2>Dernières activités</h2>
+    <p>10 dernières questions enregistrées</p>
+  </div>
+  <div class="admin-table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Utilisateur</th>
+          <th>Question</th>
+          <th>Heure</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in recent %}
+        <tr>
+          <td><span class="admin-table__user">{{ row.username }}</span></td>
+          <td class="admin-table__truncate" title="{{ row.question }}">{{ row.question }}{% if row.question | length >= 50 %}…{% endif %}</td>
+          <td><span class="admin-table__date">{{ row.created_at | fmt_datetime }}</span></td>
+          <td>
+            <span class="admin-badge admin-badge--{% if row.source == 'web' %}web{% else %}corpus{% endif %}">
+              {{ 'Web' if row.source == 'web' else 'Corpus' }}
+            </span>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4" class="admin-table__empty">Aucune activité récente</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "admin_layout.html" %}
+{% block admin_title %}Paramètres{% endblock %}
+{% block admin_content %}
+<header class="admin-page-header">
+  <div class="admin-page-header__text">
+    <h1>Paramètres</h1>
+    <p class="admin-lede">Configuration système (lecture seule)</p>
+  </div>
+</header>
+
+<section class="admin-card">
+  <div class="admin-card__head">
+    <h2>Environnement webapp</h2>
+  </div>
+  <dl class="admin-dl admin-dl--grid">
+    <dt>Base de données</dt><dd><code class="admin-code">{{ db_label }}</code></dd>
+    <dt>Inscription ouverte</dt><dd>{{ 'Oui' if allow_register else 'Non' }}</dd>
+    <dt>Indice compte démo</dt><dd>{{ 'Affiché' if show_demo_login else 'Masqué' }}</dd>
+    <dt>Admins (env)</dt><dd><code class="admin-code">WEBAPP_ADMIN_USERS</code></dd>
+  </dl>
+  <p class="admin-empty-hint">Les paramètres du pipeline RAG sont gérés via les variables d'environnement du serveur et le dossier <code class="admin-code">app/</code>.</p>
+</section>
+{% endblock %}

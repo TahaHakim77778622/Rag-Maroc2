@@ -1,0 +1,167 @@
+{% extends "layout_public.html" %}
+{% block body_class %}page-public page-auth page-register-refined{% endblock %}
+{% block title %}Inscription — RAG-MAROC2{% endblock %}
+{% block public_content %}
+<link rel="stylesheet" href="/static/css/register-ui.css?v=1">
+<div class="register-page">
+  <div class="register-page__stars" aria-hidden="true"></div>
+  <div class="register-wrap">
+    <aside class="register-hero" aria-label="Informations inscription">
+      <p class="register-hero__kicker">Nouveau compte</p>
+      <h2 class="register-hero__title">
+        <span class="register-hero__title-icon" aria-hidden="true">🔐</span>
+        Inscription sécurisée
+      </h2>
+      <p class="register-hero__lede">
+        Vos identifiants sont enregistrés en base ({{ db_label }}) et le mot de passe est haché — jamais en clair.
+      </p>
+      <ul class="register-hero__list">
+        <li>Identifiant 3–32 caractères (a–z, 0–9, . _ -)</li>
+        <li>Mot de passe minimum 8 caractères</li>
+        <li>Après validation, connectez-vous sur la page suivante</li>
+      </ul>
+      <div class="register-hero__badges">
+        <span class="register-hero__badges-label">Déjà utilisé par</span>
+        <div class="register-hero__badges-row">
+          <span class="register-badge">⚖️ Juristes</span>
+          <span class="register-badge">🏛️ Administrations</span>
+          <span class="register-badge">🎓 Étudiants</span>
+        </div>
+      </div>
+    </aside>
+
+    <div class="register-panel">
+      <div class="register-card">
+        <div class="register-brand">
+          <span class="register-brand__mark" aria-hidden="true">MA</span>
+          <div>
+            <p class="register-brand__name">RAG-MAROC2</p>
+            <p class="register-brand__tag">Assistant juridique marocain</p>
+          </div>
+        </div>
+
+        <h1 class="register-card__heading">Créer un compte</h1>
+
+        {% if error %}
+        <div class="register-alert-error" role="alert" aria-live="polite">
+          <span class="register-alert-error__icon" aria-hidden="true">⚠️</span>
+          <div>
+            <strong>Inscription refusée</strong>
+            <p>{{ error }}</p>
+          </div>
+        </div>
+        {% endif %}
+
+        <form method="post" action="/register" class="stack register-form" autocomplete="on" novalidate>
+          <label>
+            <span>Nom affiché <span class="label-optional">(optionnel)</span></span>
+            <input
+              name="full_name"
+              type="text"
+              autocomplete="name"
+              placeholder="ex. Prénom Nom"
+            >
+          </label>
+          <label>
+            <span>Identifiant</span>
+            <input
+              name="username"
+              type="text"
+              autocomplete="username"
+              autocapitalize="none"
+              spellcheck="false"
+              minlength="3"
+              maxlength="32"
+              required
+              autofocus
+            >
+          </label>
+          <p class="field-hint">Lettres minuscules, chiffres, <code>.</code> <code>_</code> <code>-</code> uniquement</p>
+          <label>
+            <span>Mot de passe</span>
+            <input
+              id="register-password"
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              minlength="8"
+              maxlength="72"
+              required
+            >
+          </label>
+          <div class="pw-strength" id="pw-strength" aria-live="polite">
+            <div class="pw-strength__bars" aria-hidden="true">
+              <span class="pw-strength__seg" data-seg="1"></span>
+              <span class="pw-strength__seg" data-seg="2"></span>
+              <span class="pw-strength__seg" data-seg="3"></span>
+              <span class="pw-strength__seg" data-seg="4"></span>
+            </div>
+            <span class="pw-strength__label" id="pw-strength-label">Faible</span>
+          </div>
+          <label>
+            <span>Confirmer le mot de passe</span>
+            <input
+              name="password_confirm"
+              type="password"
+              autocomplete="new-password"
+              minlength="8"
+              maxlength="72"
+              required
+            >
+          </label>
+          <button type="submit" class="btn-register-submit">
+            Enregistrer le compte
+            <span class="btn-register-arrow" aria-hidden="true">→</span>
+          </button>
+        </form>
+
+        <div class="register-card__meta">
+          <p class="register-card__link-login">
+            <a href="/login">Déjà un compte ? Connexion</a>
+          </p>
+          <p class="register-card__link-home">
+            <a href="/">← Retour à l’accueil</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var input = document.getElementById('register-password');
+  var segs = document.querySelectorAll('.pw-strength__seg');
+  var label = document.getElementById('pw-strength-label');
+  if (!input || !segs.length || !label) return;
+
+  var labels = ['Faible', 'Moyen', 'Fort', 'Très fort'];
+
+  function updateStrength() {
+    var len = (input.value || '').length;
+    var level = 0;
+    if (len > 0 && len < 6) level = 1;
+    else if (len >= 6 && len <= 8) level = 2;
+    else if (len > 8 && len <= 10) level = 3;
+    else if (len > 10) level = 4;
+
+    segs.forEach(function (seg, i) {
+      seg.classList.remove('is-on');
+      seg.removeAttribute('data-level');
+      if (level > 0 && i < level) {
+        seg.classList.add('is-on');
+        seg.setAttribute('data-level', String(level));
+      }
+    });
+
+    if (len === 0) {
+      label.textContent = 'Faible';
+    } else {
+      label.textContent = labels[Math.max(0, level - 1)] || 'Faible';
+    }
+  }
+
+  input.addEventListener('input', updateStrength);
+  updateStrength();
+})();
+</script>
+{% endblock %}

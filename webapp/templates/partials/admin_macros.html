@@ -1,0 +1,39 @@
+{% macro user_cell(u) %}
+<div class="admin-user-cell">
+  <span class="admin-avatar" data-username="{{ u.username }}">{{ u.initials }}</span>
+  <div class="admin-user-cell__meta">
+    <span class="admin-user-cell__name">{{ u.full_name or u.username }}</span>
+    <span class="admin-user-cell__handle">@{{ u.username }}</span>
+    {% if u.is_admin_flag %}
+    <span class="admin-badge admin-badge--admin">Administrateur</span>
+    {% endif %}
+  </div>
+</div>
+{% endmacro %}
+
+{% macro user_actions(u) %}
+<div class="admin-menu" data-admin-menu>
+  <button type="button" class="admin-menu__trigger" aria-expanded="false" aria-haspopup="true">
+    <span class="admin-menu__dots" aria-hidden="true"></span>
+    <span class="sr-only">Actions pour {{ u.username }}</span>
+  </button>
+  <div class="admin-menu__panel" role="menu" hidden>
+    <a href="/admin/users/{{ u.id }}" class="admin-menu__item" role="menuitem">Voir le profil</a>
+    <form method="post" action="/admin/users/{{ u.id }}/reset-password" class="admin-menu__form" role="none">
+      <button type="submit" class="admin-menu__item admin-menu__item--warn" role="menuitem">
+        Réinitialiser le mot de passe
+      </button>
+    </form>
+    {% if not u.is_admin_flag %}
+    {% if u.is_active %}
+    <form method="post" action="/admin/users/{{ u.id }}/disable" class="admin-menu__form" data-confirm="Désactiver le compte @{{ u.username }} ?" role="none">
+      <button type="submit" class="admin-menu__item" role="menuitem">Désactiver le compte</button>
+    </form>
+    {% endif %}
+    <form method="post" action="/admin/users/{{ u.id }}/delete" class="admin-menu__form" data-confirm="Supprimer définitivement @{{ u.username }} ?" role="none">
+      <button type="submit" class="admin-menu__item admin-menu__item--danger" role="menuitem">Supprimer</button>
+    </form>
+    {% endif %}
+  </div>
+</div>
+{% endmacro %}

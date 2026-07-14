@@ -1,0 +1,37 @@
+{% extends "layout_public.html" %}
+{% block title %}Contact — RAG-MAROC2{% endblock %}
+{% block breadcrumbs %}
+{% with bc_last='Contact' %}
+{% include "partials/breadcrumb.html" %}
+{% endwith %}
+{% endblock %}
+{% block public_content %}
+<section class="section section--tight">
+  <div class="section__inner prose prose--wide">
+    <p class="eyebrow">Contact</p>
+    <h1 class="page-title">Nous contacter</h1>
+    <p class="lede">
+      Ce déploiement est une <strong>démo / projet personnel</strong>. Pour toute question sur le produit, les données indexées ou l’hébergement,
+      utilisez le canal habituel de votre organisation (e-mail interne, ticket, etc.).
+    </p>
+
+    <div class="callout callout--info">
+      <strong>Support technique (auto-hébergé)</strong>
+      <p class="small muted" style="margin:0.35rem 0 0;">
+        Consultez d’abord la <a href="/faq">FAQ</a> et la page <a href="/fonctionnalites">Fonctionnalités</a> (reconstruction d’index, variables d’environnement, exemples <code>curl</code>).
+      </p>
+    </div>
+
+    <p class="muted small">
+      Configuration : fichier <code>.env</code> à la racine du projet (clés LLM, <code>WEBAPP_SECRET_KEY</code>, <code>WEBAPP_ALLOW_REGISTER</code>, etc.).
+    </p>
+    <p>
+      <a class="btn btn-primary" href="/login">Connexion</a>
+      {% if allow_register %}
+      <a class="btn btn-ghost" href="/register">Inscription</a>
+      {% endif %}
+      <a class="btn btn-ghost" href="/faq">FAQ</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

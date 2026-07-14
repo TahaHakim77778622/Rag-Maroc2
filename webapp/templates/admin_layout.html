@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{% block admin_title %}Administration{% endblock %} — RAG-MAROC2{% endblock %}
+{% block body_class %}page-admin{% endblock %}
+{% block body %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/admin-ui.css?v=2">
+<div class="admin-shell">
+  {% include "partials/admin_sidebar.html" %}
+  <div class="admin-content">
+    {% block admin_content %}{% endblock %}
+  </div>
+</div>
+<div id="admin-modal" class="admin-modal" hidden aria-hidden="true" role="dialog" aria-labelledby="admin-modal-title">
+  <div class="admin-modal__backdrop" data-modal-close></div>
+  <div class="admin-modal__panel">
+    <h3 id="admin-modal-title" class="admin-modal__title">Confirmer l'action</h3>
+    <p class="admin-modal__text">Cette action est irréversible. Voulez-vous continuer ?</p>
+    <div class="admin-modal__actions">
+      <button type="button" class="admin-btn admin-btn--ghost" data-modal-close>Annuler</button>
+      <button type="button" class="admin-btn admin-btn--danger-solid" id="admin-modal-confirm">Confirmer</button>
+    </div>
+  </div>
+</div>
+<script src="/static/js/admin.js?v=2" defer></script>
+{% endblock %}

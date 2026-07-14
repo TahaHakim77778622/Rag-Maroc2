@@ -1,0 +1,32 @@
+{% extends "layout_public.html" %}
+{% block title %}Confidentialité — RAG-MAROC2{% endblock %}
+{% block breadcrumbs %}
+{% with bc_last='Confidentialité' %}
+{% include "partials/breadcrumb.html" %}
+{% endwith %}
+{% endblock %}
+{% block public_content %}
+<section class="section section--tight">
+  <div class="section__inner prose prose--wide">
+    <h1 class="page-title">Confidentialité &amp; données</h1>
+    <p class="lede">
+      Ce document décrit le traitement des données dans une instance <strong>auto-hébergée</strong> type démonstration.
+      Adaptez-le si vous déployez en entreprise ou auprès du public.
+    </p>
+
+    <h2>Données de navigation</h2>
+    <p>Le site utilise des <strong>sessions signées</strong> (cookie) pour maintenir la connexion à l’interface web. Les JWT émis par <code>/api/auth/login</code> sont destinés aux clients API et doivent être conservés côté client de façon sécurisée.</p>
+
+    <h2>Questions posées à l’assistant</h2>
+    <p>Les messages sont envoyés au backend pour retrieval et génération. Ils peuvent apparaître dans les <strong>logs serveur</strong> selon votre configuration (niveau de log, hébergeur). En production, définissez une politique de rétention et masquez les données sensibles.</p>
+
+    <h2>Corpus indexé</h2>
+    <p>Les documents que vous indexez restent sous votre contrôle sur le disque du serveur. Le projet ne les envoie pas à un tiers sauf si vous configurez un <strong>LLM cloud</strong> (clés API dans <code>.env</code>) : dans ce cas, le fournisseur applique ses propres conditions.</p>
+
+    <h2>Comptes utilisateurs</h2>
+    <p>Les identifiants et hash de mot de passe sont stockés en base SQLite locale. Utilisez des mots de passe forts et une clé secrète stable (<code>WEBAPP_SECRET_KEY</code>).</p>
+
+    <p><a class="btn btn-ghost" href="/">Retour à l’accueil</a></p>
+  </div>
+</section>
+{% endblock %}

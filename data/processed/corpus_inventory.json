@@ -1,0 +1,30 @@
+{
+  "corpus_path": "/Users/tahahakim/Desktop/rag-maroc2/data/processed/final_chunks.jsonl",
+  "total_chunks": 25553,
+  "unique_doc_id": 148,
+  "by_source_org": {
+    "SGG": 25128,
+    "Watiqa": 404,
+    "CNIE Maroc": 9,
+    "Législation": 8,
+    "Maroc.ma": 4
+  },
+  "by_source_type": {
+    "bulletin_officiel": 25128,
+    "admin": 417,
+    "loi": 8
+  },
+  "by_category": {
+    "juridique": 25128,
+    "etat_civil": 404,
+    "cnie": 9,
+    "code_travail": 8,
+    "services_publics": 4
+  },
+  "faiss": {
+    "manifest_path": "/Users/tahahakim/Desktop/rag-maroc2/vector_store/faiss_manifest.json",
+    "ntotal": 25553,
+    "matches_corpus_count": true
+  },
+  "note": "Le RAG charge final_chunks.jsonl + faiss.index. Le nombre de chunks doit aligner ntotal (sinon : rebuild embeddings + faiss)."
+}

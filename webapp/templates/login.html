@@ -1,0 +1,80 @@
+{% extends "layout_public.html" %}
+{% block body_class %}page-public page-auth page-login-refined{% endblock %}
+{% block title %}Connexion — RAG-MAROC2{% endblock %}
+{% block public_content %}
+<div class="login-page">
+  <div class="login-page__stars" aria-hidden="true"></div>
+  <div class="login-page__center">
+    <header class="login-brand">
+      <span class="login-brand__logo" aria-hidden="true">MA</span>
+      <h1 class="login-brand__name">RAG-MAROC2</h1>
+      <p class="login-brand__tagline">Assistant juridique &amp; administratif marocain</p>
+    </header>
+
+    <div class="login-card">
+      <h2 class="login-card__title">Connexion</h2>
+      <p class="login-card__subtitle muted">Identifiant et mot de passe</p>
+
+      {% if success %}
+      <div class="alert-pro alert-pro--success" role="status" aria-live="polite">
+        <span class="alert-pro__icon alert-pro__icon--ok" aria-hidden="true">✓</span>
+        <div class="alert-pro__body">
+          <strong>Compte prêt</strong>
+          <p>{{ success }}</p>
+        </div>
+      </div>
+      {% endif %}
+      {% if error %}
+      <div class="alert alert-error alert-pro" role="alert" aria-live="polite">
+        <span class="alert-pro__icon" aria-hidden="true">!</span>
+        <div class="alert-pro__body">
+          <strong>Connexion impossible</strong>
+          <p>{{ error }}</p>
+        </div>
+        <button
+          type="button"
+          class="alert-pro__close"
+          aria-label="Fermer l’alerte"
+          onclick="this.closest('.alert-pro').style.display='none';"
+        >×</button>
+      </div>
+      {% endif %}
+
+      <form method="post" action="/login" class="stack login-form" autocomplete="on" novalidate>
+        <label>
+          <span>Identifiant</span>
+          <input
+            name="username"
+            type="text"
+            autocomplete="username"
+            autocapitalize="none"
+            spellcheck="false"
+            required
+            autofocus
+          >
+        </label>
+        <label>
+          <span>Mot de passe</span>
+          <input name="password" type="password" autocomplete="current-password" required>
+        </label>
+        <button type="submit" class="btn btn-login-submit">Se connecter</button>
+      </form>
+
+      <div class="login-card__footer">
+        {% if allow_register %}
+        <p class="login-card__register">
+          <span class="muted">Pas encore de compte ?</span>
+          <a href="/register">Inscription</a>
+        </p>
+        {% endif %}
+        <p class="login-card__back">
+          <a class="muted" href="/">← Retour à l’accueil</a>
+        </p>
+        {% if show_demo_login %}
+        <p class="muted small auth-hint">Compte de démonstration : <code>demo</code> / <code>demo123</code></p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

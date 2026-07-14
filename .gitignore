@@ -1,0 +1,34 @@
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.log
+.env
+.venv/
+venv/
+
+# Index vectoriel (régénérer via scripts/build_embeddings.py + build_faiss.py)
+vector_store/*.npy
+vector_store/faiss.index
+
+# Artefacts locaux
+*.tmp
+*.bak
+.DS_Store
+data/webapp_users.db
+metrics/ragas_results.json
+metrics/test_results.txt
+
+# Comptes web locaux (SQLite) — alias historique
+data/webapp_users.db
+
+# Données intermédiaires / backups (trop lourds pour GitHub)
+data/processed/final_chunks_backup.jsonl
+data/processed/pages_jsonl/
+data/processed/cleaned_pages_jsonl/
+data/processed/chunks_by_article.jsonl
+data/processed/admin_pages_jsonl/
+data/processed/web_pages_jsonl/
+data/raw/
+data/pdfs/
+*.pdf

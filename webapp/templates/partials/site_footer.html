@@ -1,0 +1,35 @@
+<footer class="site-footer">
+  <div class="site-footer__grid">
+    <div class="site-footer__col">
+      <strong class="site-footer__heading">RAG-MAROC2</strong>
+      <p class="muted small">Assistant RAG sur corpus indexé. Les réponses ne remplacent pas un avis juridique ou administratif qualifié.</p>
+    </div>
+    <div class="site-footer__col">
+      <strong class="site-footer__heading">Produit</strong>
+      <a href="/fonctionnalites">Fonctionnalités</a>
+      <a href="/faq">FAQ</a>
+      <a href="/health">Statut API</a>
+    </div>
+    <div class="site-footer__col">
+      <strong class="site-footer__heading">Entreprise</strong>
+      <a href="/about">À propos</a>
+      <a href="/contact">Contact</a>
+      <a href="/confidentialite">Confidentialité</a>
+    </div>
+    <div class="site-footer__col">
+      <strong class="site-footer__heading">Compte</strong>
+      {% if current_user %}
+      <a href="/chat">Assistant</a>
+      <a href="/logout">Déconnexion</a>
+      {% else %}
+      <a href="/login">Connexion</a>
+      {% if allow_register %}
+      <a href="/register">Inscription</a>
+      {% endif %}
+      {% endif %}
+    </div>
+  </div>
+  <div class="site-footer__legal muted tiny">
+    RAG-MAROC2 — démonstration / usage interne · <a href="/robots.txt">robots.txt</a>
+  </div>
+</footer>

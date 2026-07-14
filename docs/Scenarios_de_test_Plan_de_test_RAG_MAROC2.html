@@ -1,0 +1,537 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Plan de test RAG-MAROC2</title>
+<style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem;font-size:14px;line-height:1.45;color:#1a1a1a;} h1,h2,h3{line-height:1.2;} table{border-collapse:collapse;width:100%;font-size:12px;margin:1em 0;} th,td{border:1px solid #444;padding:6px;vertical-align:top;} th{background:#f5f5f5;} @media print{ body{margin:0;max-width:none;font-size:11pt;} }</style></head><body><h1>SCÉNARIOS DE TEST — PLAN DE TEST</h1>
+<p><strong>Projet :</strong> RAG-MAROC2 (assistant RAG sur corpus juridique et administratif marocain)<br />
+<strong>Stack de référence :</strong> FastAPI, Jinja2, sessions cookie, index FAISS + <code>final_chunks.jsonl</code>, LLM (Cohere / OpenAI), base utilisateurs (PostgreSQL ou SQLite)<br />
+<strong>Date du document :</strong> 24 avril 2026<br />
+<strong>Version application :</strong> 0.1.0  </p>
+<p><em>Document structuré sur le modèle d’un plan de type livrable de test (intro, périmètre, environnement, scénarios numérotés, non-régression, critères d’acceptation).</em></p>
+<hr />
+<h2>Table des matières</h2>
+<ol>
+<li><a href="#1-visa-et-signatures">Visa et signatures</a>  </li>
+<li><a href="#2-introduction-et-objectifs-du-plan-de-test">Introduction et objectifs du plan de test</a>  </li>
+<li><a href="#3-périmètre-des-tests">Périmètre des tests</a>  </li>
+<li><a href="#4-environnement-de-test">Environnement de test</a>  </li>
+<li><a href="#5-types-de-tests">Types de tests</a>  </li>
+<li><a href="#6-scénarios-de-test--authentification-navigateur">Scénarios de test — Authentification (navigateur)</a>  </li>
+<li><a href="#7-scénarios-de-test--api-jwt">Scénarios de test — API JWT</a>  </li>
+<li><a href="#8-scénarios-de-test--assistant-rag">Scénarios de test — Assistant RAG</a>  </li>
+<li><a href="#9-scénarios-de-test--site-public-pages">Scénarios de test — Site public (pages)</a>  </li>
+<li><a href="#10-scénarios-de-test-non-fonctionnels">Scénarios de test non fonctionnels</a>  </li>
+<li><a href="#11-matrice-de-couverture-résumé">Matrice de couverture (résumé)</a>  </li>
+<li><a href="#12-critères-dacceptation">Critères d’acceptation</a>  </li>
+<li><a href="#13-conclusion">Conclusion</a>  </li>
+</ol>
+<hr />
+<h2>1. Visa et signatures</h2>
+<table>
+<thead>
+<tr>
+<th>Rôle</th>
+<th>Nom</th>
+<th>Date</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Équipe projet</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Encadrant pédagogique</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Validation qualité (optionnel)</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. Introduction et objectifs du plan de test</h2>
+<p>Ce document définit la stratégie, les scénarios et les critères d’acceptation des tests du projet <strong>RAG-MAROC2</strong>. Il sert de référentiel de validation de la plateforme avant toute <strong>mise en production</strong> ou <strong>soutenance / livrable</strong>.</p>
+<h3>2.1 Objectifs</h3>
+<ul>
+<li>Vérifier que les <strong>fonctionnalités principales</strong> (authentification, accès à l’assistant, appels API) sont <strong>implémentées et stables</strong>.  </li>
+<li>Garantir la <strong>cohérence</strong> du pipeline RAG (retrieval FAISS + génération LLM) et l’<strong>affichage des sources</strong> lorsque des passages sont retournés.  </li>
+<li>S’assurer de la <strong>sécurité minimale</strong> : session utilisateur, mots de passe hachés (bcrypt), protection des routes (<code>/api/ask</code> et <code>/chat</code> réservés aux utilisateurs authentifiés), JWT pour clients API.  </li>
+<li>Valider l’<strong>intégration</strong> LLM (timeouts, message d’erreur utilisateur en cas d’indisponibilité).  </li>
+<li>Couvrir les exigences <strong>non fonctionnelles</strong> : temps de réponse raisonnable, ergonomie de base, comportement en absence de corpus ou d’index désynchronisé.  </li>
+</ul>
+<h3>2.2 Portée</h3>
+<p><strong>Inclus :</strong> application web FastAPI, pages Jinja, assistant <code>/chat</code>, API <code>/api/ask</code>, <code>/api/auth/login</code>, <code>/api/me</code>, healthcheck, scénario d’inscription si <code>WEBAPP_ALLOW_REGISTER=1</code>.  </p>
+<p><strong>Hors périmètre (sauf mention contraire) :</strong> tests de charge massifs, audit de sécurité approfondi, disponibilité des services tiers (Cohere, etc.), application mobile native, CI/CD.  </p>
+<hr />
+<h2>3. Périmètre des tests</h2>
+<p><strong>Tableau 1 — Modules et fonctionnalités testés</strong></p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Fonctionnalités testées</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Authentification web</strong></td>
+<td>Connexion / déconnexion par session, redirection <code>/login</code> si non connecté, inscription (si autorisée), validation des champs (identifiant, mot de passe, confirmation)</td>
+</tr>
+<tr>
+<td><strong>API JWT</strong></td>
+<td><code>POST /api/auth/login</code> (token), <code>GET /api/me</code> avec en-tête <code>Authorization: Bearer</code></td>
+</tr>
+<tr>
+<td><strong>Assistant RAG</strong></td>
+<td><code>POST /api/ask</code> avec historique, réponse JSON <code>answer</code> + <code>sources</code>, erreurs 401 / 503 index</td>
+</tr>
+<tr>
+<td><strong>Site public</strong></td>
+<td>Accueil, pages informatives, liens, chargement des assets statiques</td>
+</tr>
+<tr>
+<td><strong>Back-office données</strong></td>
+<td>Présence de <code>vector_store/faiss.index</code> et <code>data/processed/final_chunks.jsonl</code> cohérents (avertissements de désynchronisation)</td>
+</tr>
+<tr>
+<td><strong>Base utilisateurs</strong></td>
+<td>Création de compte en base (PostgreSQL ou SQLite selon <code>WEBAPP_DATABASE_URL</code> / défaut)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. Environnement de test</h2>
+<p><strong>Tableau 2 — Configuration type</strong></p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Valeur / remarque</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OS</td>
+<td>macOS / Linux (dev)</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>3.11+ (venv recommandé)</td>
+</tr>
+<tr>
+<td>Démarrage</td>
+<td><code>uvicorn webapp.main:app --host 127.0.0.1 --port 8001</code> (ou port indiqué)</td>
+</tr>
+<tr>
+<td>Fichier d’environnement</td>
+<td><code>.env</code> à la racine (<code>COHERE_API_KEY</code>, <code>WEBAPP_SECRET_KEY</code>, <code>WEBAPP_DATABASE_URL</code> optionnel, <code>WEBAPP_ALLOW_REGISTER</code>, <code>LLM_TIMEOUT</code>, etc.)</td>
+</tr>
+<tr>
+<td>Index RAG</td>
+<td><code>vector_store/faiss.index</code> + <code>faiss_manifest.json</code> aligné avec <code>final_chunks.jsonl</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tableau 3 — Comptes de test (à adapter)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Compte</th>
+<th>Mot de passe</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>demo</code></td>
+<td><code>demo123</code></td>
+<td>Compte créé auto si la base est vide (variables <code>WEBAPP_DEMO_USER</code> / <code>WEBAPP_DEMO_PASSWORD</code> possibles)</td>
+</tr>
+<tr>
+<td>Utilisateur créé en test</td>
+<td>(défini à l’inscription)</td>
+<td>Tests inscription + connexion si <code>WEBAPP_ALLOW_REGISTER=1</code></td>
+</tr>
+<tr>
+<td>API JWT</td>
+<td>—</td>
+<td>Obtenir un <code>access_token</code> via <code>POST /api/auth/login</code> pour les requêtes <code>Bearer</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Outils :</strong> navigateur (Chrome / Firefox), client HTTP (curl, Thunder Client, Postman), éventuellement <code>curl -H "Cookie: ..."</code> pour la session.  </p>
+<hr />
+<h2>5. Types de tests</h2>
+<p><strong>Tableau 4 — Types de tests et moyens</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Moyens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fonctionnels</td>
+<td>Parcours utilisateur et API</td>
+<td>Manuel, scénarios ci-dessous</td>
+</tr>
+<tr>
+<td>Non fonctionnels</td>
+<td>Performance perçue (LLM), messages d’erreur</td>
+<td>Manuel + observation logs serveur</td>
+</tr>
+<tr>
+<td>Régression</td>
+<td>Vérification après changement de code / données</td>
+<td>Sous-ensemble de scénarios marqués « critique »</td>
+</tr>
+<tr>
+<td>Compatibilité</td>
+<td>Différents navigateurs / largeurs d’écran</td>
+<td>Manuel responsive</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>6. Scénarios de test — Authentification (navigateur)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Scénario</th>
+<th>Préconditions</th>
+<th>Étapes</th>
+<th>Résultat attendu</th>
+<th>Statut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A-01</strong></td>
+<td>Accès assistant sans session</td>
+<td>Aucun cookie de session</td>
+<td>Ouvrir <code>/chat</code></td>
+<td>Redirection vers <code>/login</code> (302)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>A-02</strong></td>
+<td>Connexion valide</td>
+<td>Compte <code>demo</code> / compte de test existant</td>
+<td><code>GET /login</code> → saisir identifiant + mot de passe → envoyer</td>
+<td>Redirection vers <code>/chat</code>, affichage du prénom / identifiant</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>A-03</strong></td>
+<td>Connexion refusée</td>
+<td>—</td>
+<td>Saisir un mauvais mot de passe</td>
+<td>Message d’erreur explicite, reste sur <code>/login</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>A-04</strong></td>
+<td>Déconnexion</td>
+<td>Utilisateur connecté</td>
+<td>Cliquer « Déconnexion » (ou <code>GET /logout</code>)</td>
+<td>Redirection (ex. accueil), <code>/chat</code> redirige à nouveau vers <code>/login</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>A-05</strong></td>
+<td>Inscription</td>
+<td><code>WEBAPP_ALLOW_REGISTER=1</code></td>
+<td>Remplir formulaire (identifiant valide, mot de passe 8+ car., confirmation identique)</td>
+<td>Redirection / message de succès, compte en base, connexion possible</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>A-06</strong></td>
+<td>Inscription refusée (validation)</td>
+<td>Inscription autorisée</td>
+<td>Mots de passe différents ou identifiant invalide</td>
+<td>Message d’erreur sans création de compte</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>A-07</strong></td>
+<td>Inscription désactivée</td>
+<td><code>WEBAPP_ALLOW_REGISTER=0</code></td>
+<td>Ouvrir <code>/register</code></td>
+<td>Redirection vers <code>/login</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>7. Scénarios de test — API JWT</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Scénario</th>
+<th>Préconditions</th>
+<th>Étapes</th>
+<th>Résultat attendu</th>
+<th>Statut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>J-01</strong></td>
+<td>Login JWT</td>
+<td>Utilisateur valide</td>
+<td><code>POST /api/auth/login</code> JSON <code>{"username","password"}</code></td>
+<td><code>200</code>, corps avec <code>access_token</code>, <code>token_type: bearer</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>J-02</strong></td>
+<td>Login échoué</td>
+<td>—</td>
+<td>Identifiants incorrects</td>
+<td><code>401</code>, détail explicite</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>J-03</strong></td>
+<td>Profil avec token</td>
+<td>Token J-01</td>
+<td><code>GET /api/me</code> + <code>Authorization: Bearer &lt;token&gt;</code></td>
+<td><code>200</code>, <code>id</code>, <code>username</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>J-04</strong></td>
+<td>Profil sans / mauvais token</td>
+<td>—</td>
+<td><code>GET /api/me</code> sans en-tête ou token invalide</td>
+<td><code>401</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>8. Scénarios de test — Assistant RAG</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Scénario</th>
+<th>Préconditions</th>
+<th>Étapes</th>
+<th>Résultat attendu</th>
+<th>Statut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>R-01</strong></td>
+<td>Question authentifiée (session)</td>
+<td>Connecté sur le site</td>
+<td>POST <code>/api/ask</code> (via UI chat) avec question pertinente</td>
+<td><code>200</code>, champ <code>answer</code> non vide, éventuellement <code>sources</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>R-02</strong></td>
+<td>Question authentifiée (JWT)</td>
+<td>Token valide</td>
+<td><code>POST /api/ask</code> JSON <code>question</code>, <code>top_k</code>, <code>history</code></td>
+<td>Idem, JSON sérialisable</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>R-03</strong></td>
+<td>Sans authentification</td>
+<td>Aucun cookie ni Bearer</td>
+<td><code>POST /api/ask</code></td>
+<td><code>401</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>R-04</strong></td>
+<td>Historique conversation</td>
+<td>Deux questions enchaînées</td>
+<td>Deuxième question faisant référence au contexte</td>
+<td>Réponse cohérente (comportement à qualifier selon modèle)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>R-05</strong></td>
+<td>Index désynchronisé (si reproductible)</td>
+<td>JSONL / FAISS en nombre de vecteurs incohérent</td>
+<td>Appel assistant</td>
+<td><code>503</code> ou message d’erreur documenté, hint rebuild</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>R-06</strong></td>
+<td>Paramètre <code>top_k</code></td>
+<td><code>top_k</code> entre 1 et 20</td>
+<td>Vérifier nombre de sources affichées / renvoyées</td>
+<td>Cohérent avec <code>k</code> (dans la limite du retrieval)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>9. Scénarios de test — Site public (pages)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Scénario</th>
+<th>Étapes</th>
+<th>Résultat attendu</th>
+<th>Statut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>P-01</strong></td>
+<td>Page d’accueil</td>
+<td><code>GET /</code></td>
+<td><code>200</code>, contenu HTML</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>P-02</strong></td>
+<td>Navigation</td>
+<td>Liens Accueil, Documentation, FAQ, etc.</td>
+<td>Pages chargées sans erreur 500</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>P-03</strong></td>
+<td>CSS / JS</td>
+<td>Chargement <code>/static/app.css</code>, scripts chat si concerné</td>
+<td>Pas d’erreurs 404 bloquantes sur les assets</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>10. Scénarios de test non fonctionnels</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Scénario</th>
+<th>Résultat attendu</th>
+<th>Statut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>N-01</strong></td>
+<td>Santé</td>
+<td><code>GET /health</code> retourne <code>{"status": "ok"}</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>N-02</strong></td>
+<td>Timeout LLM (si surcharge ou délai court)</td>
+<td>Message utilisateur compréhensible, pas d’écran 500 nu sur l’UI chat</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>N-03</strong></td>
+<td>Affichage mobile / largeur réduite</td>
+<td>Login et chat utilisables (scroll, boutons)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>N-04</strong></td>
+<td>Persistance des comptes</td>
+<td>Après redémarrage du serveur, comptes toujours présents (même BDD)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>11. Matrice de couverture (résumé)</h2>
+<table>
+<thead>
+<tr>
+<th>Zone</th>
+<th>Cas référencés</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Auth session</td>
+<td>A-01 — A-07</td>
+</tr>
+<tr>
+<td>Auth JWT + API protégée</td>
+<td>J-01 — J-04, R-02, R-03</td>
+</tr>
+<tr>
+<td>RAG / assistant</td>
+<td>R-01 — R-06</td>
+</tr>
+<tr>
+<td>Public</td>
+<td>P-01 — P-03</td>
+</tr>
+<tr>
+<td>Non-fonctionnel</td>
+<td>N-01 — N-04</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>12. Critères d’acceptation</h2>
+<h3>12.1 Critères de validation (Go / No-Go)</h3>
+<ul>
+<li><strong>Go</strong> : tous les scénarios <strong>critiques</strong> (A-01, A-02, A-04, R-01, R-03, J-01, N-01) passent sur l’environnement de recette.  </li>
+<li><strong>No-Go</strong> : échec d’authentification systématique, impossibilité d’obtenir une réponse RAG pour une configuration LLM valide, erreurs 500 non gérées sur le parcours principal.  </li>
+</ul>
+<h3>12.2 Livrables de test</h3>
+<ul>
+<li>Ce plan (ce document).  </li>
+<li>Tableau de suivi : colonne <strong>Statut</strong> (Non testé / OK / KO / Bloqué) + date + remarque.  </li>
+<li>Captures d’écran optionnelles pour les KO.  </li>
+</ul>
+<h3>12.3 Légende des statuts (tableaux)</h3>
+<table>
+<thead>
+<tr>
+<th>Symbole / texte</th>
+<th>Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vide</td>
+<td>Non testé</td>
+</tr>
+<tr>
+<td>OK</td>
+<td>Conforme</td>
+</tr>
+<tr>
+<td>KO</td>
+<td>Non conforme (créer un ticket / bug)</td>
+</tr>
+<tr>
+<td>Bloqué</td>
+<td>En attente d’environnement ou de donnée</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>13. Conclusion</h2>
+<p>Le projet <strong>RAG-MAROC2</strong> combine une <strong>authentification</strong> classique, un <strong>index sémantique</strong> local et un <strong>LLM</strong> : la qualité perçue dépend à la fois du <strong>corpus</strong> (<code>final_chunks.jsonl</code>), de l’<strong>alignement</strong> FAISS, et de la <strong>disponibilité</strong> des APIs distantes. Ce plan de test fournit une <strong>base reproductible</strong> pour valider chaque version livrable ; il doit être <strong>mis à jour</strong> si de nouvelles routes ou modules sont ajoutés.  </p>
+<hr />
+<p><em>Généré pour le dépôt RAG-MAROC2 — structure inspirée d’un modèle de scénarios / plan de test type livrable (intro, tables, scénarios numérotés, critères d’acceptation).</em></p></body></html>

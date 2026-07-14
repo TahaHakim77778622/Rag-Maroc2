@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block title %}Assistant — RAG-MAROC2{% endblock %}
+{% block body_class %}page-app{% endblock %}
+{% block body %}
+<link rel="stylesheet" href="/static/css/chat-ui.css?v=3">
+<div class="sidebar-backdrop" id="sidebar-backdrop" aria-hidden="true"></div>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar" aria-label="Navigation">
+    <div class="sidebar-brand">
+      <span class="brand-mark sm" aria-hidden="true">MA</span>
+      <div>
+        <strong class="brand-title">RAG-MAROC2</strong>
+        <span class="tagline">Assistant juridique &amp; administratif</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Sections">
+      <div class="sidebar-section">
+        <span class="sidebar-section__label">Navigation</span>
+        <a href="/" class="nav-item" data-nav="site">Site</a>
+        <span class="nav-item active" data-nav="assistant" aria-current="page">Assistant</span>
+      </div>
+      {% if is_admin %}
+      <div class="sidebar-section">
+        <span class="sidebar-section__label">Administration</span>
+        <a href="/admin" class="nav-item" data-nav="admin">Admin</a>
+      </div>
+      {% endif %}
+    </nav>
+
+    <div class="sidebar-section sidebar-recent">
+      <span class="sidebar-section__label">Conversations</span>
+      <ul id="recent-conversations" class="recent-conversations" aria-label="Conversations récentes">
+        <li class="recent-conversations__empty muted">Aucune conversation récente</li>
+      </ul>
+    </div>
+
+    <div class="sidebar-user-wrap">
+      {% set display_name = user.full_name or user.username %}
+      {% set name_parts = display_name.split() %}
+      {% if name_parts | length >= 2 %}
+        {% set user_initials = (name_parts[0][:1] ~ name_parts[-1][:1]) | upper %}
+      {% else %}
+        {% set user_initials = display_name[:2] | upper %}
+      {% endif %}
+      <div
+        class="user-profile-block"
+        id="user-profile-block"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+        aria-haspopup="true"
+        aria-controls="userDropdown"
+        onclick="toggleUserMenu()"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleUserMenu();}"
+      >
+        <div class="user-avatar-small" aria-hidden="true">{{ user_initials }}</div>
+        <div class="user-info">
+          <span class="user-name">{{ display_name }}</span>
+          <span class="user-handle">@{{ user.username }}</span>
+        </div>
+        <span class="user-menu-icon" aria-hidden="true">⚙️</span>
+      </div>
+      <div class="user-dropdown" id="userDropdown" style="display:none" role="menu">
+        <a href="/account/profile" class="dropdown-item" role="menuitem">👤 Mon profil</a>
+        <a href="/account/password" class="dropdown-item" role="menuitem">🔑 Changer le mot de passe</a>
+        <a href="/account/settings" class="dropdown-item" role="menuitem">⚙️ Paramètres du compte</a>
+        <div class="dropdown-divider" role="separator"></div>
+        <a href="/logout" class="dropdown-item dropdown-danger" role="menuitem">🚪 Déconnexion</a>
+      </div>
+    </div>
+    <div class="sidebar-footer">RAG-MAROC2 v2.0</div>
+  </aside>
+
+  <main class="main">
+    {% if request.query_params.get('admin_denied') %}
+    <div class="chat-admin-denied" role="alert">Accès refusé — cette section est réservée aux administrateurs.</div>
+    {% endif %}
+    <header class="chat-topbar">
+      <button type="button" class="hamburger-btn" id="hamburger-btn" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+      <div class="chat-topbar__brand">
+        <h1>RAG-MAROC2</h1>
+        <p class="chat-subtitle">Assistant juridique &amp; administratif</p>
+      </div>
+      <div class="chat-topbar__actions">
+        <div class="history-pager" aria-label="Pagination de l’historique">
+          <button type="button" class="btn btn-ghost btn-sm" id="history-prev-btn">←</button>
+          <span class="muted small" id="history-page-info">Page 1</span>
+          <button type="button" class="btn btn-ghost btn-sm" id="history-next-btn">→</button>
+        </div>
+        <button type="button" class="btn btn-ghost btn-sm btn-new-chat-desktop" id="new-chat-btn" title="Démarrer une nouvelle conversation">
+          Nouvelle conversation
+        </button>
+      </div>
+    </header>
+
+    <div class="chat-grid">
+      <section class="chat-panel" aria-labelledby="chat-heading">
+        <h2 id="chat-heading" class="sr-only">Conversation</h2>
+        <div id="messages" class="messages" aria-live="polite">
+          <div class="empty-chat" id="empty-chat-state">
+            <p class="empty-chat__title">Bienvenue dans votre assistant</p>
+            <p class="empty-chat__text">Posez une question sur le droit ou l’administration marocaine. L’historique de votre compte est chargé automatiquement.</p>
+          </div>
+        </div>
+        <form id="chat-form" class="composer" autocomplete="off">
+          <div class="composer-head">
+            <span class="field-label">Votre question</span>
+            <span class="muted tiny">Entrée = envoyer • Shift+Entrée = nouvelle ligne</span>
+          </div>
+          <div class="composer-input-wrap">
+            <label class="sr-only" for="q">Question</label>
+            <textarea
+              id="q"
+              name="question"
+              rows="2"
+              maxlength="4000"
+              placeholder="Posez votre question sur le droit ou l'administration marocaine..."
+              required
+            ></textarea>
+            <span class="char-counter" id="char-counter" aria-live="polite">0 / 4000</span>
+          </div>
+          <div class="composer-row">
+            <label class="k-label">
+              Passages (k)
+              <input type="number" id="k" value="5" min="1" max="20" title="Nombre de passages envoyés au modèle">
+            </label>
+            <button type="submit" class="btn btn-primary btn-send" id="send-btn">
+              Envoyer<span class="send-icon" aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div id="quick-suggestions" class="quick-suggestions" aria-label="Suggestions de suivi"></div>
+        </form>
+      </section>
+
+      <aside class="sources-panel" aria-labelledby="sources-heading">
+        <details class="sources-accordion" id="sources-accordion" open>
+          <summary id="sources-heading">Sources</summary>
+          <div class="sources-accordion__inner">
+            <div class="sources-panel__head sources-panel__head--desktop-only">
+              <h3>Sources</h3>
+              <p class="sources-lede">Extraits retenus après recherche vectorielle. Cliquez sur le lien lorsqu’il est disponible.</p>
+            </div>
+            <div class="sources-accordion__body">
+              <div id="sources" class="sources"></div>
+            </div>
+          </div>
+        </details>
+      </aside>
+    </div>
+  </main>
+</div>
+
+<button type="button" class="fab-new-chat" id="fab-new-chat" title="Nouvelle conversation" aria-label="Nouvelle conversation">+</button>
+
+{% include "partials/global_footer.html" %}
+<script src="/static/chat.js?v=14" defer></script>
+{% endblock %}

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en" moznomarginboxes mozdisallowselectionprint>
+
+<head>
+  <meta charset="utf-8">
+  <title>Portail CNIE.MA</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="assets/css/jqbtk.css">
+  <link rel="stylesheet" href="assets/css/flag-icon.min.css">
+  <link href="./assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+  
+  <base href="/">
+
+
+
+  <!-- inline spinner styles to be able to display spinner right away -->
+  <style type="text/css">
+    .loader,
+    .loader:after {
+      border-radius: 50%;
+      width: 8em;
+      height: 8em;
+
+    }
+
+    .loader {
+      margin: 0px auto;
+      font-size: 4px;
+      position: absolute;
+      top: 45%;
+      left: 45%;
+      text-indent: -9999em;
+      border-top: 1.1em solid rgb(2, 168, 24);
+      border-right: 1.1em solid rgb(2, 168, 24);
+      border-bottom: 1.1em solid rgb(2, 168, 24);
+      border-left: 1.1em solid rgb(69, 184, 113);
+      -webkit-transform: translateZ(0);
+      -ms-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-animation: load8 1.1s infinite linear;
+      animation: load8 1.1s infinite linear;
+    }
+
+    @-webkit-keyframes load8 {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes load8 {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    .loader-page {
+      position: absolute;
+      top: 25%;
+      left: 39%;
+    }
+  </style>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{analyTicsKey}}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+  </script>
+
+<link rel="stylesheet" href="styles.0bf2034a64b46c93a929.css"></head>
+
+<body id="body">
+  <app-root>
+
+    <app-root>
+      <!-- selector from app.component.ts -->
+
+      <!-- loading layout replaced by app after startupp -->
+      <div class="loader" id="loader"></div>
+      <div style="text-align: center; display: none;" id="ie-div">
+        <div style="text-align: right;background-color: white;
+        height: 80px;
+        border-bottom-color: #d59d32;
+        border-bottom-style: solid;
+        border-width: 2px;">
+          <img style="width: 300px;" src="../../../../assets/img/brand/logo_ar.png">
+        </div>
+
+
+        <img src="../../assets/img/static/supported-browsers.jpg">
+
+        <div style="padding-top: 10px; padding-bottom: 10px; text-align: center; background-color:#336C4E; color: white;">
+          المديرية العامة للأمن الوطني، كل الحقوق محفوظة © 2020
+        </div>
+      </div>
+      <script>
+
+        var isIE = false;
+        var ua = window.navigator.userAgent;
+        var old_ie = ua.indexOf('MSIE');
+        var new_ie = ua.indexOf('Trident/');
+
+        if ((old_ie > -1) || (new_ie > -1)) {
+          isIE = true;
+        }
+        if (isIE) {
+          var div = document.getElementById("loader");
+          document.getElementById("ie-div").style.display = "block";
+          document.getElementById("loader").style.display = "none";
+        }
+
+      </script>
+    </app-root>
+
+  </app-root>
+
+
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/html2pdf.bundle.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/intlTelInput.js"></script>
+  <script src="assets/js/hammer.min.js"></script>
+
+
+
+<script src="runtime-es2015.858f8dd898b75fe86926.js" type="module"></script><script src="polyfills-es2015.5728f680576ca47e99fe.js" type="module"></script><script src="runtime-es5.741402d1d47331ce975c.js" nomodule></script><script src="polyfills-es5.7f43b971448d2fb49202.js" nomodule></script><script src="scripts.51521330a1e555166a70.js"></script><script src="main-es2015.f23e7a38ec5ee42cb183.js" type="module"></script><script src="main-es5.bba9d4ad786393a591c4.js" nomodule></script></body>
+
+</html>

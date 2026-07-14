@@ -1,0 +1,13 @@
+[
+  {
+    "id": "CNIE-01",
+    "theme": "cnie",
+    "question": "Quelles pièces fournir pour une première demande de CNIE ?",
+    "answer": "Pour une première demande de CNIE, il faut généralement une photo d'identité conforme, l'original de l'acte de naissance et un justificatif de domicile [1].",
+    "contexts": [
+      "La demande de la Carte Nationale d'Identité Électronique (CNIE) requiert une photographie récente aux normes, l'acte de naissance en original et un justificatif de domicile de moins de trois mois."
+    ],
+    "web_fallback_used": false,
+    "n_hits": 3
+  }
+]

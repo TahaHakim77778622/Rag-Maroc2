@@ -1,0 +1,296 @@
+% !TEX encoding = UTF-8 Unicode
+% Compilation: pdflatex (ou: latexmk -pdf) — 2 passes pour la table des matières
+% Besoin: Tex Live / MacTeX (babel french, longtable, hyperref, geometry)
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\geometry{margin=2.1cm}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  urlcolor=blue!60!black,
+  pdftitle={Scénarios de test — RAG-MAROC2},
+  pdfauthor={RAG-MAROC2}
+}
+
+\title{%
+  \textbf{SCÉNARIOS DE TEST}\\[0.35em]
+  \large Plan de test%
+}
+\author{Projet RAG-MAROC2}
+\date{24 avril 2026 — v0.1.0 de l'application}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\begin{center}
+\small
+\textit{Assistant RAG sur corpus juridique et administratif marocain.}\\
+Stack : FastAPI, Jinja2, sessions cookie, FAISS + \texttt{final\_chunks.jsonl}, LLM (Cohere / OpenAI), BDD (PostgreSQL ou SQLite).\\[0.8em]
+Document structuré sur le modèle d'un livrable de test (intro, périmètre, environnement, scénarios, critères d'acceptation).
+\end{center}
+\vspace{0.5em}
+\hrule
+\vspace{0.8em}
+
+\tableofcontents
+\newpage
+
+\section{Visa et signatures}
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}p{4.2cm}p{3.2cm}p{2.2cm}p{3.2cm}@{}}
+\toprule
+\textbf{Rôle} & \textbf{Nom} & \textbf{Date} & \textbf{Signature} \\
+\midrule
+Équipe projet & & & \\
+Encadrant pédagogique & & & \\
+Validation qualité (optionnel) & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Introduction et objectifs du plan de test}
+
+Ce document définit la stratégie, les scénarios et les critères d'acceptation des tests du projet \textbf{RAG-MAROC2}. Il sert de référentiel de validation de la plateforme avant toute \textbf{mise en production} ou \textbf{soutenance / livrable}.
+
+\subsection{Objectifs}
+\begin{itemize}[leftmargin=*]
+  \item Vérifier que les \textbf{fonctionnalités principales} (authentification, accès à l'assistant, appels API) sont \textbf{implémentées et stables}.
+  \item Garantir la \textbf{cohérence} du pipeline RAG (retrieval FAISS + génération LLM) et l'\textbf{affichage des sources} lorsque des passages sont retournés.
+  \item S'assurer de la \textbf{sécurité minimale} : session, mots de passe hachés (bcrypt), protection des routes (\texttt{/api/ask} et \texttt{/chat} réservés aux utilisateurs authentifiés), JWT pour clients API.
+  \item Valider l'\textbf{intégration} LLM (timeouts, message d'erreur utilisateur en cas d'indisponibilité).
+  \item Couvrir les exigences \textbf{non fonctionnelles} : temps de réponse raisonnable, ergonomie, index désynchronisé éventuel.
+\end{itemize}
+
+\subsection{Portée}
+\textbf{Inclus :} application web FastAPI, pages Jinja, assistant \texttt{/chat}, API \texttt{/api/ask}, \texttt{/api/auth/login}, \texttt{/api/me}, healthcheck, inscription si \texttt{WEBAPP\_ALLOW\_REGISTER=1}.
+
+\textbf{Hors périmètre (sauf mention contraire) :} tests de charge massifs, audit de sécurité approfondi, disponibilité des services tiers (Cohere, etc.), application mobile native, CI/CD.
+
+\section{Périmètre des tests}
+\textbf{Tableau 1 — Modules et fonctionnalités testés}
+
+\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{3.2cm}p{10.2cm}@{}}
+\toprule
+\textbf{Module} & \textbf{Fonctionnalités testées} \\
+\midrule
+\endfirsthead
+\multicolumn{2}{c}{\tablename\ \thetable\ — \textit{suite}} \\
+\toprule
+\textbf{Module} & \textbf{Fonctionnalités testées} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+Authentification web & Connexion / déconnexion par session, redirection \texttt{/login} si non connecté, inscription (si autorisée), validation des champs. \\
+API JWT & \texttt{POST /api/auth/login} (token), \texttt{GET /api/me} avec en-tête \texttt{Authorization: Bearer}. \\
+Assistant RAG & \texttt{POST /api/ask} avec historique, JSON \texttt{answer} + \texttt{sources}, erreurs 401 / 503. \\
+Site public & Accueil, pages informatives, liens, assets statiques. \\
+Back-office données & \texttt{vector\_store/faiss.index} et \texttt{data/processed/final\_chunks.jsonl} cohérents. \\
+Base utilisateurs & Comptes en PostgreSQL ou SQLite selon \texttt{WEBAPP\_DATABASE\_URL}. \\
+\end{longtable}
+\normalsize
+
+\section{Environnement de test}
+\textbf{Tableau 2 — Configuration type}
+
+\small
+\begin{longtable}{@{}p{3.4cm}p{10.2cm}@{}}
+\toprule
+\textbf{Paramètre} & \textbf{Valeur / remarque} \\
+\midrule
+OS & macOS / Linux (dev) \\
+Python & 3.11+ (venv recommandé) \\
+Démarrage & \texttt{uvicorn webapp.main:app --host 127.0.0.1 --port 8001} (ou autre port) \\
+\texttt{.env} & \texttt{COHERE\_API\_KEY}, \texttt{WEBAPP\_SECRET\_KEY}, BDD, \texttt{WEBAPP\_ALLOW\_REGISTER}, \texttt{LLM\_TIMEOUT}, etc. \\
+Index RAG & \texttt{faiss.index} + manifeste aligné avec \texttt{final\_chunks.jsonl} \\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\textbf{Tableau 3 — Comptes de test (à adapter)}
+
+\small
+\begin{longtable}{@{}p{2.2cm}p{2.2cm}p{9cm}@{}}
+\toprule
+\textbf{Compte} & \textbf{Mot de passe} & \textbf{Usage} \\
+\midrule
+\texttt{demo} & \texttt{demo123} & Compte auto si BDD vide (\texttt{WEBAPP\_DEMO\_USER} / \texttt{WEBAPP\_DEMO\_PASSWORD}) \\
+Utilisateur test & (à l'inscription) & Inscription + connexion si \texttt{WEBAPP\_ALLOW\_REGISTER=1} \\
+API JWT & — & Token via \texttt{POST /api/auth/login} pour \texttt{Bearer} \\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\noindent\textbf{Outils :} navigateur, client HTTP (curl, Postman, Thunder Client), session cookie si besoin.
+
+\section{Types de tests}
+\textbf{Tableau 4 — Types de tests et moyens}
+
+\small
+\begin{longtable}{@{}p{2.4cm}p{4.4cm}p{6.4cm}@{}}
+\toprule
+\textbf{Type} & \textbf{Description} & \textbf{Moyens} \\
+\midrule
+Fonctionnels & Parcours utilisateur et API & Manuel, scénarios ci-dessous \\
+Non fonctionnels & Performance perçue (LLM), erreurs & Manuel + logs serveur \\
+Régression & Après changement code / données & Sous-ensemble de cas critiques \\
+Compatibilité & Navigateurs, largeur d'écran & Manuel responsive \\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\section{Scénarios de test — Authentification (navigateur)}
+\small
+\begin{longtable}{@{}p{0.7cm}p{1.7cm}p{1.8cm}p{2.0cm}p{2.6cm}p{1.6cm}@{}}
+\toprule
+\textbf{ID} & \textbf{Scénario} & \textbf{Précond.} & \textbf{Étapes} & \textbf{Résultat} & \textbf{Statut} \\
+\midrule
+\endfirsthead
+\multicolumn{6}{c}{\tablename\ \thetable\ — \textit{suite}} \\
+\toprule
+\textbf{ID} & \textbf{Scénario} & \textbf{Précond.} & \textbf{Étapes} & \textbf{Résultat} & \textbf{Statut} \\
+\midrule
+\endhead
+A-01 & Accès assistant sans session & Aucun cookie & Ouvrir \texttt{/chat} & Redirection \texttt{/login} (302) & \\
+
+A-02 & Connexion valide & Compte connu & \texttt{/login} → identifiants & Redirection \texttt{/chat} & \\
+
+A-03 & Connexion refusée & — & Mot de passe faux & Message d'erreur, reste sur \texttt{/login} & \\
+
+A-04 & Déconnexion & Connecté & Déconnexion ou \texttt{/logout} & Accueil ; \texttt{/chat} → \texttt{/login} & \\
+
+A-05 & Inscription & \texttt{ALLOW\_REGISTER=1} & Formulaire valide & Succès, compte en BDD & \\
+
+A-06 & Inscription refusée & Idem & Champs invalides & Erreur, pas de compte & \\
+
+A-07 & Inscription off & \texttt{ALLOW\_REGISTER=0} & Ouvrir \texttt{/register} & Redirection \texttt{/login} & \\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\section{Scénarios de test — API JWT}
+\small
+\begin{longtable}{@{}p{0.6cm}p{1.8cm}p{1.4cm}p{2.4cm}p{3.6cm}p{0.7cm}@{}}
+\toprule
+\textbf{ID} & \textbf{Scénario} & \textbf{Précond.} & \textbf{Étapes} & \textbf{Résultat} & \textbf{St.} \\
+\midrule
+J-01 & Login JWT & User valide & \texttt{POST /api/auth/login} & 200, \texttt{access\_token} & \\
+J-02 & Login échoué & — & Identifiants faux & 401 & \\
+J-03 & \texttt{/api/me} + Bearer & Token J-01 & Header Authorization & 200, id, username & \\
+J-04 & \texttt{/api/me} sans token & — & Pas d'en-tête & 401 & \\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\section{Scénarios de test — Assistant RAG}
+\small
+\begin{longtable}{@{}p{0.6cm}p{1.8cm}p{1.3cm}p{2.2cm}p{3.0cm}p{0.7cm}@{}}
+\toprule
+\textbf{ID} & \textbf{Scénario} & \textbf{Précond.} & \textbf{Étapes} & \textbf{Résultat} & \textbf{St.} \\
+\midrule
+R-01 & Question (session) & Connecté & UI \texttt{/api/ask} & 200, \texttt{answer} & \\
+R-02 & Question (JWT) & Token & JSON \texttt{question}, \texttt{top\_k} & Idem, JSON OK & \\
+R-03 & Sans auth & Aucun cookie & \texttt{POST /api/ask} & 401 & \\
+R-04 & Historique & 2 questions & 2$^{\mathrm{e}}$ tournure & Cohérence (qualitatif) & \\
+R-05 & Index KO & Désync. FAISS & Appel & 503 ou hint & \\
+R-06 & \texttt{top\_k} & 1--20 & Vérifier sources & Cohérent & \\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\section{Scénarios de test — Site public (pages)}
+\small
+\begin{longtable}{@{}p{0.6cm}p{2.2cm}p{2.4cm}p{3.6cm}p{0.7cm}@{}}
+\toprule
+\textbf{ID} & \textbf{Scénario} & \textbf{Étapes} & \textbf{Résultat} & \textbf{St.} \\
+\midrule
+P-01 & Accueil & \texttt{GET /} & 200, HTML & \\
+P-02 & Navigation & Liens internes & Pas de 500 & \\
+P-03 & Static & \texttt{/static/app.css} & 200, pas 404 bloquant & \\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\section{Scénarios de test non fonctionnels}
+\small
+\begin{longtable}{@{}p{0.6cm}p{2.2cm}p{6.8cm}p{0.7cm}@{}}
+\toprule
+\textbf{ID} & \textbf{Scénario} & \textbf{Résultat attendu} & \textbf{St.} \\
+\midrule
+N-01 & Santé & \texttt{GET /health} \texttt{\{"status":"ok"\}} & \\
+N-02 & Timeout LLM & Message clair, pas 500 brut sur l'UI & \\
+N-03 & Mobile & Login / chat utilisables & \\
+N-04 & Persistance BDD & Comptes conservés au redémarrage & \\
+\bottomrule
+\end{longtable}
+\normalsize
+
+\section{Matrice de couverture (résumé)}
+\begin{center}
+\small
+\begin{tabular}{@{}l@{\quad}l@{}}
+\toprule
+\textbf{Zone} & \textbf{Cas} \\
+\midrule
+Auth session & A-01 à A-07 \\
+JWT + API & J-01 à J-04 ; R-02, R-03 (profil) \\
+RAG & R-01 à R-06 \\
+Public & P-01 à P-03 \\
+Non-fonctionnel & N-01 à N-04 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Critères d'acceptation}
+
+\subsection{Critères de validation (Go / No-Go)}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Go} : scénarios critiques (A-01, A-02, A-04, R-01, R-03, J-01, N-01) passent en recette.
+  \item \textbf{No-Go} : authentification systématiquement en échec, pas de réponse RAG malgré LLM valide, erreurs 500 sur le parcours principal.
+\end{itemize}
+
+\subsection{Livrables de test}
+\begin{itemize}[leftmargin=*]
+  \item Ce plan (ce document \LaTeX).
+  \item Tableau de suivi : \textbf{Statut} (Non testé / OK / KO / Bloqué), date, remarque.
+  \item Captures d'écran optionnelles pour les KO.
+\end{itemize}
+
+\subsection{Légende des statuts}
+\begin{center}
+\small
+\begin{tabular}{@{}l@{\quad}l@{}}
+\toprule
+\textit{Statut} & \textit{Signification} \\
+\midrule
+(vide) & Non testé \\
+OK & Conforme \\
+KO & Non conforme (ticket) \\
+Bloqué & En attente d'environnement / données \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Conclusion}
+Le projet \textbf{RAG-MAROC2} combine authentification, \textbf{index sémantique} local (FAISS) et \textbf{LLM}. La qualité perçue dépend du \textbf{corpus} (\texttt{final\_chunks.jsonl}), de l'\textbf{alignement} FAISS, et de la \textbf{disponibilité} des APIs. Ce plan fournit une base reproductible ; il doit être \textbf{mis à jour} si de nouvelles routes ou modules sont ajoutés.
+
+\vspace{1em}
+\hrule
+\small\centering\textit{Document généré pour le dépôt RAG-MAROC2.}
+
+\end{document}
