@@ -1,7 +1,7 @@
 """Couverture corpus vs fallback web."""
 
-from app.corpus_coverage import corpus_covers_question
-from app.web_fallback import should_use_web_fallback
+from app.Rag_classique.corpus_coverage import corpus_covers_question
+from app.Rag_classique.web_fallback import should_use_web_fallback
 
 
 def _hit(text: str, *, chunk_id: str = "x", doc_id: str = "SGG", score: float = 0.7):
@@ -25,8 +25,8 @@ def test_overtime_covered_by_labor_chunk():
 
 
 def test_fiscal_smig_not_covering_overtime():
-    from app.corpus_first import prepare_local_hits, should_use_web_after_corpus
-    from app.labor_corpus import labor_hits_substantively_answer
+    from app.Rag_classique.corpus_first import prepare_local_hits, should_use_web_after_corpus
+    from app.Rag_classique.labor_corpus import labor_hits_substantively_answer
 
     hits = [
         _hit(

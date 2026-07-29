@@ -51,9 +51,9 @@ def main() -> int:
         print(f"Fichier introuvable : {args.questions}", file=sys.stderr)
         return 1
 
-    from app.query_expand import expand_query_for_retrieval  # noqa: PLC0415
-    from app.retrieval_rerank import rerank_hits  # noqa: PLC0415
-    from app.retriever import Retriever  # noqa: PLC0415
+    from app.Rag_classique.query_expand import expand_query_for_retrieval  # noqa: PLC0415
+    from app.Rag_classique.retrieval_rerank import rerank_hits  # noqa: PLC0415
+    from app.Rag_classique.retriever import Retriever  # noqa: PLC0415
 
     items = json.loads(args.questions.read_text(encoding="utf-8"))
     if args.limit > 0:

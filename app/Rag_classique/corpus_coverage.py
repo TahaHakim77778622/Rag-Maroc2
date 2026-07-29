@@ -116,7 +116,7 @@ def _discriminative_terms(question: str) -> list[str]:
         if t not in _STOP and t not in _WEAK
     ]
     try:
-        from app.phrase_context import analyze_phrase
+        from app.Rag_classique.phrase_context import analyze_phrase
 
         pctx = analyze_phrase(question)
         if pctx.primary_subject:
@@ -158,7 +158,7 @@ def _required_phrases_ok(
         return True
 
     try:
-        from app.phrase_context import analyze_phrase
+        from app.Rag_classique.phrase_context import analyze_phrase
 
         pctx = analyze_phrase(question)
         if pctx.primary_subject and pctx.subject_scores.get(pctx.primary_subject, 0) >= 5.0:
@@ -170,7 +170,7 @@ def _required_phrases_ok(
     if hits:
         if _hit_score(hits[0]) >= 0.55:
             try:
-                from app.portal_cases import cnie_case_from_question, top_hits_match_cnie_case
+                from app.Rag_classique.portal_cases import cnie_case_from_question, top_hits_match_cnie_case
 
                 if cnie_case_from_question(question) and not top_hits_match_cnie_case(
                     question, hits
@@ -210,7 +210,7 @@ def _strong_portal_match(
 ) -> bool:
     """Score élevé + sujet portail présent dans les extraits (questions génériques « obtenir »)."""
     try:
-        from app.phrase_context import analyze_phrase
+        from app.Rag_classique.phrase_context import analyze_phrase
 
         pctx = analyze_phrase(question)
         if not (
@@ -220,7 +220,7 @@ def _strong_portal_match(
         ):
             return False
         if hits:
-            from app.portal_cases import cnie_case_from_question, top_hits_match_cnie_case
+            from app.Rag_classique.portal_cases import cnie_case_from_question, top_hits_match_cnie_case
 
             if cnie_case_from_question(question) and not top_hits_match_cnie_case(
                 question, hits
@@ -234,7 +234,7 @@ def _strong_portal_match(
 def _bo_food_nomenclature_mismatch(question: str, hits: list[dict[str, Any]]) -> bool:
     """Recette / cuisine grand public vs extrait BO nomenclature alimentaire."""
     try:
-        from app.question_type import is_general_knowledge_question
+        from app.Rag_classique.question_type import is_general_knowledge_question
 
         if not is_general_knowledge_question(question):
             return False
@@ -262,7 +262,7 @@ def corpus_covers_question(question: str, hits: list[dict[str, Any]]) -> bool:
         return False
 
     try:
-        from app.question_type import is_general_knowledge_question
+        from app.Rag_classique.question_type import is_general_knowledge_question
 
         if is_general_knowledge_question(question):
             return False
@@ -274,8 +274,8 @@ def corpus_covers_question(question: str, hits: list[dict[str, Any]]) -> bool:
 
     # Décision intelligente basée sur le type de question
     try:
-        from app.question_type import corpus_should_suffice, is_current_data_question
-        from app.web_fallback import (
+        from app.Rag_classique.question_type import corpus_should_suffice, is_current_data_question
+        from app.Rag_classique.web_fallback import (
             _is_passeport_fee_question,
             passeport_fee_hits_substantive,
         )
@@ -311,7 +311,7 @@ def corpus_covers_question(question: str, hits: list[dict[str, Any]]) -> bool:
     top_text = _combined_top_text(hits, 5)
 
     try:
-        from app.labor_corpus import (
+        from app.Rag_classique.labor_corpus import (
             is_labor_code_question,
             labor_hits_substantively_answer,
             merge_labor_hits,
@@ -328,7 +328,7 @@ def corpus_covers_question(question: str, hits: list[dict[str, Any]]) -> bool:
 
     # Construction : si FAISS ne retourne pas de chunk urbanisme → web fallback OK
     try:
-        from app.query_understanding import analyze_query
+        from app.Rag_classique.query_understanding import analyze_query
 
         qa = analyze_query(question)
         if "construction" in qa.topics:
@@ -354,12 +354,12 @@ def corpus_covers_question(question: str, hits: list[dict[str, Any]]) -> bool:
 
     # Registre global dataset (BO SGG, admin, tous domaines) — avant filtres lexicaux stricts
     try:
-        from app.dataset_registry import dataset_covers_via_registry
+        from app.Rag_classique.dataset_registry import dataset_covers_via_registry
 
         reg = dataset_covers_via_registry(question, hits)
         if reg is True:
             try:
-                from app.portal_cases import cnie_case_from_question, top_hits_match_cnie_case
+                from app.Rag_classique.portal_cases import cnie_case_from_question, top_hits_match_cnie_case
 
                 if cnie_case_from_question(question) and not top_hits_match_cnie_case(
                     question, hits
@@ -378,8 +378,8 @@ def corpus_covers_question(question: str, hits: list[dict[str, Any]]) -> bool:
 
     if top_sc >= 0.65:
         try:
-            from app.phrase_context import analyze_phrase
-            from app.portal_cases import cnie_case_from_question, top_hits_match_cnie_case
+            from app.Rag_classique.phrase_context import analyze_phrase
+            from app.Rag_classique.portal_cases import cnie_case_from_question, top_hits_match_cnie_case
 
             pctx = analyze_phrase(question)
             if pctx.primary_subject and pctx.primary_subject not in top_text:
@@ -424,7 +424,7 @@ def corpus_covers_question(question: str, hits: list[dict[str, Any]]) -> bool:
 
     # Passeport perdu / vol : extraits consulat avec déclaration suffisent
     try:
-        from app.passeport_cases import passeport_case_from_question, passeport_case_aligned
+        from app.Rag_classique.passeport_cases import passeport_case_from_question, passeport_case_aligned
 
         if passeport_case_from_question(question) == "perte_vol":
             if any(passeport_case_aligned(question, h) for h in hits[:2]):
@@ -435,9 +435,9 @@ def corpus_covers_question(question: str, hits: list[dict[str, Any]]) -> bool:
 
     # Sujet principal de la phrase (passeport vs CNIE vs Watiqa) doit correspondre aux extraits
     try:
-        from app.phrase_context import analyze_phrase, top_hits_match_primary_subject
-        from app.portal_cases import cnie_case_from_question, top_hits_match_cnie_case
-        from app.dataset_registry import top_hits_match_domains
+        from app.Rag_classique.phrase_context import analyze_phrase, top_hits_match_primary_subject
+        from app.Rag_classique.portal_cases import cnie_case_from_question, top_hits_match_cnie_case
+        from app.Rag_classique.dataset_registry import top_hits_match_domains
 
         pctx = analyze_phrase(question)
 
@@ -471,7 +471,7 @@ def corpus_covers_question(question: str, hits: list[dict[str, Any]]) -> bool:
             return True
         if cid.startswith("curated::cnie"):
             try:
-                from app.portal_cases import cnie_case_aligned
+                from app.Rag_classique.portal_cases import cnie_case_aligned
 
                 if cnie_case_aligned(question, h):
                     return True
@@ -479,8 +479,8 @@ def corpus_covers_question(question: str, hits: list[dict[str, Any]]) -> bool:
                 return True
         if cid.startswith("curated::passeport"):
             try:
-                from app.passeport_cases import passeport_case_aligned, passeport_case_from_question
-                from app.phrase_context import analyze_phrase
+                from app.Rag_classique.passeport_cases import passeport_case_aligned, passeport_case_from_question
+                from app.Rag_classique.phrase_context import analyze_phrase
 
                 if analyze_phrase(question).primary_subject == "passeport":
                     if passeport_case_from_question(question):

@@ -27,7 +27,7 @@ _CONSULAT_DEFAULT = (
 
 def is_passeport_primary_question(question: str) -> bool:
     try:
-        from app.phrase_context import analyze_phrase
+        from app.Rag_classique.phrase_context import analyze_phrase
 
         return analyze_phrase(question).primary_subject == "passeport"
     except ImportError:
@@ -77,7 +77,7 @@ def _row_to_hit(row: dict[str, Any], *, score: float = 0.98) -> dict[str, Any]:
 
 
 def curated_passeport_hits_for(question: str) -> list[dict[str, Any]]:
-    from app.web_fallback import _curated_passeport_hits
+    from app.Rag_classique.web_fallback import _curated_passeport_hits
 
     return _curated_passeport_hits(question)
 
@@ -85,7 +85,7 @@ def curated_passeport_hits_for(question: str) -> list[dict[str, Any]]:
 def best_passeport_hits_for(question: str) -> list[dict[str, Any]]:
     """Meilleur extrait dataset ou curated pour la question."""
     try:
-        from app.phrase_context import analyze_phrase
+        from app.Rag_classique.phrase_context import analyze_phrase
 
         ctx = analyze_phrase(question)
         mineur = ctx.age_hint == "mineur"
@@ -96,7 +96,7 @@ def best_passeport_hits_for(question: str) -> list[dict[str, Any]]:
         sans_cnie = "sans cnie" in q
 
     try:
-        from app.passeport_cases import passeport_case_from_question
+        from app.Rag_classique.passeport_cases import passeport_case_from_question
 
         case = passeport_case_from_question(question)
     except ImportError:
@@ -147,7 +147,7 @@ def merge_passeport_hits(
         if cid in seen:
             continue
         try:
-            from app.phrase_context import hit_matches_primary_subject
+            from app.Rag_classique.phrase_context import hit_matches_primary_subject
 
             if not hit_matches_primary_subject(question, h):
                 continue

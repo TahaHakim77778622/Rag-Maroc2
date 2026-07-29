@@ -1,0 +1,3 @@
+kuzu==0.11.3
+rank_bm25
+pandas

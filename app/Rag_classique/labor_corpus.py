@@ -430,7 +430,7 @@ def merge_labor_hits(
         return hits[:top_k]
 
     try:
-        from app.text_sanitize import sanitize_hit, text_is_usable_for_llm
+        from app.Rag_classique.text_sanitize import sanitize_hit, text_is_usable_for_llm
 
         hits = [sanitize_hit(h) for h in hits if text_is_usable_for_llm(str(h.get("text") or ""))]
     except ImportError:

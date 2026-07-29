@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 
 def main() -> int:
-    from app.retriever import Retriever  # noqa: PLC0415
+    from app.Rag_classique.retriever import Retriever  # noqa: PLC0415
 
     r = Retriever()
     q = "bulletin officiel arrêté licence"

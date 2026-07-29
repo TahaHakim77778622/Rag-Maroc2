@@ -1,12 +1,12 @@
 """Alignement cas CNIE (perte/vol vs première demande)."""
 
-from app.corpus_coverage import corpus_covers_question
-from app.portal_cases import (
+from app.Rag_classique.corpus_coverage import corpus_covers_question
+from app.Rag_classique.portal_cases import (
     cnie_case_from_question,
     cnie_case_aligned,
     top_hits_match_cnie_case,
 )
-from app.web_fallback import portal_local_hits_sufficient, should_use_web_fallback
+from app.Rag_classique.web_fallback import portal_local_hits_sufficient, should_use_web_fallback
 
 
 def _cnie_hit(text: str, *, chunk_id: str, label: str) -> dict:
@@ -31,7 +31,7 @@ def test_cnie_case_perte_vol_detected():
 
 
 def test_premiere_hit_not_sufficient_for_perte_vol_question():
-    from app.corpus_first import should_use_web_after_corpus
+    from app.Rag_classique.corpus_first import should_use_web_after_corpus
 
     q = "Perte ou vol de la CNIE : procédure"
     hits = [
@@ -52,7 +52,7 @@ def test_premiere_hit_not_sufficient_for_perte_vol_question():
 
 def test_perte_vol_curated_covers_question():
     q = "Perte ou vol de la CNIE : procédure"
-    from app.web_fallback import _curated_cnie_hits
+    from app.Rag_classique.web_fallback import _curated_cnie_hits
 
     hits = _curated_cnie_hits(q)
     assert top_hits_match_cnie_case(q, hits)

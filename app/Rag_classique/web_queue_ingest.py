@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-from app.config import PROJECT_ROOT
+from app.Rag_classique.config import PROJECT_ROOT
 
 QUEUE_PATH = PROJECT_ROOT / "data" / "processed" / "web_additions_queue.jsonl"
 FINAL_CHUNKS_PATH = PROJECT_ROOT / "data" / "processed" / "final_chunks.jsonl"
@@ -105,7 +105,7 @@ def load_corpus_index(path: Path = FINAL_CHUNKS_PATH) -> tuple[set[str], set[str
     if not path.is_file():
         return urls, fingerprints, chunk_ids
 
-    from app.corpus_io import _iter_json_objects  # noqa: PLC0415
+    from app.Rag_classique.corpus_io import _iter_json_objects  # noqa: PLC0415
 
     raw = path.read_text(encoding="utf-8")
     for record in _iter_json_objects(raw, path):

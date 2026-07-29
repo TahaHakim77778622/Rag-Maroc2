@@ -13,7 +13,7 @@ import logging
 import time
 from typing import Any
 
-from app.llm_client import LLMClient
+from app.Rag_classique.llm_client import LLMClient
 
 logger = logging.getLogger(__name__)
 

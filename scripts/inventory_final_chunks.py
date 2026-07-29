@@ -21,7 +21,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from app.corpus_io import load_chunks_jsonl  # noqa: E402
+from app.Rag_classique.corpus_io import load_chunks_jsonl  # noqa: E402
 
 FINAL_CHUNKS = PROJECT_ROOT / "data" / "processed" / "final_chunks.jsonl"
 OUT_JSON = PROJECT_ROOT / "data" / "processed" / "corpus_inventory.json"

@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import os
 
-from app.query_rewrite_llm import ambiguity_score, should_use_llm_query_rewrite
-from app.query_understanding import analyze_query
+from app.Rag_classique.query_rewrite_llm import ambiguity_score, should_use_llm_query_rewrite
+from app.Rag_classique.query_understanding import analyze_query
 
 
 def test_clear_cnie_stays_corpus_only(monkeypatch):

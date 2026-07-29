@@ -20,7 +20,7 @@ import numpy as np
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from app.config import embedding_encode_query
+from app.Rag_classique.config import embedding_encode_query
 
 VECTOR_STORE_DIR = PROJECT_ROOT / "vector_store"
 FAISS_INDEX_PATH = VECTOR_STORE_DIR / "faiss.index"

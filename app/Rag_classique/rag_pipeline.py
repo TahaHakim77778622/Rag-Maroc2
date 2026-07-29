@@ -9,18 +9,18 @@ import unicodedata
 from urllib.parse import urlparse
 from typing import Any
 
-from app.llm_client import LLMClient, MockLLMClient
-from app.prompt_builder import build_no_corpus_conversation_prompt, build_rag_prompt, hits_to_source_lines
-from app.query_rewrite_llm import enrich_analysis_with_llm_rewrite
-from app.query_understanding import analyze_query, build_retrieval_query
-from app.retrieval_rerank import rerank_hits
-from app.retriever import Retriever
-from app.labor_corpus import (
+from app.Rag_classique.llm_client import LLMClient, MockLLMClient
+from app.Rag_classique.prompt_builder import build_no_corpus_conversation_prompt, build_rag_prompt, hits_to_source_lines
+from app.Rag_classique.query_rewrite_llm import enrich_analysis_with_llm_rewrite
+from app.Rag_classique.query_understanding import analyze_query, build_retrieval_query
+from app.Rag_classique.retrieval_rerank import rerank_hits
+from app.Rag_classique.retriever import Retriever
+from app.Rag_classique.labor_corpus import (
     filter_hits_for_labor_prompt,
     is_labor_code_question,
     merge_labor_hits,
 )
-from app.web_fallback import (
+from app.Rag_classique.web_fallback import (
     _curated_cnie_hits,
     _curated_passeport_hits,
     _curated_smig_hits,
@@ -344,7 +344,7 @@ def _append_precise_references(
     cite_hits = hits
     if question:
         try:
-            from app.labor_corpus import filter_hits_for_labor_prompt, is_targeted_labor_topic
+            from app.Rag_classique.labor_corpus import filter_hits_for_labor_prompt, is_targeted_labor_topic
 
             if is_targeted_labor_topic(question):
                 cite_hits = filter_hits_for_labor_prompt(question, hits, top_k=len(hits))
@@ -381,7 +381,7 @@ def _mandatory_first_sentence_prefix(
     top = hits[0]
     if question:
         try:
-            from app.labor_corpus import is_labor_code_question, primary_hit_for_answer
+            from app.Rag_classique.labor_corpus import is_labor_code_question, primary_hit_for_answer
 
             if is_labor_code_question(question):
                 picked = primary_hit_for_answer(question, hits)
@@ -433,7 +433,7 @@ def _prepend_mandatory_lead_citation(
     low_head = _strip_accents(base[:140].lower())
     if question:
         try:
-            from app.labor_corpus import is_targeted_labor_topic
+            from app.Rag_classique.labor_corpus import is_targeted_labor_topic
 
             if is_targeted_labor_topic(question):
                 if low_head.startswith("selon bo n") or low_head.startswith("selon le bulletin officiel"):
@@ -836,7 +836,7 @@ class RAGPipeline:
     ) -> dict[str, Any]:
         q_clean = question.strip()
         hist = _normalize_history(history)
-        from app.query_understanding import resolve_question
+        from app.Rag_classique.query_understanding import resolve_question
 
         q_resolved = resolve_question(q_clean, hist)
         # Salutations / messages de politesse : on repond directement, sans retrieval.
@@ -867,7 +867,7 @@ class RAGPipeline:
             }
 
         try:
-            from app.question_type import is_general_knowledge_question, out_of_scope_reply
+            from app.Rag_classique.question_type import is_general_knowledge_question, out_of_scope_reply
 
             if is_general_knowledge_question(q_clean):
                 return {
@@ -931,7 +931,7 @@ class RAGPipeline:
                 pool = min(max(pool, 128), nvec)
             elif "passeport" in q_low:
                 try:
-                    from app.phrase_context import analyze_phrase
+                    from app.Rag_classique.phrase_context import analyze_phrase
 
                     if analyze_phrase(q_clean).primary_subject == "passeport":
                         pool = min(max(pool, 128), nvec)
@@ -1006,11 +1006,11 @@ class RAGPipeline:
             retrieval_query=retrieval_q,
             top_k=self.top_k,
         )
-        from app.corpus_first import prepare_local_hits, should_use_web_after_corpus
+        from app.Rag_classique.corpus_first import prepare_local_hits, should_use_web_after_corpus
 
         portal = _portal_intent(q_clean)
         web_fallback_used = False
-        from app.corpus_coverage import corpus_covers_question, explain_coverage
+        from app.Rag_classique.corpus_coverage import corpus_covers_question, explain_coverage
 
         need_web, hits = should_use_web_after_corpus(q_clean, hits, top_k=self.top_k)
 
@@ -1026,8 +1026,8 @@ class RAGPipeline:
         # Décision intelligente : données actuelles → forcer web si corpus
         # ne contient pas les chiffres exacts
         try:
-            from app.corpus_coverage import _combined_top_text
-            from app.question_type import is_current_data_question
+            from app.Rag_classique.corpus_coverage import _combined_top_text
+            from app.Rag_classique.question_type import is_current_data_question
 
             if (
                 is_current_data_question(q_clean)
@@ -1060,7 +1060,7 @@ class RAGPipeline:
         )
 
         if need_web and _labor_topic_question(q_clean):
-            from app.labor_corpus import merge_labor_hits
+            from app.Rag_classique.labor_corpus import merge_labor_hits
 
             labor_prepared = merge_labor_hits(q_clean, hits, top_k=self.top_k)
             if corpus_covers_question(q_clean, labor_prepared):
@@ -1123,7 +1123,7 @@ class RAGPipeline:
                     hits = _curated_passeport_hits(q_clean)[: self.top_k]
                     web_fallback_used = True
             elif _labor_topic_question(q_clean):
-                from app.labor_corpus import curated_labor_hits_for, merge_labor_hits
+                from app.Rag_classique.labor_corpus import curated_labor_hits_for, merge_labor_hits
 
                 labor_prepared = merge_labor_hits(q_clean, hits, top_k=self.top_k)
                 if corpus_covers_question(q_clean, labor_prepared):
@@ -1176,7 +1176,7 @@ class RAGPipeline:
             hits = hits[: self.top_k]
 
         try:
-            from app.labor_corpus import is_labor_code_question, merge_labor_hits
+            from app.Rag_classique.labor_corpus import is_labor_code_question, merge_labor_hits
 
             if is_labor_code_question(q_clean):
                 hits = merge_labor_hits(q_clean, hits, top_k=self.top_k)
@@ -1202,7 +1202,7 @@ class RAGPipeline:
             }
 
         try:
-            from app.question_type import is_general_knowledge_question, out_of_scope_reply
+            from app.Rag_classique.question_type import is_general_knowledge_question, out_of_scope_reply
 
             if is_general_knowledge_question(q_clean):
                 return {

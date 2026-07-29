@@ -12,14 +12,14 @@ from typing import Any
 
 import numpy as np
 
-from app.config import (
+from app.Rag_classique.config import (
     DEFAULT_EMBEDDING_MODEL,
     FAISS_INDEX_PATH,
     FINAL_CHUNKS_PATH,
     MANIFEST_PATH,
     embedding_encode_query,
 )
-from app.corpus_io import load_chunks_jsonl
+from app.Rag_classique.corpus_io import load_chunks_jsonl
 
 logger = logging.getLogger(__name__)
 

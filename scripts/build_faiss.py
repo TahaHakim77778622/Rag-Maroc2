@@ -34,7 +34,7 @@ try:
 except ImportError:
     pass
 
-from app.config import DEFAULT_EMBEDDING_MODEL
+from app.Rag_classique.config import DEFAULT_EMBEDDING_MODEL
 
 VECTOR_STORE_DIR = PROJECT_ROOT / "vector_store"
 EMBEDDINGS_PATH = VECTOR_STORE_DIR / "embeddings.npy"

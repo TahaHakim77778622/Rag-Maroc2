@@ -15,7 +15,7 @@ from urllib.parse import parse_qs, quote_plus, unquote, urlparse
 import requests
 from bs4 import BeautifulSoup
 
-from app.config import PROJECT_ROOT
+from app.Rag_classique.config import PROJECT_ROOT
 
 logger = logging.getLogger(__name__)
 
@@ -373,7 +373,7 @@ def is_morocco_admin_query(question: str) -> bool:
     if any(k in q for k in _MOROCCO_HINTS):
         return True
     try:
-        from app.dataset_registry import active_domains, infer_domains_from_question
+        from app.Rag_classique.dataset_registry import active_domains, infer_domains_from_question
 
         if active_domains(question) or infer_domains_from_question(question):
             return True
@@ -387,7 +387,7 @@ def _portal_intent(question: str) -> str | None:
     """CNIE / passeport / Watiqa — selon le sens de la phrase, pas le premier mot trouvé."""
     q = question.strip().lower()
     try:
-        from app.phrase_context import analyze_phrase, primary_portal_intent
+        from app.Rag_classique.phrase_context import analyze_phrase, primary_portal_intent
 
         ctx = analyze_phrase(question)
         portal = primary_portal_intent(question)
@@ -482,7 +482,7 @@ def _bo_chunk_is_cnie_procedure(text: str) -> bool:
 def _question_lexical_coverage(question: str, text: str, *, min_ratio: float = 0.28) -> bool:
     """Le passage principal recoupe-t-il les mots-clés utiles de la question (pas les mots de liaison)."""
     try:
-        from app.corpus_coverage import _discriminative_terms
+        from app.Rag_classique.corpus_coverage import _discriminative_terms
 
         terms = _discriminative_terms(question)
     except ImportError:
@@ -552,7 +552,7 @@ def portal_local_hits_sufficient(
         return _question_lexical_coverage(question, text)
 
     if portal == "cnie":
-        from app.portal_cases import cnie_case_aligned, cnie_case_from_question
+        from app.Rag_classique.portal_cases import cnie_case_aligned, cnie_case_from_question
 
         if _web_hit_is_passeport_not_cnie(top):
             return False
@@ -571,8 +571,8 @@ def portal_local_hits_sufficient(
 
     if portal == "passeport":
         try:
-            from app.phrase_context import hit_matches_primary_subject
-            from app.passeport_cases import passeport_case_aligned, passeport_case_from_question
+            from app.Rag_classique.phrase_context import hit_matches_primary_subject
+            from app.Rag_classique.passeport_cases import passeport_case_aligned, passeport_case_from_question
 
             if not hit_matches_primary_subject(question, top):
                 return False
@@ -659,7 +659,7 @@ def _discriminative_query_terms(question: str) -> list[str]:
 
 def local_hits_substantively_answer(question: str, hits: list[dict[str, Any]]) -> bool:
     """Alias : le corpus couvre-t-il la question (voir app/corpus_coverage.py)."""
-    from app.corpus_coverage import corpus_covers_question
+    from app.Rag_classique.corpus_coverage import corpus_covers_question
 
     return corpus_covers_question(question, hits)
 
@@ -669,7 +669,7 @@ def should_use_web_fallback(question: str, hits: list[dict[str, Any]]) -> bool:
     Dataset d'abord (avec compréhension du contexte de la phrase), web seulement si insuffisant.
     """
     try:
-        from app.corpus_first import should_use_web_after_corpus
+        from app.Rag_classique.corpus_first import should_use_web_after_corpus
 
         need_web, _prepared = should_use_web_after_corpus(question, hits, top_k=8)
         return need_web
@@ -679,7 +679,7 @@ def should_use_web_fallback(question: str, hits: list[dict[str, Any]]) -> bool:
     if not is_morocco_admin_query(question):
         return False
 
-    from app.corpus_coverage import corpus_covers_question, explain_coverage
+    from app.Rag_classique.corpus_coverage import corpus_covers_question, explain_coverage
 
     if not hits:
         logger.info("Web fallback (aucun extrait corpus)")
@@ -888,7 +888,7 @@ def _curated_cnie_hit_for_case(case: str) -> dict[str, Any]:
 
 
 def _curated_cnie_hits(question: str = "") -> list[dict[str, Any]]:
-    from app.portal_cases import cnie_case_from_question
+    from app.Rag_classique.portal_cases import cnie_case_from_question
 
     case = cnie_case_from_question(question) or "premiere"
     return [_curated_cnie_hit_for_case(case)]
@@ -1066,7 +1066,7 @@ def _dedupe_web_hits(hits: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 def _dataset_passeport_hits(question: str, *, limit: int = 4) -> list[dict[str, Any]]:
     try:
-        from app.passeport_corpus import best_passeport_hits_for
+        from app.Rag_classique.passeport_corpus import best_passeport_hits_for
 
         return best_passeport_hits_for(question)[:limit]
     except ImportError:
@@ -1143,8 +1143,8 @@ def curated_fallback_hits(question: str, *, top_k: int = 5) -> list[dict[str, An
 
 def _curated_passeport_hits(question: str = "") -> list[dict[str, Any]]:
     try:
-        from app.passeport_cases import passeport_case_from_question
-        from app.phrase_context import analyze_phrase
+        from app.Rag_classique.passeport_cases import passeport_case_from_question
+        from app.Rag_classique.phrase_context import analyze_phrase
 
         if passeport_case_from_question(question) == "perte_vol":
             text = _CURATED_PASSEPORT_PERTE_VOL
@@ -1402,7 +1402,7 @@ def _curated_smig_hits() -> list[dict[str, Any]]:
 
 def _labor_topic_question(question: str) -> bool:
     try:
-        from app.labor_corpus import is_labor_code_question
+        from app.Rag_classique.labor_corpus import is_labor_code_question
 
         return is_labor_code_question(question)
     except ImportError:

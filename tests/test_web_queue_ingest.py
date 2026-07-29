@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from app.web_queue_ingest import plan_ingest, queue_row_to_chunk
+from app.Rag_classique.web_queue_ingest import plan_ingest, queue_row_to_chunk
 
 
 def test_queue_row_rejects_short_text():
@@ -31,13 +31,13 @@ def test_queue_row_builds_cnie_category():
 
 
 def test_portal_intent_watiqa_before_acte_naissance():
-    from app.web_fallback import _portal_intent
+    from app.Rag_classique.web_fallback import _portal_intent
 
     assert _portal_intent("Comment commander un acte de naissance sur Watiqa ?") == "watiqa"
 
 
 def test_portal_local_insufficient_on_cnie_top_for_watiqa():
-    from app.web_fallback import portal_local_hits_sufficient
+    from app.Rag_classique.web_fallback import portal_local_hits_sufficient
 
     hits = [
         {
@@ -54,7 +54,7 @@ def test_portal_local_insufficient_on_cnie_top_for_watiqa():
 
 
 def test_portal_local_sufficient_watiqa_procedure():
-    from app.web_fallback import portal_local_hits_sufficient
+    from app.Rag_classique.web_fallback import portal_local_hits_sufficient
 
     hits = [
         {
@@ -75,7 +75,7 @@ def test_portal_local_sufficient_watiqa_procedure():
 
 
 def test_should_use_web_fallback_for_smig_without_smig_in_hits():
-    from app.web_fallback import should_use_web_fallback
+    from app.Rag_classique.web_fallback import should_use_web_fallback
 
     hits = [
         {
@@ -92,7 +92,7 @@ def test_should_use_web_fallback_for_smig_without_smig_in_hits():
 
 
 def test_smig_false_positive_salaire_minimum_legal_only():
-    from app.web_fallback import local_hits_substantively_answer
+    from app.Rag_classique.web_fallback import local_hits_substantively_answer
 
     hits = [
         {
@@ -108,7 +108,7 @@ def test_smig_false_positive_salaire_minimum_legal_only():
 
 
 def test_should_use_web_fallback_for_watiqa_with_weak_hits():
-    from app.web_fallback import should_use_web_fallback
+    from app.Rag_classique.web_fallback import should_use_web_fallback
 
     hits = [
         {
@@ -121,7 +121,7 @@ def test_should_use_web_fallback_for_watiqa_with_weak_hits():
 
 
 def test_cnie_hit_filtered_for_watiqa():
-    from app.web_fallback import _web_hit_is_cnie_not_watiqa
+    from app.Rag_classique.web_fallback import _web_hit_is_cnie_not_watiqa
 
     hit = {
         "metadata": {
@@ -161,9 +161,9 @@ def test_plan_ingest_skips_duplicate_url(tmp_path):
 
 
 def test_passeport_fee_not_covered_by_bo_budget_hits():
-    from app.corpus_coverage import corpus_covers_question
-    from app.corpus_first import should_use_web_after_corpus
-    from app.web_fallback import passeport_fee_hits_substantive
+    from app.Rag_classique.corpus_coverage import corpus_covers_question
+    from app.Rag_classique.corpus_first import should_use_web_after_corpus
+    from app.Rag_classique.web_fallback import passeport_fee_hits_substantive
 
     q = "combien coûte le timbre fiscal passeport Maroc 2025 ?"
     bo_hits = [
@@ -188,7 +188,7 @@ def test_passeport_fee_not_covered_by_bo_budget_hits():
 
 
 def test_fetch_web_hits_passeport_timbre_curated_without_ddg(monkeypatch):
-    from app.web_fallback import fetch_web_hits
+    from app.Rag_classique.web_fallback import fetch_web_hits
 
     monkeypatch.setattr("app.web_fallback._search_duckduckgo", lambda _q: [])
     monkeypatch.setattr("app.web_fallback._scrape_hits", lambda *_a, **_k: [])
@@ -199,7 +199,7 @@ def test_fetch_web_hits_passeport_timbre_curated_without_ddg(monkeypatch):
 
 
 def test_fetch_web_hits_smig_curated_when_only_irrelevant_pages(monkeypatch):
-    from app.web_fallback import fetch_web_hits
+    from app.Rag_classique.web_fallback import fetch_web_hits
 
     monkeypatch.setattr("app.web_fallback._search_duckduckgo", lambda _q: [])
     monkeypatch.setattr(

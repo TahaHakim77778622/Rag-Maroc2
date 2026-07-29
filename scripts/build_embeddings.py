@@ -37,7 +37,7 @@ try:
 except ImportError:
     pass
 
-from app.config import DEFAULT_EMBEDDING_MODEL, embedding_encode_passage
+from app.Rag_classique.config import DEFAULT_EMBEDDING_MODEL, embedding_encode_passage
 
 FINAL_CHUNKS_PATH = PROJECT_ROOT / "data" / "processed" / "final_chunks.jsonl"
 VECTOR_STORE_DIR = PROJECT_ROOT / "vector_store"

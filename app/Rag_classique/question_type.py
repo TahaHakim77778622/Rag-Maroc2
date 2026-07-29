@@ -237,14 +237,14 @@ def has_maroc_admin_scope(question: str) -> bool:
     if any(m in q for m in _MAROC_ADMIN_MARKERS):
         return True
     try:
-        from app.phrase_context import analyze_phrase
+        from app.Rag_classique.phrase_context import analyze_phrase
 
         if analyze_phrase(question).primary_subject:
             return True
     except ImportError:
         pass
     try:
-        from app.dataset_registry import active_domains
+        from app.Rag_classique.dataset_registry import active_domains
 
         if active_domains(question):
             return True

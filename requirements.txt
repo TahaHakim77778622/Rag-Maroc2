@@ -30,6 +30,10 @@ numpy>=1.24.0,<2.0.0
 #   python -m pip install faiss-cpu
 faiss-cpu>=1.7.4
 
+# Étape graph_rag (KùzuDB)
+kuzu>=0.4.0
+rank-bm25>=0.2.2
+
 # Interface optionnelle
 streamlit>=1.28.0
 

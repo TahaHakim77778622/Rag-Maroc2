@@ -253,7 +253,7 @@ def hit_matches_primary_subject(question: str, hit: dict[str, Any]) -> bool:
     ctx = analyze_phrase(question)
     if not ctx.primary_subject:
         try:
-            from app.dataset_registry import hit_matches_question_domains
+            from app.Rag_classique.dataset_registry import hit_matches_question_domains
 
             return hit_matches_question_domains(question, hit)
         except ImportError:

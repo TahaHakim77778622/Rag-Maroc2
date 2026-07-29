@@ -4,7 +4,7 @@ Query expansion pour retrieval — délégué à app.query_understanding.
 
 from __future__ import annotations
 
-from app.query_understanding import (
+from app.Rag_classique.query_understanding import (
     analyze_query,
     build_retrieval_query,
     expand_query_for_retrieval,

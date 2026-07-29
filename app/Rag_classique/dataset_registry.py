@@ -217,7 +217,7 @@ def active_domains(question: str) -> list[str]:
     domains: list[str] = []
 
     try:
-        from app.phrase_context import analyze_phrase
+        from app.Rag_classique.phrase_context import analyze_phrase
 
         ctx = analyze_phrase(question)
         if ctx.primary_subject and ctx.primary_subject in _DOMAIN_SPECS:
@@ -228,7 +228,7 @@ def active_domains(question: str) -> list[str]:
         pass
 
     try:
-        from app.query_understanding import analyze_query
+        from app.Rag_classique.query_understanding import analyze_query
 
         qa = analyze_query(question)
         for topic in qa.topics:
@@ -347,7 +347,7 @@ def dataset_covers_via_registry(
     if not hits:
         return False
 
-    from app.corpus_coverage import _combined_top_text, _hit_score, _term_overlap_ok
+    from app.Rag_classique.corpus_coverage import _combined_top_text, _hit_score, _term_overlap_ok
 
     domains = active_domains(question)
     if not top_hits_match_domains(question, hits, 3):
@@ -370,7 +370,7 @@ def dataset_covers_via_registry(
         )
     ):
         try:
-            from app.passeport_cases import passeport_case_from_question
+            from app.Rag_classique.passeport_cases import passeport_case_from_question
 
             if passeport_case_from_question(question) == "perte_vol" and "passeport" in domains:
                 if "perte" in top_text or "vol" in top_text:

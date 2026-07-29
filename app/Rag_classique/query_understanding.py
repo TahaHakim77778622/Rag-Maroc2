@@ -487,7 +487,7 @@ def analyze_query(
     scores = _apply_topic_suppression(_score_topics(blob))
     pctx = None
     try:
-        from app.phrase_context import analyze_phrase
+        from app.Rag_classique.phrase_context import analyze_phrase
 
         pctx = analyze_phrase(blob)
         for subj, sc in pctx.subject_scores.items():

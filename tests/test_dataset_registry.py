@@ -1,8 +1,8 @@
 """Couverture de tout le dataset via le registre des domaines."""
 
-from app.corpus_coverage import corpus_covers_question
-from app.corpus_first import should_use_web_after_corpus
-from app.dataset_registry import active_domains, hit_matches_domain, is_bulletin_hit
+from app.Rag_classique.corpus_coverage import corpus_covers_question
+from app.Rag_classique.corpus_first import should_use_web_after_corpus
+from app.Rag_classique.dataset_registry import active_domains, hit_matches_domain, is_bulletin_hit
 
 
 def _bo_hit(text: str, doc_id: str = "SGG0042"):

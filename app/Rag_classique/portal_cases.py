@@ -20,7 +20,7 @@ def _fold(s: str) -> str:
 def cnie_case_from_question(question: str) -> str | None:
     """Cas CNIE explicite dans la question, ou None si générique."""
     try:
-        from app.phrase_context import analyze_phrase, subject_mentioned_but_not_target
+        from app.Rag_classique.phrase_context import analyze_phrase, subject_mentioned_but_not_target
 
         ctx = analyze_phrase(question)
         if ctx.primary_subject and ctx.primary_subject != "cnie":

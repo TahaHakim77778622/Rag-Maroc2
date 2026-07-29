@@ -1,7 +1,7 @@
 """Détection questions hors périmètre Maroc / admin."""
 
-from app.corpus_coverage import corpus_covers_question
-from app.question_type import (
+from app.Rag_classique.corpus_coverage import corpus_covers_question
+from app.Rag_classique.question_type import (
     corpus_should_suffice,
     has_maroc_admin_scope,
     is_general_knowledge_question,

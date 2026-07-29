@@ -199,7 +199,7 @@ def build_rag_prompt(
     """
     blocks: list[str] = []
     try:
-        from app.text_sanitize import sanitize_text_for_llm, text_is_usable_for_llm
+        from app.Rag_classique.text_sanitize import sanitize_text_for_llm, text_is_usable_for_llm
     except ImportError:
 
         def sanitize_text_for_llm(t: str, **_: object) -> str:
@@ -241,7 +241,7 @@ def build_rag_prompt(
 
     labor_hint = ""
     try:
-        from app.labor_corpus import is_targeted_labor_topic
+        from app.Rag_classique.labor_corpus import is_targeted_labor_topic
 
         if is_targeted_labor_topic(question):
             labor_hint = (

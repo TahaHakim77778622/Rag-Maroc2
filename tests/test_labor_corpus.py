@@ -1,7 +1,7 @@
 """Tests détection travail / heures supplémentaires et anti-faux-positifs BO."""
 
-from app.corpus_coverage import corpus_covers_question
-from app.labor_corpus import (
+from app.Rag_classique.corpus_coverage import corpus_covers_question
+from app.Rag_classique.labor_corpus import (
     filter_hits_for_labor_prompt,
     is_accident_travail_question,
     is_labor_code_question,

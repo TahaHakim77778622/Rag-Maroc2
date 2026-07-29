@@ -13,7 +13,7 @@ import logging
 import os
 from pathlib import Path
 
-from app.llm_client import LLMClient, MockLLMClient
+from app.Rag_classique.llm_client import LLMClient, MockLLMClient
 
 logger = logging.getLogger(__name__)
 
@@ -97,7 +97,7 @@ def get_llm_client() -> LLMClient:
             use_openai = True
 
     if use_cohere:
-        from app.llm_cohere import CohereChatClient  # noqa: PLC0415
+        from app.Rag_classique.llm_cohere import CohereChatClient  # noqa: PLC0415
 
         # Noms à jour : https://docs.cohere.com/docs/models — plus d’usage de « command-r-plus » sans date (retiré).
         model = (
@@ -117,7 +117,7 @@ def get_llm_client() -> LLMClient:
         )
 
     if use_openai:
-        from app.llm_openai import OpenAIChatClient  # noqa: PLC0415
+        from app.Rag_classique.llm_openai import OpenAIChatClient  # noqa: PLC0415
 
         model = (
             os.environ.get("LLM_MODEL", "").strip()

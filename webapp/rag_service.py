@@ -20,7 +20,7 @@ def _top_source_subject_mismatch(question: str, top_preview: str) -> bool:
     if not question or not top_preview:
         return False
     try:
-        from app.retrieval_rerank import _education_master_intent, _procurement_public_chunk
+        from app.Rag_classique.retrieval_rerank import _education_master_intent, _procurement_public_chunk
     except ImportError:
         return False
     qlow = question.lower()
@@ -72,8 +72,8 @@ def get_pipeline():
 
         _os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 
-        from app.llm_factory import get_llm_client  # noqa: PLC0415
-        from app.rag_pipeline import RAGPipeline  # noqa: PLC0415
+        from app.Rag_classique.llm_factory import get_llm_client  # noqa: PLC0415
+        from app.Rag_classique.rag_pipeline import RAGPipeline  # noqa: PLC0415
 
         _pipeline = RAGPipeline(llm=get_llm_client())
     return _pipeline

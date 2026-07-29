@@ -29,7 +29,7 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from app.web_queue_ingest import (  # noqa: E402
+from app.Rag_classique.web_queue_ingest import (  # noqa: E402
     FINAL_CHUNKS_PATH,
     QUEUE_PATH,
     _iter_jsonl,
@@ -116,7 +116,7 @@ def main() -> int:
     print(f"\nÉcrit {n} chunk(s) dans {FINAL_CHUNKS_PATH}.")
 
     if args.prune_queue:
-        from app.web_queue_ingest import _norm_url, load_corpus_index, queue_row_to_chunk  # noqa: PLC0415
+        from app.Rag_classique.web_queue_ingest import _norm_url, load_corpus_index, queue_row_to_chunk  # noqa: PLC0415
 
         urls_in_corpus, _, _ = load_corpus_index()
         keep: list[dict] = []

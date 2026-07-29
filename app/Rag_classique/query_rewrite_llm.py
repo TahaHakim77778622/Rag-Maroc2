@@ -12,8 +12,8 @@ import os
 import re
 from typing import Any
 
-from app.llm_client import LLMClient, MockLLMClient
-from app.query_understanding import QueryAnalysis, _history_user_text, _normalize, _tokens
+from app.Rag_classique.llm_client import LLMClient, MockLLMClient
+from app.Rag_classique.query_understanding import QueryAnalysis, _history_user_text, _normalize, _tokens
 
 logger = logging.getLogger(__name__)
 

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from app.query_understanding import (
+from app.Rag_classique.query_understanding import (
     analyze_query,
     needs_conversation_context,
     resolve_question,

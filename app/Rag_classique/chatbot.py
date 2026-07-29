@@ -10,8 +10,8 @@ from __future__ import annotations
 import logging
 import sys
 
-from app.llm_factory import get_llm_client
-from app.rag_pipeline import RAGPipeline
+from app.Rag_classique.llm_factory import get_llm_client
+from app.Rag_classique.rag_pipeline import RAGPipeline
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)

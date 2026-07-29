@@ -1,8 +1,8 @@
 """Politique dataset d'abord, web ensuite."""
 
-from app.corpus_coverage import corpus_covers_question
-from app.corpus_first import prepare_local_hits, should_use_web_after_corpus
-from app.web_fallback import should_use_web_fallback
+from app.Rag_classique.corpus_coverage import corpus_covers_question
+from app.Rag_classique.corpus_first import prepare_local_hits, should_use_web_after_corpus
+from app.Rag_classique.web_fallback import should_use_web_fallback
 
 
 def _bad_cnie_hit():

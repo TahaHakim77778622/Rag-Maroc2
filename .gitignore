@@ -32,3 +32,10 @@ data/processed/web_pages_jsonl/
 data/raw/
 data/pdfs/
 *.pdf
+
+# GraphRAG — base de graphe régénérable via app/graph_rag/graph_builder.py
+app/graph_rag/indices/
+# Benchmark BSARD (licence CC BY-NC-SA, ~29 Mo) — à télécharger depuis Zenodo
+data/graph_rag/
+# Archives
+*.zip

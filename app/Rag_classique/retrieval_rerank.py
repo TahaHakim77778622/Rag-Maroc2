@@ -432,7 +432,7 @@ def _build_keyword_scores(
                 n += 12.0
             qlow_cnie = f"{question} {retrieval_query}".lower()
             try:
-                from app.portal_cases import cnie_case_from_question, chunk_cnie_case
+                from app.Rag_classique.portal_cases import cnie_case_from_question, chunk_cnie_case
 
                 case = cnie_case_from_question(question) or cnie_case_from_question(retrieval_query)
                 if case:
@@ -492,7 +492,7 @@ def _build_keyword_scores(
             if category == "cnie" and "passeport" not in text:
                 n -= 20.0
             try:
-                from app.phrase_context import subject_mentioned_but_not_target
+                from app.Rag_classique.phrase_context import subject_mentioned_but_not_target
 
                 if subject_mentioned_but_not_target(question, "cnie"):
                     if category == "cnie" or "cnie.ma" in url:
@@ -525,7 +525,7 @@ def _build_keyword_scores(
             qlow_full = f"{question} {retrieval_query}".lower()
             overtime_q = "heure" in qlow_full and "suppl" in qlow_full
             try:
-                from app.labor_corpus import is_off_topic_labor_hit
+                from app.Rag_classique.labor_corpus import is_off_topic_labor_hit
 
                 if is_off_topic_labor_hit(text, overtime=overtime_q):
                     n -= 28.0
@@ -664,7 +664,7 @@ def rerank_hits(
     if not terms:
         return hits[:top_k]
 
-    from app.query_understanding import analyze_query
+    from app.Rag_classique.query_understanding import analyze_query
 
     qa = analyze_query(question, retrieval_query=retrieval_query)
     ed_doctorate_intent = qa.education_doctorate_intent

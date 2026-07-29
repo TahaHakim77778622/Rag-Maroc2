@@ -17,7 +17,7 @@ def _filter_by_dataset_domains(
 ) -> list[dict[str, Any]]:
     """Filtre hors-sujet selon tous les domaines du dataset (registre global)."""
     try:
-        from app.dataset_registry import filter_hits_by_domains
+        from app.Rag_classique.dataset_registry import filter_hits_by_domains
 
         return filter_hits_by_domains(question, hits)
     except ImportError:
@@ -27,7 +27,7 @@ def _filter_by_dataset_domains(
 def _filter_by_phrase_context(question: str, hits: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Retire les extraits d'un autre document quand le sens de la phrase est clair."""
     try:
-        from app.phrase_context import analyze_phrase, hit_matches_primary_subject
+        from app.Rag_classique.phrase_context import analyze_phrase, hit_matches_primary_subject
 
         ctx = analyze_phrase(question)
         if not ctx.primary_subject:
@@ -40,7 +40,7 @@ def _filter_by_phrase_context(question: str, hits: list[dict[str, Any]]) -> list
 
 def _filter_education_noise(question: str, hits: list[dict[str, Any]]) -> list[dict[str, Any]]:
     try:
-        from app.query_understanding import analyze_query
+        from app.Rag_classique.query_understanding import analyze_query
 
         qa = analyze_query(question)
         if not (qa.education_doctorate_intent or qa.education_master_intent):
@@ -79,7 +79,7 @@ def prepare_local_hits(
 
     out = list(hits)
     try:
-        from app.text_sanitize import sanitize_hit, text_is_usable_for_llm
+        from app.Rag_classique.text_sanitize import sanitize_hit, text_is_usable_for_llm
 
         out = [sanitize_hit(h) for h in out if text_is_usable_for_llm(str(h.get("text") or ""))]
     except ImportError:
@@ -89,7 +89,7 @@ def prepare_local_hits(
     out = _filter_education_noise(question, out)
 
     try:
-        from app.labor_corpus import is_labor_code_question, merge_labor_hits
+        from app.Rag_classique.labor_corpus import is_labor_code_question, merge_labor_hits
 
         if is_labor_code_question(question):
             out = merge_labor_hits(question, out, top_k=top_k)
@@ -97,7 +97,7 @@ def prepare_local_hits(
         pass
 
     try:
-        from app.phrase_context import analyze_phrase
+        from app.Rag_classique.phrase_context import analyze_phrase
 
         ctx = analyze_phrase(question)
         portal = ctx.primary_subject
@@ -108,7 +108,7 @@ def prepare_local_hits(
         portal = None
 
     try:
-        from app.web_fallback import _portal_intent
+        from app.Rag_classique.web_fallback import _portal_intent
 
         portal = portal or _portal_intent(question)
     except ImportError:
@@ -116,15 +116,15 @@ def prepare_local_hits(
 
     if portal == "passeport":
         try:
-            from app.passeport_corpus import merge_passeport_hits
+            from app.Rag_classique.passeport_corpus import merge_passeport_hits
 
             out = merge_passeport_hits(question, out, top_k=top_k)
         except ImportError:
             pass
     elif portal == "cnie":
         try:
-            from app.portal_cases import cnie_case_from_question, top_hits_match_cnie_case
-            from app.web_fallback import _curated_cnie_hits, _web_hit_is_passeport_not_cnie
+            from app.Rag_classique.portal_cases import cnie_case_from_question, top_hits_match_cnie_case
+            from app.Rag_classique.web_fallback import _curated_cnie_hits, _web_hit_is_passeport_not_cnie
 
             cleaned = [h for h in out if not _web_hit_is_passeport_not_cnie(h)]
             if cleaned:
@@ -138,7 +138,7 @@ def prepare_local_hits(
             pass
     elif portal == "watiqa":
         try:
-            from app.web_fallback import (
+            from app.Rag_classique.web_fallback import (
                 _curated_watiqa_hits,
                 _prioritize_watiqa_hits,
                 _web_hit_is_cnie_not_watiqa,
@@ -158,7 +158,7 @@ def prepare_local_hits(
 
 def local_corpus_covers(question: str, hits: list[dict[str, Any]], *, top_k: int = 8) -> bool:
     """Le dataset (après préparation contextuelle) suffit-il pour répondre ?"""
-    from app.corpus_coverage import corpus_covers_question
+    from app.Rag_classique.corpus_coverage import corpus_covers_question
 
     prepared = prepare_local_hits(question, hits, top_k=top_k)
     return corpus_covers_question(question, prepared)
@@ -172,7 +172,7 @@ def should_use_web_after_corpus(
     need_web=True seulement si le corpus local ne couvre pas la question.
     """
     try:
-        from app.web_fallback import is_morocco_admin_query
+        from app.Rag_classique.web_fallback import is_morocco_admin_query
     except ImportError:
 
         def is_morocco_admin_query(_q: str) -> bool:
@@ -183,7 +183,7 @@ def should_use_web_after_corpus(
         return False, prepared
 
     try:
-        from app.web_fallback import (
+        from app.Rag_classique.web_fallback import (
             _is_passeport_fee_question,
             passeport_fee_hits_substantive,
         )
@@ -198,7 +198,7 @@ def should_use_web_after_corpus(
     except ImportError:
         pass
 
-    from app.corpus_coverage import corpus_covers_question, explain_coverage
+    from app.Rag_classique.corpus_coverage import corpus_covers_question, explain_coverage
 
     if corpus_covers_question(question, prepared):
         logger.info("Dataset suffisant (corpus_first) — %s", explain_coverage(question, prepared))
