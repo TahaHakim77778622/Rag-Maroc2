@@ -188,3 +188,11 @@
 {"ts": 1781378427.2512178, "user_id": 5, "question": "bonjour", "question_len": 7, "latency_sec": 0.0, "n_sources": 0, "web_fallback": false, "llm_error": false}
 {"ts": 1781378481.959429, "user_id": 5, "question": "j'ai perdu ma CNIE que faire ?", "question_len": 30, "latency_sec": 23.24, "n_sources": 3, "web_fallback": false, "llm_error": false}
 {"ts": 1782470353.418889, "user_id": 1, "question": "comment commander un acte de naissance sur Watiqa ?", "question_len": 51, "latency_sec": 13.601, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1787153377.311015, "user_id": 1, "question": "bonjour", "question_len": 7, "latency_sec": 0.0, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1787153535.1785128, "user_id": 1, "question": "je veux faire le paaseport", "question_len": 26, "latency_sec": 117.58, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1787398646.577216, "user_id": 1, "question": "bonjour", "question_len": 7, "latency_sec": 0.003, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1787398738.0941179, "user_id": 1, "question": "je veux savoir congé annuel payé nombre de jours Maroc", "question_len": 54, "latency_sec": 58.908, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1787398853.9728909, "user_id": 1, "question": "contrat CDD conditions renouvellement", "question_len": 37, "latency_sec": 60.396, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1787398993.3949492, "user_id": 1, "question": "quelles pièces pour renouveler la carte nationale ?", "question_len": 51, "latency_sec": 55.654, "n_sources": 1, "web_fallback": false, "llm_error": false}
+{"ts": 1787399108.807179, "user_id": 1, "question": "quelle est le SMIG salaire minimum Maroc arrêté ?", "question_len": 49, "latency_sec": 54.847, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1787399225.13618, "user_id": 1, "question": "1. Durée du préavis de démission code du travail Maroc", "question_len": 54, "latency_sec": 34.503, "n_sources": 4, "web_fallback": false, "llm_error": false}

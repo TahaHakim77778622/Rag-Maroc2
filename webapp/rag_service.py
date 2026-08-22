@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 def _top_source_subject_mismatch(question: str, top_preview: str) -> bool:
     """
     Détecte le cas observé en prod : question « master / normes pédagogiques » mais premier extrait = marchés publics.
-    Sert à ne pas afficher « fiabilité forte » quand le retrieval s’est trompé de domaine.
+    Sert à ne pas afficher « fiabilité forte » quand le retrieval s'est trompé de domaine.
     """
     if not question or not top_preview:
         return False
@@ -75,7 +75,19 @@ def get_pipeline():
         from app.Rag_classique.llm_factory import get_llm_client  # noqa: PLC0415
         from app.Rag_classique.rag_pipeline import RAGPipeline  # noqa: PLC0415
 
-        _pipeline = RAGPipeline(llm=get_llm_client())
+        # Architecture Hybrid RAG + GraphRAG (validée sur le benchmark BSARD :
+        # MRR +0.012 à 96 %, F1 +0.005 à 97 % au bootstrap).
+        # Seul le retriever change : toute la logique conversationnelle de
+        # RAGPipeline (salutations, questions vagues, hors-sujet, reformulation
+        # avec l'historique, références précises) reste intacte.
+        from app.hybrid_graph_rag.retriever_adapter import (  # noqa: PLC0415
+            HybridGraphRetrieverAdapter,
+        )
+
+        _pipeline = RAGPipeline(
+            llm=get_llm_client(),
+            retriever=HybridGraphRetrieverAdapter(),
+        )
     return _pipeline
 
 
@@ -86,7 +98,7 @@ def ask(
     *,
     user_id: int | None = None,
 ) -> dict[str, Any]:
-    """Réponse JSON-sérialisable pour l’API web."""
+    """Réponse JSON-sérialisable pour l'API web."""
     hist = history or []
     # Cache court pour accélérer les répétitions (double-click, reformulation identique, refresh).
     hist_tail = hist[-12:]
