@@ -1,15 +1,15 @@
 """
 Configuration du module Corrective RAG (CRAG) — évaluation sur BSARD.
 
-Principe : évaluer la pertinence des documents récupérés, puis agir selon
-trois niveaux de confiance.
+CRAG n'est pas un retriever : il évalue les documents fournis par un retriever
+en amont, puis agit selon trois niveaux de confiance.
   - correct   : documents jugés fiables      -> raffinement
   - ambiguous : signal incertain             -> raffinement permissif
   - incorrect : aucun document convaincant   -> voir INCORRECT_STRATEGY
 
-Protocole : CRAG est branché sur le même retriever BM25 que celui utilisé pour
-évaluer GraphRAG, afin que la comparaison entre les deux couches soit valide
-(même retriever de base, seule la couche change).
+Retriever de base retenu : Hybrid RAG (HR@10 = 0.586 sur test_clean.csv),
+nettement supérieur à BM25 seul (0.414). CRAG sans branche web ne pouvant que
+filtrer, il lui faut un retriever qui trouve déjà de bons articles.
 """
 from pathlib import Path
 
@@ -30,27 +30,26 @@ RESULTS_DIR = MODULE_DIR / "resultats"
 # =====================================================================
 # Évaluateur de pertinence
 # =====================================================================
-# Le papier original entraîne un T5 dédié. On réutilise ici le cross-encoder
-# de hybrid_rag : déterministe, donc reproductible et testable par bootstrap,
-# comme pour GraphRAG.
+# Le papier original entraîne un T5 dédié. On réutilise le cross-encoder déjà
+# présent dans le pipeline : déterministe, donc reproductible et testable par
+# bootstrap comme GraphRAG.
 RERANKER_MODEL = "BAAI/bge-reranker-v2-m3"
 
-# compute_score(..., normalize=True) borne les scores dans [0, 1].
-# Les seuils ci-dessous supposent cette normalisation.
+# CrossEncoder.predict() retourne des logits bruts. On applique une Sigmoid
+# pour ramener les scores dans [0, 1], échelle sur laquelle portent les seuils.
 NORMALIZE_SCORES = True
 
-# Comment résumer les scores des candidats en un seul indice de confiance.
-#   "max"  : le meilleur document suffit (le plus proche de l'esprit CRAG)
-#   "mean" : moyenne sur tous les candidats (sévère, pénalisé par le bruit)
+# Résumé des scores en un seul indice de confiance.
+#   "max"  : le meilleur document suffit (esprit CRAG)
+#   "mean" : moyenne (sévère, pénalisé par le bruit)
 #   "top3" : moyenne des 3 meilleurs (adapté au multi-articles de BSARD)
 SCORE_AGGREGATION = "max"
 
-# Seuils de décision — VALEURS PROVISOIRES.
-# À calibrer sur train_clean.csv avant toute évaluation : si un seuil est mal
-# placé, une des trois branches ne se déclenche jamais et CRAG tourne en mode
+# Seuils — VALEURS PROVISOIRES, à calibrer sur train_clean.csv.
+# Un seuil mal placé rend une branche inatteignable : CRAG tournerait en mode
 # dégradé sans que cela se voie (cf. le bug du GraphRAG v1, sans effet mesurable).
-TAU_CORRECT = 0.70      # >= ce score -> "correct"
-TAU_INCORRECT = 0.20    # <= ce score -> "incorrect"
+TAU_CORRECT = 0.70
+TAU_INCORRECT = 0.20
 
 
 # =====================================================================
@@ -59,51 +58,37 @@ TAU_INCORRECT = 0.20    # <= ce score -> "incorrect"
 # "conservative" : ne retire qu'un document au score très bas.
 #                  Garde-fou : CRAG ne peut quasiment pas dégrader la baseline.
 # "standard"     : garde les N meilleurs, fidèle au papier.
-# "none"         : aucun filtrage, on n'exploite que la décision à 3 branches.
-# Les trois modes seront comparés en ablation, comme les 5 modes du graphe.
+# "none"         : aucun filtrage, seule la décision à 3 branches est exploitée.
 REFINEMENT_MODE = "conservative"
 
-# Mode "conservative" : un document n'est retiré que si son score est
-# strictement inférieur à ce seuil absolu.
-MIN_KEEP_SCORE = 0.10
+MIN_KEEP_SCORE = 0.10           # mode conservative
+KEEP_TOP_N_CORRECT = 5          # mode standard
+KEEP_TOP_N_AMBIGUOUS = 8        # mode standard
 
-# Mode "standard" : nombre de documents conservés selon la branche.
-KEEP_TOP_N_CORRECT = 5
-KEEP_TOP_N_AMBIGUOUS = 8
-
-# Le papier découpe les documents en segments avant de filtrer. Sur BSARD,
-# l'évaluation attend des identifiants d'articles entiers : le filtrage opère
-# donc au niveau de l'article, pas du segment.
+# Le papier découpe les documents en segments. Sur BSARD, l'évaluation attend
+# des identifiants d'articles entiers : le filtrage opère au niveau de l'article.
 SEGMENT_LEVEL_REFINEMENT = False
 
 
 # =====================================================================
 # Branche "incorrect"
 # =====================================================================
-# "keep_base" : retourne le classement de base inchangé.
-#               Garde-fou anti-dégradation : sur les questions jugées
-#               "incorrect", CRAG ne peut pas faire pire que la baseline.
-# "drop"      : retourne une liste vide (mesure du comportement brut ;
-#               fera mécaniquement chuter HR/MRR/F1 sur ces questions).
-#
-# La branche web du papier est écartée : BSARD étant un corpus fermé, une page
-# web ne peut pas produire d'article_id évaluable par HR/MRR/F1.
+# "keep_base" : retourne le classement de base inchangé (garde-fou).
+# "drop"      : retourne une liste vide — fera chuter HR/MRR/F1 sur ces questions.
+# La branche web du papier est écartée : BSARD est un corpus fermé, une page web
+# ne peut pas produire d'article_id évaluable.
 INCORRECT_STRATEGY = "keep_base"
 
 
 # =====================================================================
 # Protocole d'évaluation
 # =====================================================================
-TOP_K = 10              # identique aux benchmarks BM25 et GraphRAG
-CANDIDATE_POOL = 50     # candidats récupérés avant évaluation
+TOP_K = 10              # identique aux benchmarks BM25, GraphRAG et Hybrid
+CANDIDATE_POOL = 30     # candidats fournis par Hybrid avant évaluation
 
 # Le raffinement réduit le nombre de documents retournés, ce qui fausserait la
-# comparaison avec BM25 et GraphRAG mesurés à K=10 : Hit Rate et F1 dépendent
-# directement de la taille de la liste. Avec PAD_TO_TOP_K, la liste filtrée est
-# complétée par les candidats suivants pour toujours retourner TOP_K documents.
-# On mesure alors le réordonnancement, pas un artefact de troncature.
+# comparaison à K=10 (HR et F1 dépendent de la taille de la liste). Avec
+# PAD_TO_TOP_K, la liste filtrée est complétée par les candidats suivants.
 PAD_TO_TOP_K = True
 
-# Journalise la répartition correct / ambiguous / incorrect par question.
-# Permet de vérifier que les trois branches se déclenchent réellement.
 LOG_BRANCH_DISTRIBUTION = True
