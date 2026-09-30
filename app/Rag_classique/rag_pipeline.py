@@ -68,14 +68,26 @@ def _apply_retrieval_pool_cap(pool: int, nvec: int) -> int:
     return min(pool, nvec)
 
 
+# Marqueur interne préfixant les messages d'erreur du LLM. Sans lui, le code
+# appelant ne pouvait pas distinguer une panne d'une vraie réponse, et les
+# citations juridiques étaient ajoutées à un message d'erreur technique —
+# produisant une fausse réponse sourcée du type "Selon BO n°7222, article 135
+# (p.57), Impossible de joindre l'API...".
+LLM_ERROR_PREFIX = "\x00LLM_ERROR\x00"
+
+
 def _safe_llm_complete(llm: LLMClient, prompt: str) -> str:
     """
-    Ne propage pas d’exception vers l’API / JSON : l’utilisateur reçoit un message utile, pas un HTTP 500.
+    Ne propage pas d'exception vers l'API / JSON : l'utilisateur reçoit un
+    message utile, pas un HTTP 500.
+
+    Les messages d'erreur sont préfixés par LLM_ERROR_PREFIX — voir
+    is_llm_error() et strip_llm_error().
     """
     try:
         return llm.complete(prompt)
     except Exception as exc:
-        logger.exception("Échec de l’appel LLM (timeout ou erreur API)")
+        logger.exception("Échec de l'appel LLM (timeout ou erreur API)")
         err = str(exc).lower()
         if any(
             x in err
@@ -89,21 +101,40 @@ def _safe_llm_complete(llm: LLMClient, prompt: str) -> str:
                 "getaddrinfo",
             )
         ):
-            return (
-                "Impossible de joindre l’API du modèle (Cohere/OpenAI) : problème réseau ou DNS. "
-                "Vérifiez votre connexion Internet, le VPN/proxy, et les variables `.env` "
-                "(`COHERE_API_KEY`, `COHERE_BASE_URL` si renseigné). "
-                "Pour tester sans API : `LLM_MOCK=1` puis redémarrer uvicorn."
-            )
-        if "timeout" in err or "timed out" in err:
-            return (
-                "Le modèle n’a pas répondu à temps. Réessayez dans quelques instants.\n\n"
-                "Conseil : augmentez `LLM_TIMEOUT` dans `.env` (ex. 300) si les réponses sont longues."
-            )
-        return (
-            "Le service de génération de texte est momentanément indisponible. "
-            "Réessayez dans quelques instants ou vérifiez la clé API dans `.env`."
-        )
+            msg = ("Le service est momentanément injoignable (problème réseau). "
+                   "Réessayez dans quelques instants.")
+        elif "timeout" in err or "timed out" in err:
+            msg = "Le service n'a pas répondu à temps. Réessayez dans quelques instants."
+        else:
+            msg = ("Le service de génération est momentanément indisponible. "
+                   "Réessayez dans quelques instants.")
+        return LLM_ERROR_PREFIX + msg
+
+# Formules par lesquelles le modèle signale qu'il ne peut pas répondre. Ces
+# réponses ne doivent recevoir ni citation obligatoire ni liste de références :
+# les habiller de sources donnerait une apparence d'autorité à un refus.
+_REFUSAL_MARKERS = (
+    "je n'ai pas trouvé d'information",
+    "je n'ai pas trouve d'information",
+    "je traite uniquement la législation",
+    "je traite uniquement la legislation",
+    "cette question sort de mon domaine",
+)
+
+
+def _is_refusal(text: str) -> bool:
+    """Vrai si le modèle a refusé de répondre plutôt que de répondre."""
+    low = _fold_accents((text or "").lower())
+    return any(_fold_accents(m) in low for m in _REFUSAL_MARKERS)
+
+def is_llm_error(text: str) -> bool:
+    """Vrai si le texte est un message d'erreur, pas une réponse du modèle."""
+    return isinstance(text, str) and text.startswith(LLM_ERROR_PREFIX)
+
+
+def strip_llm_error(text: str) -> str:
+    """Retire le marqueur avant affichage."""
+    return text[len(LLM_ERROR_PREFIX):] if is_llm_error(text) else text
 
 
 def _fold_accents(s: str) -> str:
@@ -1191,13 +1222,15 @@ class RAGPipeline:
             )
             text = _safe_llm_complete(self.llm, prompt)
             return {
-                "answer": text,
+                "answer": strip_llm_error(text),
+                "llm_error": is_llm_error(text),
                 "hits": [],
                 "prompt": prompt,
                 "sources_display": [],
                 "web_fallback_used": web_fallback_used,
                 "corpus_sufficient": False,
-                "answer_source": "web" if web_fallback_used else "corpus",
+                "answer_source": "error" if is_llm_error(text)
+                                 else ("web" if web_fallback_used else "corpus"),
                 "retrieval_path": query_analysis.retrieval_path,
             }
 
@@ -1220,15 +1253,51 @@ class RAGPipeline:
 
         prompt = build_rag_prompt(q_clean, hits, history=hist, user_profile=profile)
         text = _safe_llm_complete(self.llm, prompt)
+
+        # En cas de panne du service de génération, on retourne le message brut
+        # sans y ajouter de citations : les fonctions de post-traitement
+        # transformaient une erreur technique en réponse juridique sourcée
+        # ("Selon BO n°7222, article 135 (p.57), Impossible de joindre l'API...").
+        if is_llm_error(text):
+            return {
+                "answer": strip_llm_error(text),
+                "llm_error": True,
+                "hits": [],
+                "prompt": prompt,
+                "sources_display": [],
+                "web_fallback_used": web_fallback_used,
+                "corpus_sufficient": False,
+                "answer_source": "error",
+                "retrieval_path": query_analysis.retrieval_path,
+            }
+
         text = _scrub_apology_when_sourced(text, has_corpus_hits=True)
         if _is_master_pedagogic_question(q_clean):
             text = _enforce_master_consistency(text)
             if _hits_look_master_aligned(hits):
                 text = _remove_bo_reference_request_if_aligned(text)
+
+        # Le modèle a explicitement indiqué ne pas trouver l'information ou
+        # refusé la question (hors-sujet, autre pays). Lui accoler une citation
+        # obligatoire donnerait une apparence d'autorité à un refus.
+        if _is_refusal(text):
+            return {
+                "answer": text,
+                "llm_error": False,
+                "hits": [],
+                "prompt": prompt,
+                "sources_display": [],
+                "web_fallback_used": web_fallback_used,
+                "corpus_sufficient": False,
+                "answer_source": "no_answer",
+                "retrieval_path": query_analysis.retrieval_path,
+            }
+
         text = _prepend_mandatory_lead_citation(text, hits, question=q_clean)
         text = _append_precise_references(text, hits, question=q_clean)
         return {
             "answer": text,
+            "llm_error": False,
             "hits": hits,
             "prompt": prompt,
             "sources_display": hits_to_source_lines(hits),

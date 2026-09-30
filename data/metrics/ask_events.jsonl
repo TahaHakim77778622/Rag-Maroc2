@@ -196,3 +196,35 @@
 {"ts": 1787398993.3949492, "user_id": 1, "question": "quelles pièces pour renouveler la carte nationale ?", "question_len": 51, "latency_sec": 55.654, "n_sources": 1, "web_fallback": false, "llm_error": false}
 {"ts": 1787399108.807179, "user_id": 1, "question": "quelle est le SMIG salaire minimum Maroc arrêté ?", "question_len": 49, "latency_sec": 54.847, "n_sources": 3, "web_fallback": false, "llm_error": false}
 {"ts": 1787399225.13618, "user_id": 1, "question": "1. Durée du préavis de démission code du travail Maroc", "question_len": 54, "latency_sec": 34.503, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1790456622.732576, "user_id": 7, "question": "bonjour", "question_len": 7, "latency_sec": 0.001, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1790456741.833312, "user_id": 7, "question": "est ce que tu peux me donner les pieces necessaires pour l cnie pour la premiere fois ?", "question_len": 87, "latency_sec": 78.014, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1790456852.59407, "user_id": 7, "question": "et pour le cas si j ai perdu la carte ?", "question_len": 39, "latency_sec": 60.081, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1790456971.4164522, "user_id": 7, "question": "le Congé annuel payé droit du travail", "question_len": 37, "latency_sec": 64.856, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1790457059.43643, "user_id": 7, "question": "Accident de travail obligations employeur", "question_len": 41, "latency_sec": 57.096, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1790457165.339616, "user_id": 7, "question": "Autorisation de construire permis Maroc", "question_len": 39, "latency_sec": 59.219, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1790507022.3046951, "user_id": 1, "question": "bonjour", "question_len": 7, "latency_sec": 0.002, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1790507097.24816, "user_id": 1, "question": "qu a fait le barca et le real le dernier match", "question_len": 46, "latency_sec": 54.781, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1790509986.8813481, "user_id": 1, "question": "bojour", "question_len": 6, "latency_sec": 0.002, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1790510007.4285262, "user_id": 1, "question": "donne moi comment preparer le couscous", "question_len": 38, "latency_sec": 0.003, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1790510183.164868, "user_id": 1, "question": "d accord je veux reparer ma voiture est ce que tu peux me dir ou", "question_len": 64, "latency_sec": 55.616, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1790510450.9629838, "user_id": 1, "question": "bonjour", "question_len": 7, "latency_sec": 0.004, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1790510538.477794, "user_id": 1, "question": "je veux savoir comment commander en ligne", "question_len": 41, "latency_sec": 51.751, "n_sources": 3, "web_fallback": false, "llm_error": false}
+{"ts": 1790510797.360576, "user_id": 1, "question": "le permis de conduire au suisse", "question_len": 31, "latency_sec": 90.589, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1790514263.137442, "user_id": 1, "question": "bonjour", "question_len": 7, "latency_sec": 0.0, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1790514316.789527, "user_id": 1, "question": "le permis de conduit en suisse ?", "question_len": 32, "latency_sec": 43.544, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1790514407.6798248, "user_id": 1, "question": "le resultat de real madrid vs barcelona", "question_len": 39, "latency_sec": 0.002, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1790514492.5726879, "user_id": 1, "question": "bonjour", "question_len": 7, "latency_sec": 0.001, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1790514593.5889978, "user_id": 1, "question": "comment obtenir la cnie pour la premiere fois", "question_len": 45, "latency_sec": 52.428, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1790514717.296177, "user_id": 1, "question": "quelles sont le pieces pour renouvler la carte", "question_len": 46, "latency_sec": 68.026, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1790514825.036201, "user_id": 1, "question": "accident de travail obligation", "question_len": 30, "latency_sec": 67.085, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1790514902.5762088, "user_id": 1, "question": "construction de construire permis au maroc", "question_len": 42, "latency_sec": 44.443, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1790514958.3303082, "user_id": 1, "question": "conge anuel paye au droit du travail", "question_len": 36, "latency_sec": 28.721, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1790515054.853492, "user_id": 1, "question": "j ai perdu mon passeport que fair", "question_len": 33, "latency_sec": 61.956, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1790516260.650809, "user_id": 1, "question": "construction de construire permis au maroc", "question_len": 42, "latency_sec": 58.031, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1790516783.4714181, "user_id": 1, "question": "bonjour", "question_len": 7, "latency_sec": 0.0, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1790516901.483743, "user_id": 1, "question": "quelles sont les pieces pour renouveler la cnie", "question_len": 47, "latency_sec": 93.534, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1790516987.487565, "user_id": 1, "question": "comment obtenir la cnie pour la premier fois", "question_len": 44, "latency_sec": 58.023, "n_sources": 4, "web_fallback": false, "llm_error": false}
+{"ts": 1790517092.0468638, "user_id": 1, "question": "j ai perdu mon passeport que fair ?", "question_len": 35, "latency_sec": 65.611, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1790517176.4511878, "user_id": 1, "question": "accident de travail obligation", "question_len": 30, "latency_sec": 54.693, "n_sources": 5, "web_fallback": false, "llm_error": false}
+{"ts": 1790517208.490699, "user_id": 1, "question": "comment preparer un couscous", "question_len": 28, "latency_sec": 0.001, "n_sources": 0, "web_fallback": false, "llm_error": false}
+{"ts": 1790517270.711731, "user_id": 1, "question": "permis de conduit au suisse", "question_len": 27, "latency_sec": 46.674, "n_sources": 0, "web_fallback": false, "llm_error": false}
