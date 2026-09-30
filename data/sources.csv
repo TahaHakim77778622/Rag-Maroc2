@@ -161,3 +161,4 @@ python -m uvicorn webapp.main:app --host 127.0.0.1 --port 8001
 
 kill $(lsof -t -i :8000) 2>/dev/null || true
 ./scripts/run_webapp.sh
+ uvicorn webapp.main:app --reload --port 8000
